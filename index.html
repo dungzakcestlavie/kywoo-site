@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" style="background:#0b1f1c;">
+<html lang="ko" data-lang="kr" style="background:#0b1f1c;">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
@@ -223,6 +223,19 @@ button{font-family:"Noto Serif KR", Georgia, serif}
 .ko,.en{display:block}
 body.korean .en{display:none !important}
 body.english .ko{display:none !important}
+
+html[data-lang="kr"] .lang-en {
+  display: none !important;
+}
+
+html[data-lang="en"] .lang-kr {
+  display: none !important;
+}
+
+html[data-lang="kr"] .lang-kr,
+html[data-lang="en"] .lang-en {
+  display: inline !important;
+}
 
 .site{
   position:relative;
@@ -1575,12 +1588,10 @@ body.lightbox-open{
 
   <section class="view" id="works">
     <div class="works-head">
-      <div class="ko">
-        <h2>WORKS</h2>
-      </div>
-      <div class="en">
-        <h2>WORKS</h2>
-      </div>
+      <h2 class="section-title">
+        <span class="lang-kr">작품</span>
+        <span class="lang-en">WORKS</span>
+      </h2>
     </div>
 
     <div class="works-stage">
@@ -1592,7 +1603,10 @@ body.lightbox-open{
   <section class="view" id="research">
     <div class="section-box">
       <div class="ko">
-        <h2>RESEARCH</h2>
+        <h2 class="section-title">
+          <span class="lang-kr">연구</span>
+          <span class="lang-en">RESEARCH</span>
+        </h2>
         <div class="text">
           작품 이전의 사유<br>
           감각 구조<br>
@@ -1602,7 +1616,10 @@ body.lightbox-open{
       </div>
 
       <div class="en">
-        <h2>RESEARCH</h2>
+        <h2 class="section-title">
+          <span class="lang-kr">연구</span>
+          <span class="lang-en">RESEARCH</span>
+        </h2>
         <div class="text">
           Thought before the work<br>
           Structures of sensation<br>
@@ -1616,7 +1633,10 @@ body.lightbox-open{
   <section class="view" id="about">
     <div class="section-box">
       <div class="ko">
-        <h2>ABOUT</h2>
+        <h2 class="section-title">
+          <span class="lang-kr">작가 소개</span>
+          <span class="lang-en">ABOUT</span>
+        </h2>
         <div class="text">
           김영우는 베를린에서 약 12년간 활동한 작가로,<br>
           베를린 자유대학교에서 연극사와 미술사를 전공하고 석사를 취득했다.<br><br>
@@ -1630,7 +1650,10 @@ body.lightbox-open{
       </div>
 
       <div class="en">
-        <h2>ABOUT</h2>
+        <h2 class="section-title">
+          <span class="lang-kr">작가 소개</span>
+          <span class="lang-en">ABOUT</span>
+        </h2>
         <div class="text">
           Kim Young Woo is an artist who worked in Berlin for approximately 12 years.<br>
           She received her Master’s degree from Freie Universität Berlin,<br>
@@ -1649,9 +1672,11 @@ body.lightbox-open{
   <section class="view" id="contact">
     <div class="section-box">
       <div class="ko">
-        <h2>CONTACT</h2>
+        <h2 class="section-title">
+          <span class="lang-kr">연락</span>
+          <span class="lang-en">CONTACT</span>
+        </h2>
         <div class="text">
-          Contact
           <div class="contact-line">
             Email →<br>
             <a href="mailto:edelstein7@naver.com?subject=Kywoo.art Inquiry">edelstein7@naver.com</a>
@@ -1664,9 +1689,11 @@ body.lightbox-open{
       </div>
 
       <div class="en">
-        <h2>CONTACT</h2>
+        <h2 class="section-title">
+          <span class="lang-kr">연락</span>
+          <span class="lang-en">CONTACT</span>
+        </h2>
         <div class="text">
-          Contact
           <div class="contact-line">
             Email →<br>
             <a href="mailto:edelstein7@naver.com?subject=Kywoo.art Inquiry">edelstein7@naver.com</a>
@@ -1777,6 +1804,7 @@ body.lightbox-open{
     document.body.classList.toggle('english', currentLang === 'en');
     document.body.classList.toggle('korean', currentLang === 'ko');
     document.documentElement.lang = currentLang === 'en' ? 'en' : 'ko';
+    document.documentElement.dataset.lang = currentLang === 'en' ? 'en' : 'kr';
     koBtn.classList.toggle('active', currentLang === 'ko');
     enBtn.classList.toggle('active', currentLang === 'en');
     localStorage.setItem('kywoo_lang', currentLang);

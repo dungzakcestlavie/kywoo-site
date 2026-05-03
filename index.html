@@ -556,9 +556,10 @@ h2{
   align-items:center;
   justify-content:center;
   background:rgba(5,14,13,0.94);
-  overflow:hidden;
-  touch-action:none;
-  overscroll-behavior:none;
+  overflow:auto;
+  -webkit-overflow-scrolling:touch;
+  touch-action:manipulation;
+  overscroll-behavior:contain;
 }
 
 .viewer.active{display:flex}
@@ -569,21 +570,41 @@ h2{
   display:flex;
   align-items:center;
   justify-content:center;
-  overflow:hidden;
-  touch-action:none;
+  overflow:auto;
+  -webkit-overflow-scrolling:touch;
+  touch-action:manipulation;
   user-select:none;
 }
 
 .viewer-img{
+  width:100%;
+  height:auto;
   max-width:92vw;
   max-height:86dvh;
   object-fit:contain;
-  will-change:transform;
-  transform-origin:center center;
-  transform:translate3d(0,0,0) scale(1);
+  transition:none;
+  image-rendering:auto;
   user-select:none;
+  -webkit-user-select:none;
   -webkit-user-drag:none;
-  touch-action:none;
+  touch-action:manipulation;
+  filter:none !important;
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
+}
+
+
+.viewer-img.zoomed{
+  width:200%;
+  max-width:none;
+  max-height:none;
+}
+
+.viewer,
+.viewer-img{
+  filter:none !important;
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
 }
 
 .viewer-close,
@@ -726,6 +747,12 @@ h2{
   .viewer-img{
     max-width:94vw;
     max-height:78dvh;
+  }
+
+  .viewer-img.zoomed{
+    width:200%;
+    max-width:none;
+    max-height:none;
   }
 
   .viewer-prev,
@@ -968,6 +995,7 @@ h2{
   let scale = 1;
   let tx = 0;
   let ty = 0;
+  let zoomed = false;
   let dragStartX = 0;
   let dragStartY = 0;
   let startTx = 0;
@@ -1129,11 +1157,14 @@ h2{
     scale = 1;
     tx = 0;
     ty = 0;
-    applyTransform();
+    zoomed = false;
+    viewerImg.classList.remove('zoomed');
+    viewerStage.scrollLeft = 0;
+    viewerStage.scrollTop = 0;
   }
 
   function applyTransform(){
-    viewerImg.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(${scale})`;
+    return;
   }
 
   function openViewer(index){
@@ -1183,10 +1214,7 @@ h2{
   }
 
   function moveDrag(x,y){
-    if(!isDragging || scale <= 1) return;
-    tx = startTx + (x - dragStartX);
-    ty = startTy + (y - dragStartY);
-    applyTransform();
+    return;
   }
 
   function endDrag(){
@@ -1194,15 +1222,21 @@ h2{
   }
 
   function toggleZoom(){
-    suppressSwipeUntil = Date.now() + 420;
+    suppressSwipeUntil = Date.now() + 520;
 
-    if(scale > 1){
-      resetTransform();
+    zoomed = !zoomed;
+    scale = zoomed ? 2 : 1;
+
+    if(zoomed){
+      viewerImg.classList.add('zoomed');
+      requestAnimationFrame(() => {
+        viewerStage.scrollLeft = Math.max(0, (viewerImg.scrollWidth - viewerStage.clientWidth) / 2);
+        viewerStage.scrollTop = Math.max(0, (viewerImg.scrollHeight - viewerStage.clientHeight) / 2);
+      });
     }else{
-      scale = 2.2;
-      tx = 0;
-      ty = 0;
-      applyTransform();
+      viewerImg.classList.remove('zoomed');
+      viewerStage.scrollLeft = 0;
+      viewerStage.scrollTop = 0;
     }
   }
 
@@ -1266,18 +1300,24 @@ h2{
       isPinching = true;
       suppressSwipeUntil = Date.now() + 700;
       const d = dist(e.touches[0], e.touches[1]);
-      scale = Math.max(1, Math.min(pinchStartScale * (d / Math.max(pinchStartDistance, 1)), 4));
-      applyTransform();
+      const ratio = d / Math.max(pinchStartDistance, 1);
+
+      if(ratio > 1.08 && !zoomed){
+        zoomed = true;
+        scale = 2;
+        viewerImg.classList.add('zoomed');
+      }else if(ratio < 0.92 && zoomed){
+        zoomed = false;
+        scale = 1;
+        viewerImg.classList.remove('zoomed');
+        viewerStage.scrollLeft = 0;
+        viewerStage.scrollTop = 0;
+      }
       return;
     }
 
-    if(e.touches.length === 1){
-      const x = e.touches[0].clientX;
-      const y = e.touches[0].clientY;
-      if(scale > 1){
-        e.preventDefault();
-        moveDrag(x,y);
-      }
+    if(e.touches.length === 1 && zoomed){
+      return;
     }
   }, { passive:false });
 
@@ -1299,7 +1339,7 @@ h2{
     const dx = x - touchStartX;
     const dy = y - touchStartY;
 
-    if(scale <= 1 && Math.abs(dx) > 54 && Math.abs(dx) > Math.abs(dy) * 1.4){
+    if(!zoomed && scale <= 1 && Math.abs(dx) > 54 && Math.abs(dx) > Math.abs(dy) * 1.4){
       if(dx < 0) showViewer(1);
       else showViewer(-1);
     }

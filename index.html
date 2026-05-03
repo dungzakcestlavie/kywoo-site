@@ -1148,21 +1148,13 @@ body.viewer-open{
 
 
 
-/* KYWOO WORKS FINAL STABLE IMPROVEMENT
-   Scope: WORKS cards + viewer only.
-   - Keep SEO/text/menu/KR-EN/data unchanged.
-   - Restore stable Works grid.
+/* KYWOO ART WORKS NATIVE PINCH + SMOOTH VIEWER FINAL
+   Scope: Works + viewer only.
+   - Browser/native pinch zoom is restored.
+   - No JS zoom, no transform scale, no width zoom.
    - Desktop/laptop arrows only.
-   - Prevent oversized first-frame viewer image flash with preload visibility classes. */
-
-#works{
-  background:transparent !important;
-}
-
-.works-stage{
-  width:min(1120px,100%) !important;
-  margin:10px auto 0 !important;
-}
+   - Mobile uses native pinch + swipe.
+   - Text, SEO, menu, KR/EN, data structure remain unchanged. */
 
 .w-grid{
   display:grid !important;
@@ -1177,25 +1169,9 @@ body.viewer-open{
   }
 }
 
-@media (min-width:1000px){
-  .w-grid{
-    grid-template-columns:repeat(3,minmax(0,1fr)) !important;
-    gap:20px !important;
-  }
-}
-
 .w-card{
-  background:
-    radial-gradient(circle at 0 0, rgba(212,180,109,0.055), rgba(11,31,28,0.76)),
-    linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)) !important;
-  border:1px solid rgba(212,180,109,0.15) !important;
-  border-radius:18px !important;
-  overflow:hidden !important;
-  box-shadow:0 14px 34px rgba(0,0,0,0.32) !important;
-  cursor:pointer !important;
-  display:flex !important;
-  flex-direction:column !important;
-  text-align:left !important;
+  transform:none !important;
+  will-change:auto !important;
 }
 
 .w-thumb{
@@ -1206,25 +1182,18 @@ body.viewer-open{
   background:rgba(0,0,0,0.14) !important;
 }
 
-.w-meta{
-  padding:12px 12px 18px !important;
-  border-top:1px solid rgba(255,255,255,0.06) !important;
-  background:transparent !important;
+html.lightbox-open,
+body.lightbox-open{
+  overflow:hidden !important;
+  height:100% !important;
+  position:fixed !important;
+  width:100% !important;
+  touch-action:auto !important;
 }
 
-.w-title{
-  font-size:16px !important;
-  line-height:1.35 !important;
-  font-weight:600 !important;
-  color:rgba(212,180,109,0.94) !important;
-  margin-bottom:6px !important;
-}
-
-.w-sub{
-  font-size:14px !important;
-  line-height:1.55 !important;
-  color:rgba(255,246,227,0.78) !important;
-  opacity:0.96 !important;
+body.viewer-open{
+  overflow:hidden !important;
+  touch-action:auto !important;
 }
 
 .viewer{
@@ -1233,9 +1202,10 @@ body.viewer-open{
   z-index:9999 !important;
   display:none !important;
   background:rgba(3,18,15,0.94) !important;
-  overflow:hidden !important;
-  touch-action:auto !important;
+  overflow:auto !important;
+  -webkit-overflow-scrolling:touch !important;
   overscroll-behavior:contain !important;
+  touch-action:auto !important;
   filter:none !important;
   backdrop-filter:none !important;
   -webkit-backdrop-filter:none !important;
@@ -1248,28 +1218,27 @@ body.viewer-open{
 }
 
 .viewer-stage{
-  width:100vw !important;
-  height:100vh !important;
-  min-width:0 !important;
-  min-height:0 !important;
-  overflow:hidden !important;
+  width:auto !important;
+  height:auto !important;
+  min-width:100% !important;
+  min-height:100% !important;
+  overflow:visible !important;
   display:flex !important;
   align-items:center !important;
   justify-content:center !important;
-  padding:72px 108px 42px 108px !important;
+  padding:0 !important;
   touch-action:auto !important;
   user-select:none !important;
   -webkit-user-select:none !important;
   -webkit-tap-highlight-color:transparent !important;
-  contain:layout paint size !important;
 }
 
 .viewer-img{
   display:block !important;
   width:auto !important;
   height:auto !important;
-  max-width:min(calc(100vw - 250px), 860px) !important;
-  max-height:calc(100vh - 150px) !important;
+  max-width:92vw !important;
+  max-height:82vh !important;
   object-fit:contain !important;
   image-rendering:auto !important;
   user-select:none !important;
@@ -1278,18 +1247,11 @@ body.viewer-open{
   touch-action:auto !important;
   transform:none !important;
   transition:none !important;
+  will-change:auto !important;
   filter:none !important;
   backdrop-filter:none !important;
   -webkit-backdrop-filter:none !important;
   cursor:default !important;
-}
-
-.viewer-img.is-loading{
-  opacity:0 !important;
-}
-
-.viewer-img.is-ready{
-  opacity:1 !important;
 }
 
 .viewer-close{
@@ -1342,23 +1304,13 @@ body.viewer-open{
   }
 }
 
-@media (min-width:769px) and (max-width:1180px){
-  .viewer-stage{
-    padding:72px 90px 40px 90px !important;
-  }
-
-  .viewer-img{
-    max-width:min(calc(100vw - 220px), 760px) !important;
-    max-height:calc(100vh - 155px) !important;
-  }
-}
-
 @media (max-width:768px){
   .viewer{
-    overflow:auto !important;
-    -webkit-overflow-scrolling:touch !important;
     align-items:flex-start !important;
     justify-content:flex-start !important;
+    overflow:auto !important;
+    -webkit-overflow-scrolling:touch !important;
+    touch-action:auto !important;
   }
 
   .viewer-stage{
@@ -1366,17 +1318,18 @@ body.viewer-open{
     height:auto !important;
     min-width:100% !important;
     min-height:100% !important;
-    padding:0 !important;
-    overflow:visible !important;
     align-items:flex-start !important;
     justify-content:flex-start !important;
+    touch-action:auto !important;
   }
 
   .viewer-img{
     width:100vw !important;
     max-width:none !important;
-    max-height:none !important;
     height:auto !important;
+    max-height:none !important;
+    transform:none !important;
+    touch-action:auto !important;
   }
 
   .viewer-prev,
@@ -1777,57 +1730,14 @@ body.viewer-open{
   }
 
 
-
-  function setViewerImage(src, alt){
-    const cleanSrc = String(src || '');
-    viewerImg.classList.remove('is-ready');
-    viewerImg.classList.add('is-loading');
-    viewerImg.style.transform = 'none';
-    viewerImg.style.width = 'auto';
-    viewerImg.style.height = 'auto';
-    viewerImg.alt = alt || 'Kim Young Woo artwork';
-
-    if(!cleanSrc){
-      viewerImg.removeAttribute('src');
-      viewerImg.classList.remove('is-loading');
-      return;
-    }
-
-    const token = String(Date.now()) + '-' + cleanSrc;
-    viewerImg.dataset.loadToken = token;
-
-    const pre = document.createElement('img');
-    pre.decoding = 'async';
-
-    pre.onload = () => {
-      if(viewerImg.dataset.loadToken !== token) return;
-      viewerImg.src = cleanSrc;
-      requestAnimationFrame(() => {
-        viewerImg.style.transform = 'none';
-        viewerImg.style.width = 'auto';
-        viewerImg.style.height = 'auto';
-        viewerImg.classList.remove('is-loading');
-        viewerImg.classList.add('is-ready');
-      });
-    };
-
-    pre.onerror = () => {
-      if(viewerImg.dataset.loadToken !== token) return;
-      viewerImg.src = cleanSrc;
-      viewerImg.classList.remove('is-loading');
-      viewerImg.classList.add('is-ready');
-    };
-
-    pre.src = cleanSrc;
-  }
-
   function openViewer(index){
     if(!worksData.length) return;
     viewerIndex = Math.max(0, Math.min(index, worksData.length - 1));
     const w = worksData[viewerIndex];
     resetViewerView();
     lockPageForViewer();
-    setViewerImage(w.zoom || w.image || '', getTitle(w) || 'Kim Young Woo artwork');
+    viewerImg.src = w.zoom || w.image || '';
+    viewerImg.alt = getTitle(w) || 'Kim Young Woo artwork';
     viewer.classList.add('active');
     viewer.setAttribute('aria-hidden','false');
     document.body.classList.add('viewer-open');
@@ -1836,7 +1746,6 @@ body.viewer-open{
   function closeViewer(){
     viewer.classList.remove('active');
     viewer.setAttribute('aria-hidden','true');
-    viewerImg.classList.remove('is-loading', 'is-ready');
     viewerImg.removeAttribute('src');
     viewerImg.alt = '';
     resetViewerView();
@@ -1851,7 +1760,8 @@ body.viewer-open{
     if(viewerIndex >= worksData.length) viewerIndex = 0;
     const w = worksData[viewerIndex];
     resetViewerView();
-    setViewerImage(w.zoom || w.image || '', getTitle(w) || 'Kim Young Woo artwork');
+    viewerImg.src = w.zoom || w.image || '';
+    viewerImg.alt = getTitle(w) || 'Kim Young Woo artwork';
   }
 
 
@@ -1934,7 +1844,7 @@ body.viewer-open{
     let lastTouchEnd = 0;
 
     function isViewerTarget(target){
-      return !!(target && target.closest && target.closest('#viewer, .viewer, .lightbox'));
+      return !!(target && target.closest && target.closest('#viewer, .viewer, .lightbox, #viewerStage, #viewerImg'));
     }
 
     document.addEventListener("gesturestart", function(e){

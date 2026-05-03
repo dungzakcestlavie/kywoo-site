@@ -834,6 +834,17 @@ h2{
     animation-iteration-count:1 !important;
   }
 }
+
+/* FULLSCREEN VIEWER CAPTION REMOVE — FINAL */
+.viewer-caption,
+#viewerTitle,
+#viewerMeta{
+  display:none !important;
+  visibility:hidden !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+}
+
 </style>
 </head>
 
@@ -1019,7 +1030,7 @@ h2{
     <img id="viewerImg" class="viewer-img" draggable="false" alt="">
   </div>
 
-  <div class="viewer-caption">
+  <div class="viewer-caption" hidden aria-hidden="true">
     <div class="viewer-title" id="viewerTitle"></div>
     <div class="viewer-meta" id="viewerMeta"></div>
   </div>
@@ -1235,15 +1246,7 @@ h2{
   }
 
   function updateViewerCaption(){
-    if(!viewer.classList.contains('active')) return;
-    const w = worksData[viewerIndex];
-    if(!w) return;
-    const title = getTitle(w);
-    const medium = getMedium(w);
-    const size = getSize(w);
-    const year = getYear(w);
-    viewerTitle.textContent = title;
-    viewerMeta.innerHTML = `${escapeHTML(medium)}<br>${escapeHTML(size)}<br>${escapeHTML(year)}`;
+    return;
   }
 
   function openViewer(index){

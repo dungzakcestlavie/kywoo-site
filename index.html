@@ -1,32 +1,754 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <title>kywoo.art</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+
+<title>KYWOO ART — Kim Young Woo</title>
+
+<meta name="description" content="KYWOO ART is the official website of Kim Young Woo, an artist based in Korea after approximately 12 years of artistic activity in Berlin. Her work explores sensation, existence, and states prior to form.">
+<meta name="keywords" content="KYWOO ART, Kim Young Woo, 김영우, contemporary artist, Korean artist, Berlin artist, Freie Universität Berlin, theatre history, art history, sensation, existence, states prior to form, contemporary art">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://kywoo.art/">
+
+<link rel="alternate" href="https://kywoo.art/" hreflang="ko">
+<link rel="alternate" href="https://kywoo.art/?lang=en" hreflang="en">
+<link rel="alternate" href="https://kywoo.art/" hreflang="x-default">
+
+<meta property="og:title" content="KYWOO ART — Kim Young Woo">
+<meta property="og:description" content="Official website of Kim Young Woo. Her work explores sensation, existence, and states prior to form.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kywoo.art/">
+<meta property="og:site_name" content="KYWOO ART">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:image" content="https://kywoo.art/og.jpg">
+<meta property="og:image:alt" content="KYWOO ART — Kim Young Woo">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="KYWOO ART — Kim Young Woo">
+<meta name="twitter:description" content="Official website of Kim Young Woo, whose work explores sensation, existence, and states prior to form.">
+<meta name="twitter:image" content="https://kywoo.art/og.jpg">
+<meta name="twitter:image:alt" content="KYWOO ART — Kim Young Woo">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://kywoo.art/#website",
+      "name": "KYWOO ART",
+      "url": "https://kywoo.art/",
+      "description": "Official website of artist Kim Young Woo.",
+      "inLanguage": ["ko", "en"],
+      "publisher": {
+        "@id": "https://kywoo.art/#person"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://kywoo.art/#person",
+      "name": "Kim Young Woo",
+      "alternateName": "김영우",
+      "url": "https://kywoo.art/",
+      "jobTitle": "Artist",
+      "description": "Kim Young Woo is an artist who worked in Berlin for approximately 12 years. She received her Master’s degree from Freie Universität Berlin, where she studied theatre history and art history. Her work explores sensation, existence, and states prior to form.",
+      "sameAs": [
+        "https://instagram.com/youngwoo_1980"
+      ]
+    }
+  ]
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600&display=swap" rel="stylesheet"></noscript>
+
+<style>
+:root{
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+
+  --bg-deep:#03120c;
+  --bg-main:#071a12;
+  --bg-soft:#0d2a1e;
+
+  --gold:#e6c86b;
+  --gold-strong:#f0d79c;
+  --gold-soft:rgba(230,200,107,0.68);
+  --yellow:#d4b84f;
+
+  --text-main:#f5f3ea;
+  --text-soft:rgba(245,243,234,0.72);
+  --text-muted:rgba(245,243,234,0.52);
+
+  --line:rgba(230,200,107,0.22);
+  --line-soft:rgba(230,200,107,0.12);
+
+  --header-bar:78px;
+  --header-height:calc(var(--header-bar) + var(--safe-top));
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html,
+body{
+  margin:0;
+  min-height:100%;
+}
+
+html{
+  -webkit-text-size-adjust:100%;
+  scroll-behavior:smooth;
+}
+
+body{
+  min-height:100vh;
+  min-height:100svh;
+  font-family:"Noto Serif KR", serif;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(212,184,79,0.18), transparent 58%),
+    radial-gradient(circle at 30% 28%, rgba(120,180,110,0.12), transparent 60%),
+    radial-gradient(circle at 70% 70%, rgba(80,140,90,0.18), transparent 65%),
+    linear-gradient(135deg,#03120c,#071a12,#0d2a1e);
+  color:var(--text-main);
+  overflow-x:hidden;
+}
+
+body.menu-open{
+  overflow:hidden;
+}
+
+a{
+  color:var(--gold);
+  text-decoration:none;
+}
+
+a:hover{
+  color:var(--gold-strong);
+}
+
+.header{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:var(--header-height);
+  padding-top:var(--safe-top);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:100;
+  background:rgba(3,18,12,0.48);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line-soft);
+}
+
+.menu-btn{
+  position:absolute;
+  left:16px;
+  top:calc(var(--safe-top) + 50%);
+  transform:translateY(-50%);
+  width:44px;
+  height:44px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:rgba(255,255,255,0.03);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+
+.menu-btn span{
+  display:block;
+  width:22px;
+  height:2px;
+  background:var(--gold);
+  margin:3px 0;
+}
+
+.logo{
+  color:var(--gold);
+  text-align:center;
+  text-decoration:none;
+  font-size:17px;
+  line-height:1.35;
+  letter-spacing:2.4px;
+  font-weight:400;
+  text-shadow:
+    0 0 10px rgba(230,200,107,0.12),
+    0 0 22px rgba(230,200,107,0.05);
+}
+
+.logo span{
+  display:block;
+  margin-top:2px;
+  font-size:12px;
+  letter-spacing:3.2px;
+  color:var(--gold-soft);
+}
+
+.logo:hover{
+  color:var(--gold-strong);
+}
+
+.lang{
+  position:absolute;
+  right:16px;
+  top:calc(var(--safe-top) + 50%);
+  transform:translateY(-50%);
+  display:flex;
+  gap:7px;
+}
+
+.lang button{
+  min-width:42px;
+  height:32px;
+  border:1px solid rgba(230,200,107,0.34);
+  border-radius:999px;
+  background:rgba(255,255,255,0.035);
+  color:var(--gold);
+  font-family:"Noto Serif KR", serif;
+  font-size:11px;
+  letter-spacing:1px;
+  cursor:pointer;
+}
+
+.lang button.active{
+  background:rgba(230,200,107,0.13);
+  border-color:rgba(230,200,107,0.72);
+  color:var(--gold-strong);
+}
+
+.menu{
+  position:fixed;
+  top:0;
+  left:0;
+  width:min(300px,84vw);
+  height:100dvh;
+  padding:calc(var(--safe-top) + 100px) 30px calc(42px + var(--safe-bottom));
+  background:rgba(3,18,12,0.98);
+  border-right:1px solid var(--line);
+  box-shadow:24px 0 48px rgba(0,0,0,0.28);
+  transform:translateX(-104%);
+  transition:transform 0.22s cubic-bezier(.2,.8,.2,1);
+  z-index:120;
+}
+
+.menu.open{
+  transform:translateX(0);
+}
+
+.menu a{
+  display:block;
+  margin:22px 0;
+  color:var(--gold);
+  text-decoration:none;
+  font-size:14px;
+  letter-spacing:2.4px;
+  font-weight:400;
+}
+
+.menu a:hover{
+  color:var(--gold-strong);
+}
+
+.menu-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.55);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 0.18s ease;
+  z-index:110;
+}
+
+.menu-overlay.show{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.view{
+  display:none;
+  max-width:900px;
+  min-height:100svh;
+  margin:0 auto;
+  padding:calc(var(--header-height) + 58px) 22px calc(84px + var(--safe-bottom));
+  text-align:center;
+}
+
+.view.active{
+  display:block;
+}
+
+.hero{
+  min-height:calc(100svh - var(--header-height) - 90px);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+
+.hero-title{
+  color:var(--gold-strong);
+  font-size:42px;
+  line-height:1.45;
+  letter-spacing:5px;
+  font-weight:400;
+  margin:0;
+}
+
+.hero-title span{
+  display:block;
+  margin-top:8px;
+  font-size:20px;
+  letter-spacing:4px;
+  color:var(--gold-soft);
+}
+
+h2{
+  color:var(--gold);
+  font-size:24px;
+  letter-spacing:4px;
+  font-weight:400;
+  margin:0 0 34px;
+}
+
+.text{
+  color:var(--text-main);
+  font-size:16px;
+  line-height:2.05;
+  letter-spacing:0.1px;
+  font-weight:300;
+  word-break:keep-all;
+}
+
+.text-soft{
+  color:var(--text-soft);
+  font-size:14px;
+  line-height:1.9;
+  letter-spacing:0.3px;
+}
+
+.section-box{
+  width:100%;
+  max-width:680px;
+  margin:0 auto;
+  padding:34px 24px;
+  border:1px solid var(--line-soft);
+  background:rgba(255,255,255,0.025);
+}
+
+.lang-ko,
+.lang-en{
+  display:none;
+}
+
+.lang-ko.active,
+.lang-en.active{
+  display:block;
+}
+
+.works-empty{
+  color:var(--text-soft);
+}
+
+.contact-block{
+  margin-top:0;
+}
+
+.contact-line{
+  margin-top:22px;
+}
+
+@media (max-width:640px){
+  :root{
+    --header-bar:74px;
+  }
+
+  .menu-btn{
+    left:14px;
+    width:42px;
+    height:42px;
+  }
+
+  .logo{
+    font-size:14px;
+    letter-spacing:1.6px;
+  }
+
+  .logo span{
+    font-size:10px;
+    letter-spacing:2.2px;
+  }
+
+  .lang{
+    right:12px;
+    gap:5px;
+  }
+
+  .lang button{
+    min-width:38px;
+    height:30px;
+    font-size:10px;
+    padding:0 7px;
+  }
+
+  .view{
+    padding:calc(var(--header-height) + 44px) 18px calc(70px + var(--safe-bottom));
+  }
+
+  .hero-title{
+    font-size:30px;
+    letter-spacing:3px;
+  }
+
+  .hero-title span{
+    font-size:15px;
+    letter-spacing:2.6px;
+  }
+
+  h2{
+    font-size:21px;
+    letter-spacing:3px;
+  }
+
+  .text{
+    font-size:15px;
+    line-height:1.95;
+  }
+
+  .section-box{
+    padding:28px 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,
+  *::before,
+  *::after{
+    transition-duration:0.001ms !important;
+    animation-duration:0.001ms !important;
+    animation-iteration-count:1 !important;
+  }
+}
+</style>
 </head>
-<body style="background:black; color:white; text-align:center;">
 
-<h1>KYWOO ARCHIVE TEST</h1>
+<body>
 
-<div id="app"></div>
+<header class="header">
+  <div class="menu-btn" id="menuBtn" aria-label="menu" role="button" tabindex="0">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <a href="#" class="logo" onclick="openHome(); return false;">
+    김영우<br>
+    <span>KIM YOUNG WOO</span>
+  </a>
+
+  <div class="lang">
+    <button type="button" data-lang="ko">KR</button>
+    <button type="button" data-lang="en">EN</button>
+  </div>
+</header>
+
+<nav class="menu" id="menu" aria-hidden="true">
+  <a href="#" onclick="openHome(); return false;">HOME</a>
+  <a href="#" onclick="openWorks(); return false;">WORKS</a>
+  <a href="#" onclick="openResearch(); return false;">RESEARCH</a>
+  <a href="#" onclick="openAbout(); return false;">ABOUT</a>
+  <a href="#" onclick="openContact(); return false;">CONTACT</a>
+</nav>
+
+<div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
+
+<main>
+
+<section class="view active" id="home">
+  <div class="hero">
+    <div class="lang-ko">
+      <h1 class="hero-title">
+        김영우
+        <span>KIM YOUNG WOO</span>
+      </h1>
+      <div class="text" style="margin-top:34px;">
+        감각은 형태가 되기 전에 이미 존재한다.<br>
+        작업은 그것을 드러내는 과정이다.
+      </div>
+    </div>
+
+    <div class="lang-en">
+      <h1 class="hero-title">
+        KIM YOUNG WOO
+      </h1>
+      <div class="text" style="margin-top:34px;">
+        Sensation exists before it becomes form.<br>
+        The work is the process of revealing it.
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="view" id="works">
+  <div class="section-box">
+    <div class="lang-ko">
+      <h2>WORKS</h2>
+      <div class="text works-empty">
+        작품 준비 중
+      </div>
+    </div>
+
+    <div class="lang-en">
+      <h2>WORKS</h2>
+      <div class="text works-empty">
+        Works coming soon
+      </div>
+    </div>
+
+    <div id="works-container"></div>
+  </div>
+</section>
+
+<section class="view" id="research">
+  <div class="section-box">
+    <div class="lang-ko">
+      <h2>RESEARCH</h2>
+      <div class="text">
+        작품 이전의 사유<br>
+        감각 구조<br>
+        언어 이전의 상태<br>
+        존재에 대한 관심과 따뜻한 시선
+      </div>
+    </div>
+
+    <div class="lang-en">
+      <h2>RESEARCH</h2>
+      <div class="text">
+        Thought before the work<br>
+        Structures of sensation<br>
+        States before language<br>
+        A warm gaze toward existence
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="view" id="about">
+  <div class="section-box">
+    <div class="lang-ko">
+      <h2>ABOUT</h2>
+      <div class="text">
+        김영우는 베를린에서 약 12년간 활동한 작가로,<br>
+        베를린 자유대학교에서 연극사와 미술사를 전공하고 석사를 취득했다.<br><br>
+
+        이를 기반으로 작업을 전개하며,<br>
+        현재 한국에서 활동한다.<br><br>
+
+        그의 작업은 감각과 존재,<br>
+        그리고 형태 이전의 상태를 탐구한다.
+      </div>
+    </div>
+
+    <div class="lang-en">
+      <h2>ABOUT</h2>
+      <div class="text">
+        Kim Young Woo is an artist who worked in Berlin for approximately 12 years.<br>
+        She received her Master’s degree from Freie Universität Berlin,<br>
+        where she studied theatre history and art history.<br><br>
+
+        Based on this foundation, she develops her practice<br>
+        and is currently active in Korea.<br><br>
+
+        Her work explores sensation and existence,<br>
+        as well as states prior to form.
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="view" id="contact">
+  <div class="section-box contact-block">
+    <div class="lang-ko">
+      <h2>CONTACT</h2>
+      <div class="text">
+        Contact
+
+        <div class="contact-line">
+          Email →<br>
+          <a href="mailto:edelstein7@naver.com?subject=Kywoo.art Inquiry">
+            edelstein7@naver.com
+          </a>
+        </div>
+
+        <div class="contact-line">
+          Instagram →<br>
+          <a href="https://instagram.com/youngwoo_1980" target="_blank" rel="noopener">
+            @youngwoo_1980
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="lang-en">
+      <h2>CONTACT</h2>
+      <div class="text">
+        Contact
+
+        <div class="contact-line">
+          Email →<br>
+          <a href="mailto:edelstein7@naver.com?subject=Kywoo.art Inquiry">
+            edelstein7@naver.com
+          </a>
+        </div>
+
+        <div class="contact-line">
+          Instagram →<br>
+          <a href="https://instagram.com/youngwoo_1980" target="_blank" rel="noopener">
+            @youngwoo_1980
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
 
 <script>
-fetch('data/works.json')
-  .then(res => res.json())
-  .then(data => {
+const menu = document.getElementById('menu');
+const menuOverlay = document.getElementById('menuOverlay');
+const menuBtn = document.getElementById('menuBtn');
+const views = document.querySelectorAll('.view');
+const langBtns = document.querySelectorAll('.lang button');
 
-    const app = document.getElementById('app');
+let currentLang = localStorage.getItem('kywoo_lang') === 'en' ? 'en' : 'ko';
 
-    data.forEach(work => {
-      const img = document.createElement('img');
-      img.src = work.image;
-      img.style.width = '300px';
-      img.style.margin = '20px';
-      app.appendChild(img);
-    });
+function lockBodyScroll(){
+  document.body.classList.add('menu-open');
+}
 
-  })
-  .catch(err => console.error(err));
+function unlockBodyScroll(){
+  document.body.classList.remove('menu-open');
+}
+
+function openMenu(){
+  menu.classList.add('open');
+  menuOverlay.classList.add('show');
+  menu.setAttribute('aria-hidden','false');
+  lockBodyScroll();
+}
+
+function closeMenu(){
+  menu.classList.remove('open');
+  menuOverlay.classList.remove('show');
+  menu.setAttribute('aria-hidden','true');
+  unlockBodyScroll();
+}
+
+function toggleMenu(){
+  if(menu.classList.contains('open')){
+    closeMenu();
+  }else{
+    openMenu();
+  }
+}
+
+function clearViews(){
+  views.forEach(view => view.classList.remove('active'));
+  window.scrollTo({top:0, behavior:'auto'});
+}
+
+function openHome(){
+  clearViews();
+  document.getElementById('home').classList.add('active');
+  closeMenu();
+}
+
+function openWorks(){
+  clearViews();
+  document.getElementById('works').classList.add('active');
+  closeMenu();
+}
+
+function openResearch(){
+  clearViews();
+  document.getElementById('research').classList.add('active');
+  closeMenu();
+}
+
+function openAbout(){
+  clearViews();
+  document.getElementById('about').classList.add('active');
+  closeMenu();
+}
+
+function openContact(){
+  clearViews();
+  document.getElementById('contact').classList.add('active');
+  closeMenu();
+}
+
+function setLang(lang){
+  currentLang = lang === 'en' ? 'en' : 'ko';
+
+  document.querySelectorAll('.lang-ko').forEach(el => {
+    el.classList.toggle('active', currentLang === 'ko');
+  });
+
+  document.querySelectorAll('.lang-en').forEach(el => {
+    el.classList.toggle('active', currentLang === 'en');
+  });
+
+  langBtns.forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === currentLang);
+  });
+
+  document.documentElement.lang = currentLang === 'ko' ? 'ko' : 'en';
+  localStorage.setItem('kywoo_lang', currentLang);
+}
+
+langBtns.forEach(btn => {
+  btn.addEventListener('click', () => setLang(btn.dataset.lang));
+});
+
+menuBtn.addEventListener('click', toggleMenu);
+
+menuBtn.addEventListener('keydown', e => {
+  if(e.key === 'Enter' || e.key === ' '){
+    e.preventDefault();
+    toggleMenu();
+  }
+});
+
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape' && menu.classList.contains('open')){
+    closeMenu();
+  }
+});
+
+window.openHome = openHome;
+window.openWorks = openWorks;
+window.openResearch = openResearch;
+window.openAbout = openAbout;
+window.openContact = openContact;
+window.closeMenu = closeMenu;
+window.toggleMenu = toggleMenu;
+
+setLang(currentLang);
 </script>
 
 </body>

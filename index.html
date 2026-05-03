@@ -1033,6 +1033,119 @@ body.viewer-open{
   }
 }
 
+
+/* KYWOO ART LIGHTBOX NATIVE PINCH ZOOM FINAL — browser pinch only, no JS zoom */
+html.lightbox-open,
+body.lightbox-open{
+  overflow:hidden !important;
+  height:100% !important;
+  position:fixed !important;
+  width:100% !important;
+}
+
+body.viewer-open{
+  overflow:hidden !important;
+  touch-action:auto !important;
+}
+
+.viewer{
+  position:fixed !important;
+  inset:0 !important;
+  z-index:9999 !important;
+  display:none !important;
+  background:rgba(3,18,15,0.94) !important;
+  overflow:auto !important;
+  -webkit-overflow-scrolling:touch !important;
+  overscroll-behavior:contain !important;
+  touch-action:auto !important;
+  filter:none !important;
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
+  align-items:center !important;
+  justify-content:center !important;
+}
+
+.viewer.active{
+  display:flex !important;
+}
+
+.viewer-stage{
+  width:auto !important;
+  height:auto !important;
+  min-width:0 !important;
+  min-height:0 !important;
+  overflow:visible !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  touch-action:auto !important;
+  user-select:none !important;
+  -webkit-user-select:none !important;
+  -webkit-tap-highlight-color:transparent !important;
+}
+
+.viewer-img{
+  display:block !important;
+  width:auto !important;
+  height:auto !important;
+  max-width:100vw !important;
+  max-height:none !important;
+  object-fit:contain !important;
+  image-rendering:auto !important;
+  user-select:none !important;
+  -webkit-user-select:none !important;
+  -webkit-user-drag:none !important;
+  touch-action:auto !important;
+  transform:none !important;
+  transition:none !important;
+  filter:none !important;
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
+  cursor:default !important;
+}
+
+.viewer-close{
+  position:fixed !important;
+  top:calc(env(safe-area-inset-top, 0px) + 16px) !important;
+  right:calc(env(safe-area-inset-right, 0px) + 16px) !important;
+  z-index:10050 !important;
+  width:52px !important;
+  height:52px !important;
+  border-radius:50% !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+}
+
+@media (max-width:768px){
+  .viewer{
+    align-items:flex-start !important;
+    justify-content:flex-start !important;
+    overflow:auto !important;
+    -webkit-overflow-scrolling:touch !important;
+    touch-action:auto !important;
+  }
+
+  .viewer-stage{
+    width:auto !important;
+    height:auto !important;
+    min-width:100% !important;
+    min-height:100% !important;
+    align-items:flex-start !important;
+    justify-content:flex-start !important;
+    touch-action:auto !important;
+  }
+
+  .viewer-img{
+    width:100vw !important;
+    max-width:none !important;
+    height:auto !important;
+    max-height:none !important;
+    transform:none !important;
+    touch-action:auto !important;
+  }
+}
+
 </style>
 </head>
 
@@ -1253,6 +1366,7 @@ body.viewer-open{
   let currentLang = localStorage.getItem('kywoo_lang') === 'en' ? 'en' : 'ko';
   let worksData = [];
   let viewerIndex = 0;
+  let savedScrollY = 0;
 
   let touchStartX = 0;
   let touchStartY = 0;
@@ -1409,12 +1523,27 @@ body.viewer-open{
     viewerStage.scrollTop = 0;
   }
 
+  function lockPageForViewer(){
+    savedScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+    document.documentElement.classList.add('lightbox-open');
+    document.body.classList.add('lightbox-open');
+    document.body.style.top = `-${savedScrollY}px`;
+  }
+
+  function unlockPageForViewer(){
+    document.documentElement.classList.remove('lightbox-open');
+    document.body.classList.remove('lightbox-open');
+    document.body.style.top = '';
+    window.scrollTo(0, savedScrollY);
+  }
+
 
   function openViewer(index){
     if(!worksData.length) return;
     viewerIndex = Math.max(0, Math.min(index, worksData.length - 1));
     const w = worksData[viewerIndex];
     resetViewerView();
+    lockPageForViewer();
     viewerImg.src = w.zoom || w.image || '';
     viewerImg.alt = getTitle(w) || 'Kim Young Woo artwork';
     viewer.classList.add('active');
@@ -1429,6 +1558,7 @@ body.viewer-open{
     viewerImg.alt = '';
     resetViewerView();
     document.body.classList.remove('viewer-open');
+    unlockPageForViewer();
   }
 
   function showViewer(delta){
@@ -1462,14 +1592,6 @@ body.viewer-open{
 
   viewer.addEventListener('click', e => {
     if(e.target === viewer || e.target === viewerStage) closeViewer();
-  });
-
-
-  viewerStage.addEventListener('dblclick', e => {
-    e.preventDefault();
-    e.stopPropagation();
-    viewer.scrollTo({ top:0, left:0, behavior:'auto' });
-    viewerStage.scrollTo({ top:0, left:0, behavior:'auto' });
   });
 
 

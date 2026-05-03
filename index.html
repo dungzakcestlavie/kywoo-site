@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" style="background:#041018;">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="format-detection" content="telephone=no">
+<meta name="format-detection" content="telephone=no,address=no,email=no">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#041018">
 
 <title>KYWOO ART — Kim Young Woo | Artist, Art Theorist, Aesthetician</title>
 
@@ -15,7 +17,6 @@
 <meta name="publisher" content="KYWOO ART">
 
 <link rel="canonical" href="https://kywoo.art/">
-
 <link rel="alternate" href="https://kywoo.art/" hreflang="ko">
 <link rel="alternate" href="https://kywoo.art/?lang=en" hreflang="en">
 <link rel="alternate" href="https://kywoo.art/" hreflang="x-default">
@@ -49,9 +50,7 @@
       "url": "https://kywoo.art/",
       "description": "Official website of Kim Young Woo.",
       "inLanguage": ["ko", "en"],
-      "publisher": {
-        "@id": "https://kywoo.art/#person"
-      }
+      "publisher": { "@id": "https://kywoo.art/#person" }
     },
     {
       "@type": "Person",
@@ -100,9 +99,7 @@
       "@id": "https://kywoo.art/#creativework",
       "name": "KYWOO ART",
       "url": "https://kywoo.art/",
-      "creator": {
-        "@id": "https://kywoo.art/#person"
-      },
+      "creator": { "@id": "https://kywoo.art/#person" },
       "about": [
         "Sensation",
         "Existence",
@@ -125,92 +122,148 @@
 :root{
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
 
-  --bg-deep:#04120b;
-  --bg-main:#0b2115;
-  --bg-soft:#173b25;
+  --bg-deep:#041018;
+  --bg-main:#061725;
+  --bg-soft:#08201f;
+
   --gold:#cfae5a;
   --gold-strong:#f2d88a;
   --gold-soft:rgba(242,216,138,0.66);
   --yellow:#d8bd63;
+
   --text-main:#f7f0df;
   --text-soft:rgba(247,240,223,0.74);
   --text-muted:rgba(247,240,223,0.52);
+
   --line:rgba(207,174,90,0.26);
   --line-soft:rgba(207,174,90,0.14);
 
+  --shadow:0 18px 46px rgba(0,0,0,0.42);
+  --r:18px;
   --header-bar:78px;
   --header-height:calc(var(--header-bar) + var(--safe-top));
+  --maxw:1120px;
 }
 
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 html,
 body{
   margin:0;
+  width:100%;
   min-height:100%;
+  max-width:100%;
+  overflow-x:hidden;
 }
 
 html{
   -webkit-text-size-adjust:100%;
   scroll-behavior:smooth;
+  background:#041018;
 }
 
 body{
   min-height:100vh;
   min-height:100svh;
-  font-family:"Noto Serif KR", serif;
+  font-family:"Noto Serif KR", Georgia, serif;
   background:
-    radial-gradient(circle at 50% 44%, rgba(207,174,90,0.24), transparent 56%),
-    radial-gradient(circle at 28% 26%, rgba(158,118,54,0.14), transparent 64%),
-    radial-gradient(circle at 72% 74%, rgba(78,105,58,0.24), transparent 68%),
-    linear-gradient(135deg,#04120b 0%, #0b2115 46%, #173b25 100%);
+    radial-gradient(circle at 50% 42%,
+      rgba(216,189,99,0.22) 0%,
+      rgba(216,189,99,0.12) 18%,
+      rgba(216,189,99,0.04) 34%,
+      transparent 52%
+    ),
+    radial-gradient(circle at 50% 38%,
+      rgba(242,216,138,0.10) 0%,
+      transparent 38%
+    ),
+    linear-gradient(135deg,
+      #041018 0%,
+      #061725 46%,
+      #08201f 100%
+    );
+  background-attachment:fixed;
   color:var(--text-main);
-  overflow-x:hidden;
+  letter-spacing:0.1px;
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 50% 32%, rgba(242,216,138,0.12), transparent 30%),
+    radial-gradient(circle at 50% 48%, rgba(207,174,90,0.08), transparent 46%);
 }
 
 body.menu-open,
-body.lightbox-open{
+body.viewer-open{
   overflow:hidden;
   touch-action:none;
 }
 
 a{
-  color:var(--gold);
+  color:var(--gold-strong);
   text-decoration:none;
 }
 
 a:hover{
   color:var(--gold-strong);
+  text-decoration:underline;
 }
 
 button{
-  font-family:"Noto Serif KR", serif;
+  font-family:"Noto Serif KR", Georgia, serif;
+}
+
+.ko,
+.en{
+  display:block;
+}
+
+body.korean .en{
+  display:none !important;
+}
+
+body.english .ko{
+  display:none !important;
+}
+
+.site{
+  position:relative;
+  z-index:1;
 }
 
 .header{
-  position:fixed;
+  position:sticky;
   top:0;
-  left:0;
-  width:100%;
-  height:var(--header-height);
-  padding-top:var(--safe-top);
+  z-index:50;
+  min-height:var(--header-height);
+  padding:calc(12px + var(--safe-top)) calc(16px + var(--safe-right)) 12px calc(16px + var(--safe-left));
+  background:linear-gradient(180deg, rgba(4,16,24,0.92), rgba(4,16,24,0.58));
+  border-bottom:1px solid var(--line-soft);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+}
+
+.header-inner{
+  max-width:var(--maxw);
+  margin:0 auto;
+  position:relative;
   display:flex;
   align-items:center;
   justify-content:center;
-  z-index:100;
-  background:rgba(4,18,11,0.58);
-  backdrop-filter:blur(10px);
-  -webkit-backdrop-filter:blur(10px);
-  border-bottom:1px solid var(--line-soft);
 }
 
 .menu-btn{
   position:absolute;
-  left:16px;
-  top:calc(var(--safe-top) + 50%);
+  left:0;
+  top:50%;
   transform:translateY(-50%);
   width:44px;
   height:44px;
@@ -226,24 +279,27 @@ button{
 }
 
 .menu-btn span{
-  display:block;
   width:22px;
   height:2px;
-  background:var(--gold);
   margin:3px 0;
+  display:block;
+  background:var(--gold-strong);
 }
 
 .logo{
-  color:var(--gold);
+  border:0;
+  background:transparent;
+  padding:0;
+  margin:0;
+  color:var(--gold-strong);
   text-align:center;
-  text-decoration:none;
-  font-size:17px;
-  line-height:1.35;
+  cursor:pointer;
   letter-spacing:2.4px;
-  font-weight:400;
-  text-shadow:
-    0 0 10px rgba(242,216,138,0.12),
-    0 0 22px rgba(242,216,138,0.05);
+  line-height:1.32;
+  font-size:17px;
+  font-weight:500;
+  text-shadow:0 1px 0 rgba(0,0,0,0.68), 0 0 18px rgba(242,216,138,0.14);
+  -webkit-tap-highlight-color:transparent;
 }
 
 .logo span{
@@ -254,20 +310,17 @@ button{
   color:var(--gold-soft);
 }
 
-.logo:hover{
-  color:var(--gold-strong);
-}
-
 .lang{
   position:absolute;
-  right:16px;
-  top:calc(var(--safe-top) + 50%);
+  right:0;
+  top:50%;
   transform:translateY(-50%);
   display:flex;
   gap:7px;
 }
 
 .lang button{
+  appearance:none;
   min-width:42px;
   height:32px;
   border:1px solid rgba(207,174,90,0.34);
@@ -290,12 +343,12 @@ button{
   position:fixed;
   top:0;
   left:0;
-  width:min(300px,84vw);
+  width:min(310px,84vw);
   height:100dvh;
   padding:calc(var(--safe-top) + 100px) 30px calc(42px + var(--safe-bottom));
-  background:rgba(4,18,11,0.98);
+  background:rgba(4,16,24,0.98);
   border-right:1px solid var(--line);
-  box-shadow:24px 0 48px rgba(0,0,0,0.28);
+  box-shadow:24px 0 48px rgba(0,0,0,0.32);
   transform:translateX(-104%);
   transition:transform 0.22s cubic-bezier(.2,.8,.2,1);
   z-index:120;
@@ -305,24 +358,25 @@ button{
   transform:translateX(0);
 }
 
-.menu a{
+.menu button{
   display:block;
+  width:100%;
   margin:22px 0;
-  color:var(--gold);
-  text-decoration:none;
+  padding:0;
+  border:0;
+  background:transparent;
+  color:var(--gold-strong);
+  text-align:left;
   font-size:14px;
   letter-spacing:2.4px;
   font-weight:400;
-}
-
-.menu a:hover{
-  color:var(--gold-strong);
+  cursor:pointer;
 }
 
 .menu-overlay{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.55);
+  background:rgba(0,0,0,0.56);
   opacity:0;
   pointer-events:none;
   transition:opacity 0.18s ease;
@@ -334,13 +388,23 @@ button{
   pointer-events:auto;
 }
 
+main{
+  max-width:var(--maxw);
+  margin:0 auto;
+  padding:22px 18px calc(38px + var(--safe-bottom));
+  position:relative;
+  z-index:1;
+}
+
 .view{
   display:none;
-  max-width:900px;
-  min-height:100svh;
-  margin:0 auto;
-  padding:calc(var(--header-height) + 58px) 22px calc(84px + var(--safe-bottom));
+  min-height:calc(100svh - var(--header-height) - 60px);
   text-align:center;
+  background:rgba(255,255,255,0.018);
+  border:1px solid rgba(255,255,255,0.04);
+  border-radius:var(--r);
+  box-shadow:var(--shadow);
+  overflow:hidden;
 }
 
 .view.active{
@@ -348,11 +412,12 @@ button{
 }
 
 .hero{
-  min-height:calc(100svh - var(--header-height) - 90px);
+  min-height:calc(100svh - var(--header-height) - 80px);
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
+  padding:48px 22px;
 }
 
 .hero-title{
@@ -362,6 +427,7 @@ button{
   letter-spacing:5px;
   font-weight:400;
   margin:0;
+  text-shadow:0 1px 0 rgba(0,0,0,0.62), 0 0 22px rgba(242,216,138,0.12);
 }
 
 .hero-title span{
@@ -372,207 +438,186 @@ button{
   color:var(--gold-soft);
 }
 
-h2{
-  color:var(--gold);
-  font-size:24px;
-  letter-spacing:4px;
-  font-weight:400;
-  margin:0 0 34px;
-}
-
 .text{
   color:var(--text-main);
   font-size:16px;
   line-height:2.05;
-  letter-spacing:0.1px;
   font-weight:300;
   word-break:keep-all;
 }
 
-.text-soft{
-  color:var(--text-soft);
-  font-size:14px;
-  line-height:1.9;
-  letter-spacing:0.3px;
-}
-
 .section-box{
   width:100%;
-  max-width:680px;
+  max-width:760px;
   margin:0 auto;
-  padding:34px 24px;
+  padding:38px 24px;
   border:1px solid var(--line-soft);
-  background:rgba(255,255,255,0.025);
+  background:rgba(4,16,24,0.44);
 }
 
-.lang-ko,
-.lang-en{
-  display:none;
+h2{
+  margin:0 0 34px;
+  color:var(--gold-strong);
+  font-size:24px;
+  letter-spacing:4px;
+  font-weight:400;
+  text-shadow:0 1px 0 rgba(0,0,0,0.62);
 }
 
-.lang-ko.active,
-.lang-en.active{
-  display:block;
+#works{
+  padding:18px;
+  text-align:center;
 }
 
-.works-empty{
+.works-head{
+  padding:4px 0 16px;
+}
+
+.works-head h2{
+  margin-bottom:8px;
+}
+
+.works-note{
   color:var(--text-soft);
+  font-size:13px;
+  line-height:1.8;
 }
 
-.works-status{
-  color:var(--text-soft);
-  font-size:15px;
-  line-height:1.9;
-  margin:10px 0 0;
+.works-stage{
+  margin-top:10px;
 }
 
-.works-grid{
-  width:100%;
+.w-grid{
   display:grid;
-  grid-template-columns:1fr;
-  gap:28px;
-  margin-top:28px;
-}
-
-.work-card{
+  grid-template-columns:repeat(1,minmax(0,1fr));
+  gap:18px;
   width:100%;
-  margin:0;
-  padding:0 0 20px;
-  border:1px solid var(--line-soft);
-  background:rgba(255,255,255,0.025);
-  cursor:pointer;
-  text-align:left;
-  overflow:hidden;
-  -webkit-tap-highlight-color:transparent;
 }
 
-.work-card:focus{
+.w-card{
+  background:radial-gradient(circle at 0 0, rgba(242,216,138,0.06), rgba(4,16,24,0.94));
+  border-radius:18px;
+  overflow:hidden;
+  border:1px solid rgba(207,174,90,0.16);
+  box-shadow:0 14px 34px rgba(0,0,0,0.55);
+  cursor:pointer;
+  display:flex;
+  flex-direction:column;
+  text-align:left;
+  -webkit-tap-highlight-color:transparent;
+  content-visibility:auto;
+  contain-intrinsic-size:360px 520px;
+}
+
+.w-card:focus{
   outline:1px solid var(--gold-strong);
   outline-offset:4px;
 }
 
-.work-image-wrap{
+.w-thumb{
   width:100%;
-  background:rgba(0,0,0,0.18);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  overflow:hidden;
-}
-
-.work-image-wrap img{
   display:block;
-  width:100%;
-  height:auto;
-  max-height:72vh;
   object-fit:contain;
+  object-position:center center;
+  aspect-ratio:4/5;
+  background:rgba(0,0,0,0.18);
+  user-select:none;
+  -webkit-user-drag:none;
 }
 
-.work-caption{
-  padding:17px 18px 0;
+.w-meta{
+  padding:12px 12px 18px;
+  border-top:1px solid rgba(255,255,255,0.045);
+  background:transparent;
 }
 
-.work-title{
-  color:var(--gold-strong);
+.w-title{
+  font-weight:600;
+  color:rgba(242,216,138,0.96);
+  line-height:1.35;
   font-size:16px;
+  letter-spacing:0.02em;
+  text-shadow:0 1px 0 rgba(0,0,0,0.64), 0 0 12px rgba(242,216,138,0.08);
+  margin-bottom:6px;
+}
+
+.w-sub{
+  margin-top:3px;
+  font-size:14px;
+  color:rgba(247,240,223,0.78);
   line-height:1.55;
-  letter-spacing:0.4px;
-  font-weight:400;
-  margin:0 0 8px;
+  opacity:0.96;
+  text-shadow:0 1px 0 rgba(0,0,0,0.58);
 }
 
-.work-meta{
+.w-msg{
+  padding:20px;
+  border-radius:16px;
+  background:rgba(0,0,0,0.18);
+  border:1px solid rgba(207,174,90,0.14);
   color:var(--text-soft);
-  font-size:13px;
-  line-height:1.75;
-  letter-spacing:0.2px;
-  font-weight:300;
-}
-
-.contact-block{
-  margin-top:0;
+  line-height:1.8;
 }
 
 .contact-line{
   margin-top:22px;
 }
 
-.lightbox{
+.viewer{
   position:fixed;
   inset:0;
-  width:100%;
-  height:100dvh;
   z-index:300;
   display:none;
-  background:
-    radial-gradient(circle at 50% 45%, rgba(23,59,37,0.55), transparent 54%),
-    linear-gradient(135deg, rgba(0,0,0,0.96), rgba(4,18,11,0.98));
-  color:var(--text-main);
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,0.94);
   overflow:hidden;
+  touch-action:none;
+  overscroll-behavior:none;
 }
 
-.lightbox.open{
-  display:block;
+.viewer.active{
+  display:flex;
 }
 
-.lightbox-stage{
-  position:absolute;
-  inset:0;
+.viewer-stage{
+  width:100%;
+  height:100%;
   display:flex;
   align-items:center;
   justify-content:center;
   overflow:hidden;
   touch-action:none;
-}
-
-.lightbox-img{
-  max-width:94vw;
-  max-height:82dvh;
-  object-fit:contain;
   user-select:none;
-  -webkit-user-select:none;
-  touch-action:none;
+}
+
+.viewer-img{
+  max-width:92vw;
+  max-height:86dvh;
+  object-fit:contain;
   will-change:transform;
+  transform-origin:center center;
   transform:translate3d(0,0,0) scale(1);
+  user-select:none;
+  -webkit-user-drag:none;
+  touch-action:none;
 }
 
-.lightbox-caption{
-  position:absolute;
-  left:0;
-  right:0;
-  bottom:calc(18px + var(--safe-bottom));
-  padding:0 64px;
-  text-align:center;
-  pointer-events:none;
-}
-
-.lightbox-title{
-  color:var(--gold-strong);
-  font-size:15px;
-  line-height:1.5;
-  letter-spacing:0.4px;
-  margin-bottom:4px;
-}
-
-.lightbox-meta{
-  color:var(--text-soft);
-  font-size:12px;
-  line-height:1.55;
-}
-
-.lightbox-btn{
+.viewer-close,
+.viewer-prev,
+.viewer-next{
   position:absolute;
   z-index:320;
   border:1px solid rgba(207,174,90,0.34);
-  background:rgba(4,18,11,0.62);
+  background:rgba(4,16,24,0.68);
   color:var(--gold-strong);
   cursor:pointer;
   -webkit-tap-highlight-color:transparent;
 }
 
-.lightbox-close{
+.viewer-close{
   top:calc(14px + var(--safe-top));
-  right:14px;
+  right:calc(14px + var(--safe-right));
   width:44px;
   height:44px;
   border-radius:999px;
@@ -580,8 +625,8 @@ h2{
   line-height:1;
 }
 
-.lightbox-prev,
-.lightbox-next{
+.viewer-prev,
+.viewer-next{
   top:50%;
   transform:translateY(-50%);
   width:44px;
@@ -591,40 +636,55 @@ h2{
   line-height:1;
 }
 
-.lightbox-prev{
-  left:12px;
+.viewer-prev{left:12px}
+.viewer-next{right:12px}
+
+.viewer-caption{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:calc(18px + var(--safe-bottom));
+  padding:0 62px;
+  text-align:center;
+  pointer-events:none;
 }
 
-.lightbox-next{
-  right:12px;
+.viewer-title{
+  color:var(--gold-strong);
+  font-size:15px;
+  line-height:1.5;
+  margin-bottom:4px;
 }
 
-.lightbox-btn:active{
-  transform:scale(0.98);
+.viewer-meta{
+  color:var(--text-soft);
+  font-size:12px;
+  line-height:1.55;
 }
 
-.lightbox-prev:active,
-.lightbox-next:active{
-  transform:translateY(-50%) scale(0.98);
-}
-
-@media (min-width:780px){
-  .works-grid{
-    gap:34px;
+@media (min-width:720px){
+  .w-grid{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:18px;
   }
+}
 
-  .section-box{
-    max-width:760px;
+@media (min-width:1000px){
+  .w-grid{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:20px;
   }
 }
 
 @media (max-width:640px){
-  :root{
-    --header-bar:74px;
+  :root{--header-bar:74px}
+
+  .header{
+    padding-left:14px;
+    padding-right:14px;
   }
 
   .menu-btn{
-    left:14px;
     width:42px;
     height:42px;
   }
@@ -640,7 +700,6 @@ h2{
   }
 
   .lang{
-    right:12px;
     gap:5px;
   }
 
@@ -651,8 +710,8 @@ h2{
     padding:0 7px;
   }
 
-  .view{
-    padding:calc(var(--header-height) + 44px) 18px calc(70px + var(--safe-bottom));
+  main{
+    padding:14px 14px calc(28px + var(--safe-bottom));
   }
 
   .hero-title{
@@ -676,52 +735,55 @@ h2{
   }
 
   .section-box{
-    padding:28px 18px;
+    padding:30px 18px;
   }
 
-  .works-grid{
-    gap:24px;
+  #works{
+    padding:16px;
   }
 
-  .work-caption{
-    padding:15px 15px 0;
+  .w-grid{
+    grid-template-columns:1fr;
+    gap:18px;
   }
 
-  .work-title{
+  .w-card{
+    border-radius:16px;
+  }
+
+  .w-meta{
+    padding:12px 12px 18px;
+  }
+
+  .w-title{
     font-size:15px;
+    line-height:1.35;
   }
 
-  .work-meta{
-    font-size:12px;
+  .w-sub{
+    font-size:14px;
+    line-height:1.55;
   }
 
-  .lightbox-img{
-    max-width:96vw;
-    max-height:76dvh;
+  .viewer-img{
+    max-width:94vw;
+    max-height:78dvh;
   }
 
-  .lightbox-caption{
-    bottom:calc(16px + var(--safe-bottom));
+  .viewer-caption{
     padding:0 48px;
   }
 
-  .lightbox-title{
+  .viewer-title{
     font-size:13px;
   }
 
-  .lightbox-meta{
+  .viewer-meta{
     font-size:11px;
-  }
-
-  .lightbox-prev,
-  .lightbox-next{
-    width:38px;
-    height:52px;
-    font-size:26px;
   }
 }
 
-@media (prefers-reduced-motion: reduce){
+@media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   *,
   *::before,
@@ -734,739 +796,591 @@ h2{
 </style>
 </head>
 
-<body>
+<body class="korean">
+<div class="site">
 
 <header class="header">
-  <div class="menu-btn" id="menuBtn" aria-label="menu" role="button" tabindex="0">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
+  <div class="header-inner">
+    <button class="menu-btn" id="menuBtn" type="button" aria-label="menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
 
-  <a href="#" class="logo" onclick="openHome(); return false;">
-    김영우<br>
-    <span>KIM YOUNG WOO</span>
-  </a>
+    <button class="logo" id="logoBtn" type="button" aria-label="Home">
+      김영우
+      <span>KIM YOUNG WOO</span>
+    </button>
 
-  <div class="lang">
-    <button type="button" data-lang="ko">KR</button>
-    <button type="button" data-lang="en">EN</button>
+    <div class="lang" aria-label="Language controls">
+      <button type="button" id="koBtn" class="active">KR</button>
+      <button type="button" id="enBtn">EN</button>
+    </div>
   </div>
 </header>
 
 <nav class="menu" id="menu" aria-hidden="true">
-  <a href="#" onclick="openHome(); return false;">HOME</a>
-  <a href="#" onclick="openWorks(); return false;">WORKS</a>
-  <a href="#" onclick="openResearch(); return false;">RESEARCH</a>
-  <a href="#" onclick="openAbout(); return false;">ABOUT</a>
-  <a href="#" onclick="openContact(); return false;">CONTACT</a>
+  <button type="button" data-view="home">HOME</button>
+  <button type="button" data-view="works">WORKS</button>
+  <button type="button" data-view="research">RESEARCH</button>
+  <button type="button" data-view="about">ABOUT</button>
+  <button type="button" data-view="contact">CONTACT</button>
 </nav>
 
-<div class="menu-overlay" id="menuOverlay" onclick="closeMenu()"></div>
+<div class="menu-overlay" id="menuOverlay"></div>
 
 <main>
-
-<section class="view active" id="home">
-  <div class="hero">
-    <div class="lang-ko">
-      <h1 class="hero-title">
-        김영우
-        <span>KIM YOUNG WOO</span>
-      </h1>
-      <div class="text" style="margin-top:34px;">
-        감각은 형태가 되기 전에 이미 존재한다.<br>
-        작업은 그것을 드러내는 과정이다.
-      </div>
-    </div>
-
-    <div class="lang-en">
-      <h1 class="hero-title">
-        KIM YOUNG WOO
-      </h1>
-      <div class="text" style="margin-top:34px;">
-        Sensation exists before it becomes form.<br>
-        The work is the process of revealing it.
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="view" id="works">
-  <div class="section-box">
-    <div class="lang-ko">
-      <h2>WORKS</h2>
-      <div class="text works-empty" data-empty="ko">
-        작품 준비 중
-      </div>
-    </div>
-
-    <div class="lang-en">
-      <h2>WORKS</h2>
-      <div class="text works-empty" data-empty="en">
-        Works coming soon
-      </div>
-    </div>
-
-    <div id="works-status" class="works-status"></div>
-    <div id="works-container" class="works-grid"></div>
-  </div>
-</section>
-
-<section class="view" id="research">
-  <div class="section-box">
-    <div class="lang-ko">
-      <h2>RESEARCH</h2>
-      <div class="text">
-        작품 이전의 사유<br>
-        감각 구조<br>
-        언어 이전의 상태<br>
-        존재에 대한 관심과 따뜻한 시선
-      </div>
-    </div>
-
-    <div class="lang-en">
-      <h2>RESEARCH</h2>
-      <div class="text">
-        Thought before the work<br>
-        Structures of sensation<br>
-        States before language<br>
-        A warm gaze toward existence
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="view" id="about">
-  <div class="section-box">
-    <div class="lang-ko">
-      <h2>ABOUT</h2>
-      <div class="text">
-        김영우는 베를린에서 약 12년간 활동한 작가로,<br>
-        베를린 자유대학교에서 연극사와 미술사를 전공하고 석사를 취득했다.<br><br>
-
-        이를 기반으로 작업을 전개하며,<br>
-        현재 한국에서 활동한다.<br><br>
-
-        그의 작업은 감각과 존재,<br>
-        그리고 형태 이전의 상태를 탐구한다.
-      </div>
-    </div>
-
-    <div class="lang-en">
-      <h2>ABOUT</h2>
-      <div class="text">
-        Kim Young Woo is an artist who worked in Berlin for approximately 12 years.<br>
-        She received her Master’s degree from Freie Universität Berlin,<br>
-        where she studied theatre history and art history.<br><br>
-
-        Based on this foundation, she develops her practice<br>
-        and is currently active in Korea.<br><br>
-
-        Her work explores sensation and existence,<br>
-        as well as states prior to form.
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="view" id="contact">
-  <div class="section-box contact-block">
-    <div class="lang-ko">
-      <h2>CONTACT</h2>
-      <div class="text">
-        Contact
-
-        <div class="contact-line">
-          Email →<br>
-          <a href="mailto:edelstein7@naver.com?subject=Kywoo.art Inquiry">
-            edelstein7@naver.com
-          </a>
+  <section class="view active" id="home">
+    <div class="hero">
+      <div class="ko">
+        <h1 class="hero-title">
+          김영우
+          <span>KIM YOUNG WOO</span>
+        </h1>
+        <div class="text" style="margin-top:34px;">
+          감각은 형태가 되기 전에 이미 존재한다.<br>
+          작업은 그것을 드러내는 과정이다.
         </div>
+      </div>
 
-        <div class="contact-line">
-          Instagram →<br>
-          <a href="https://instagram.com/youngwoo_1980" target="_blank" rel="noopener">
-            @youngwoo_1980
-          </a>
+      <div class="en">
+        <h1 class="hero-title">
+          KIM YOUNG WOO
+        </h1>
+        <div class="text" style="margin-top:34px;">
+          Sensation exists before it becomes form.<br>
+          The work is the process of revealing it.
         </div>
       </div>
     </div>
+  </section>
 
-    <div class="lang-en">
-      <h2>CONTACT</h2>
-      <div class="text">
-        Contact
+  <section class="view" id="works">
+    <div class="works-head">
+      <div class="ko">
+        <h2>WORKS</h2>
+        <div class="works-note">작품 카드가 펼쳐지는 아카이브 레이어</div>
+      </div>
+      <div class="en">
+        <h2>WORKS</h2>
+        <div class="works-note">An expanded artwork archive layer</div>
+      </div>
+    </div>
 
-        <div class="contact-line">
-          Email →<br>
-          <a href="mailto:edelstein7@naver.com?subject=Kywoo.art Inquiry">
-            edelstein7@naver.com
-          </a>
+    <div class="works-stage">
+      <div id="worksGrid" class="w-grid"></div>
+      <div id="worksMessage" class="w-msg" style="display:none;"></div>
+    </div>
+  </section>
+
+  <section class="view" id="research">
+    <div class="section-box">
+      <div class="ko">
+        <h2>RESEARCH</h2>
+        <div class="text">
+          작품 이전의 사유<br>
+          감각 구조<br>
+          언어 이전의 상태<br>
+          존재에 대한 관심과 따뜻한 시선
         </div>
+      </div>
 
-        <div class="contact-line">
-          Instagram →<br>
-          <a href="https://instagram.com/youngwoo_1980" target="_blank" rel="noopener">
-            @youngwoo_1980
-          </a>
+      <div class="en">
+        <h2>RESEARCH</h2>
+        <div class="text">
+          Thought before the work<br>
+          Structures of sensation<br>
+          States before language<br>
+          A warm gaze toward existence
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
+  <section class="view" id="about">
+    <div class="section-box">
+      <div class="ko">
+        <h2>ABOUT</h2>
+        <div class="text">
+          김영우는 베를린에서 약 12년간 활동한 작가로,<br>
+          베를린 자유대학교에서 연극사와 미술사를 전공하고 석사를 취득했다.<br><br>
+
+          이를 기반으로 작업을 전개하며,<br>
+          현재 한국에서 활동한다.<br><br>
+
+          그의 작업은 감각과 존재,<br>
+          그리고 형태 이전의 상태를 탐구한다.
+        </div>
+      </div>
+
+      <div class="en">
+        <h2>ABOUT</h2>
+        <div class="text">
+          Kim Young Woo is an artist who worked in Berlin for approximately 12 years.<br>
+          She received her Master’s degree from Freie Universität Berlin,<br>
+          where she studied theatre history and art history.<br><br>
+
+          Based on this foundation, she develops her practice<br>
+          and is currently active in Korea.<br><br>
+
+          Her work explores sensation and existence,<br>
+          as well as states prior to form.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="contact">
+    <div class="section-box">
+      <div class="ko">
+        <h2>CONTACT</h2>
+        <div class="text">
+          Contact
+
+          <div class="contact-line">
+            Email →<br>
+            <a href="mailto:edelstein7@naver.com?subject=Kywoo.art Inquiry">edelstein7@naver.com</a>
+          </div>
+
+          <div class="contact-line">
+            Instagram →<br>
+            <a href="https://instagram.com/youngwoo_1980" target="_blank" rel="noopener">@youngwoo_1980</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="en">
+        <h2>CONTACT</h2>
+        <div class="text">
+          Contact
+
+          <div class="contact-line">
+            Email →<br>
+            <a href="mailto:edelstein7@naver.com?subject=Kywoo.art Inquiry">edelstein7@naver.com</a>
+          </div>
+
+          <div class="contact-line">
+            Instagram →<br>
+            <a href="https://instagram.com/youngwoo_1980" target="_blank" rel="noopener">@youngwoo_1980</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </main>
 
-<div class="lightbox" id="lightbox" aria-hidden="true">
-  <button type="button" class="lightbox-btn lightbox-close" id="lightboxClose" aria-label="Close">×</button>
-  <button type="button" class="lightbox-btn lightbox-prev" id="lightboxPrev" aria-label="Previous">‹</button>
-  <button type="button" class="lightbox-btn lightbox-next" id="lightboxNext" aria-label="Next">›</button>
+<div class="viewer" id="viewer" aria-hidden="true">
+  <button type="button" class="viewer-close" id="viewerClose" aria-label="Close">×</button>
+  <button type="button" class="viewer-prev" id="viewerPrev" aria-label="Previous">‹</button>
+  <button type="button" class="viewer-next" id="viewerNext" aria-label="Next">›</button>
 
-  <div class="lightbox-stage" id="lightboxStage">
-    <img id="lightboxImg" class="lightbox-img" src="" alt="">
+  <div class="viewer-stage" id="viewerStage">
+    <img id="viewerImg" class="viewer-img" draggable="false" alt="">
   </div>
 
-  <div class="lightbox-caption">
-    <div class="lightbox-title" id="lightboxTitle"></div>
-    <div class="lightbox-meta" id="lightboxMeta"></div>
+  <div class="viewer-caption">
+    <div class="viewer-title" id="viewerTitle"></div>
+    <div class="viewer-meta" id="viewerMeta"></div>
   </div>
 </div>
 
+</div>
+
 <script>
-const menu = document.getElementById('menu');
-const menuOverlay = document.getElementById('menuOverlay');
-const menuBtn = document.getElementById('menuBtn');
-const views = document.querySelectorAll('.view');
-const langBtns = document.querySelectorAll('.lang button');
+(() => {
+  'use strict';
 
-const worksContainer = document.getElementById('works-container');
-const worksStatus = document.getElementById('works-status');
-const worksEmptyNodes = document.querySelectorAll('.works-empty');
+  if (window.__KYWOO_BOOTED__) return;
+  window.__KYWOO_BOOTED__ = true;
 
-const lightbox = document.getElementById('lightbox');
-const lightboxStage = document.getElementById('lightboxStage');
-const lightboxImg = document.getElementById('lightboxImg');
-const lightboxTitle = document.getElementById('lightboxTitle');
-const lightboxMeta = document.getElementById('lightboxMeta');
-const lightboxClose = document.getElementById('lightboxClose');
-const lightboxPrev = document.getElementById('lightboxPrev');
-const lightboxNext = document.getElementById('lightboxNext');
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
 
-let currentLang = localStorage.getItem('kywoo_lang') === 'en' ? 'en' : 'ko';
-let worksData = [];
-let currentWorkIndex = 0;
+  const menu = $('#menu');
+  const menuOverlay = $('#menuOverlay');
+  const menuBtn = $('#menuBtn');
+  const logoBtn = $('#logoBtn');
+  const koBtn = $('#koBtn');
+  const enBtn = $('#enBtn');
+  const views = $$('.view');
 
-let zoomScale = 1;
-let translateX = 0;
-let translateY = 0;
-let dragStartX = 0;
-let dragStartY = 0;
-let startTranslateX = 0;
-let startTranslateY = 0;
-let isDragging = false;
-let lastTapTime = 0;
-let touchStartX = 0;
-let touchStartY = 0;
-let pinchStartDistance = 0;
-let pinchStartScale = 1;
+  const worksGrid = $('#worksGrid');
+  const worksMessage = $('#worksMessage');
 
-function lockBodyScroll(type){
-  if(type === 'lightbox'){
-    document.body.classList.add('lightbox-open');
-  }else{
+  const viewer = $('#viewer');
+  const viewerStage = $('#viewerStage');
+  const viewerImg = $('#viewerImg');
+  const viewerClose = $('#viewerClose');
+  const viewerPrev = $('#viewerPrev');
+  const viewerNext = $('#viewerNext');
+  const viewerTitle = $('#viewerTitle');
+  const viewerMeta = $('#viewerMeta');
+
+  let currentLang = localStorage.getItem('kywoo_lang') === 'en' ? 'en' : 'ko';
+  let worksData = [];
+  let viewerIndex = 0;
+
+  let scale = 1;
+  let tx = 0;
+  let ty = 0;
+  let dragStartX = 0;
+  let dragStartY = 0;
+  let startTx = 0;
+  let startTy = 0;
+  let isDragging = false;
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let pinchStartDistance = 0;
+  let pinchStartScale = 1;
+  let lastTap = 0;
+
+  function escapeHTML(v){
+    return String(v ?? '')
+      .replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;')
+      .replace(/'/g,'&#039;');
+  }
+
+  function openMenu(){
+    menu.classList.add('open');
+    menuOverlay.classList.add('show');
+    menu.setAttribute('aria-hidden','false');
     document.body.classList.add('menu-open');
   }
-}
 
-function unlockBodyScroll(type){
-  if(type === 'lightbox'){
-    document.body.classList.remove('lightbox-open');
-  }else{
+  function closeMenu(){
+    menu.classList.remove('open');
+    menuOverlay.classList.remove('show');
+    menu.setAttribute('aria-hidden','true');
     document.body.classList.remove('menu-open');
   }
-}
 
-function openMenu(){
-  menu.classList.add('open');
-  menuOverlay.classList.add('show');
-  menu.setAttribute('aria-hidden','false');
-  lockBodyScroll('menu');
-}
+  function toggleMenu(){
+    if(menu.classList.contains('open')) closeMenu();
+    else openMenu();
+  }
 
-function closeMenu(){
-  menu.classList.remove('open');
-  menuOverlay.classList.remove('show');
-  menu.setAttribute('aria-hidden','true');
-  unlockBodyScroll('menu');
-}
-
-function toggleMenu(){
-  if(menu.classList.contains('open')){
+  function openView(id){
+    views.forEach(v => v.classList.toggle('active', v.id === id));
     closeMenu();
-  }else{
-    openMenu();
-  }
-}
-
-function clearViews(){
-  views.forEach(view => view.classList.remove('active'));
-  window.scrollTo({top:0, behavior:'auto'});
-}
-
-function openHome(){
-  clearViews();
-  document.getElementById('home').classList.add('active');
-  closeMenu();
-}
-
-function openWorks(){
-  clearViews();
-  document.getElementById('works').classList.add('active');
-  closeMenu();
-}
-
-function openResearch(){
-  clearViews();
-  document.getElementById('research').classList.add('active');
-  closeMenu();
-}
-
-function openAbout(){
-  clearViews();
-  document.getElementById('about').classList.add('active');
-  closeMenu();
-}
-
-function openContact(){
-  clearViews();
-  document.getElementById('contact').classList.add('active');
-  closeMenu();
-}
-
-function setLang(lang){
-  currentLang = lang === 'en' ? 'en' : 'ko';
-
-  document.querySelectorAll('.lang-ko').forEach(el => {
-    el.classList.toggle('active', currentLang === 'ko');
-  });
-
-  document.querySelectorAll('.lang-en').forEach(el => {
-    el.classList.toggle('active', currentLang === 'en');
-  });
-
-  langBtns.forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.lang === currentLang);
-  });
-
-  document.documentElement.lang = currentLang === 'ko' ? 'ko' : 'en';
-  localStorage.setItem('kywoo_lang', currentLang);
-
-  renderWorks();
-  updateLightboxCaption();
-}
-
-function getWorkTitle(work){
-  if(!work) return '';
-  if(currentLang === 'en'){
-    return work.title_en || work.title_kr || '';
-  }
-  return work.title_kr || work.title_en || '';
-}
-
-function getWorkMedium(work){
-  if(!work) return '';
-  if(currentLang === 'en'){
-    return work.medium_en || work.medium_kr || work.material_en || work.material_kr || '';
-  }
-  return work.medium_kr || work.medium_en || work.material_kr || work.material_en || '';
-}
-
-function getWorkSize(work){
-  if(!work) return '';
-  if(currentLang === 'en'){
-    return work.size_en || work.size_kr || '';
-  }
-  return work.size_kr || work.size_en || '';
-}
-
-function getWorkYear(work){
-  if(!work) return '';
-  return work.year || '';
-}
-
-function escapeHTML(value){
-  return String(value || '')
-    .replaceAll('&','&amp;')
-    .replaceAll('<','&lt;')
-    .replaceAll('>','&gt;')
-    .replaceAll('"','&quot;')
-    .replaceAll("'","&#039;");
-}
-
-function hideWorksEmpty(){
-  worksEmptyNodes.forEach(node => {
-    node.style.display = 'none';
-  });
-}
-
-function showWorksEmpty(){
-  worksEmptyNodes.forEach(node => {
-    node.style.display = '';
-  });
-}
-
-function setWorksStatus(message){
-  worksStatus.textContent = message || '';
-}
-
-function renderWorks(){
-  if(!worksContainer) return;
-
-  worksContainer.innerHTML = '';
-
-  if(!Array.isArray(worksData) || worksData.length === 0){
-    showWorksEmpty();
-    return;
+    window.scrollTo({top:0, left:0, behavior:'auto'});
+    if(id === 'works' && worksData.length === 0) loadWorks();
   }
 
-  hideWorksEmpty();
-
-  const list = worksData.slice(0, 3);
-
-  list.forEach((work, index) => {
-    const title = getWorkTitle(work);
-    const medium = getWorkMedium(work);
-    const size = getWorkSize(work);
-    const year = getWorkYear(work);
-    const image = work.image || '';
-    const alt = title || 'Kim Young Woo artwork';
-
-    const card = document.createElement('article');
-    card.className = 'work-card';
-    card.tabIndex = 0;
-    card.setAttribute('role','button');
-    card.setAttribute('aria-label', alt);
-    card.dataset.index = String(index);
-
-    card.innerHTML = `
-      <div class="work-image-wrap">
-        <img src="${escapeHTML(image)}" alt="${escapeHTML(alt)}" loading="lazy" decoding="async">
-      </div>
-      <div class="work-caption">
-        <div class="work-title">${escapeHTML(title)}</div>
-        <div class="work-meta">
-          ${escapeHTML(medium)}<br>
-          ${escapeHTML(size)}<br>
-          ${escapeHTML(year)}
-        </div>
-      </div>
-    `;
-
-    card.addEventListener('click', () => openLightbox(index));
-    card.addEventListener('keydown', e => {
-      if(e.key === 'Enter' || e.key === ' '){
-        e.preventDefault();
-        openLightbox(index);
-      }
-    });
-
-    worksContainer.appendChild(card);
-  });
-}
-
-async function loadWorks(){
-  try{
-    setWorksStatus('');
-    const response = await fetch('data/works.json', { cache:'no-store' });
-
-    if(!response.ok){
-      throw new Error('works json unavailable');
-    }
-
-    const data = await response.json();
-    const list = Array.isArray(data) ? data : (data.works || []);
-
-    worksData = Array.isArray(list) ? list.slice(0, 3) : [];
-
-    if(worksData.length > 0){
-      setWorksStatus('');
-      hideWorksEmpty();
-    }else{
-      showWorksEmpty();
-    }
-
+  function setLang(lang){
+    currentLang = lang === 'en' ? 'en' : 'ko';
+    document.body.classList.toggle('english', currentLang === 'en');
+    document.body.classList.toggle('korean', currentLang === 'ko');
+    document.documentElement.lang = currentLang === 'en' ? 'en' : 'ko';
+    koBtn.classList.toggle('active', currentLang === 'ko');
+    enBtn.classList.toggle('active', currentLang === 'en');
+    localStorage.setItem('kywoo_lang', currentLang);
     renderWorks();
-  }catch(error){
-    worksData = [];
-    worksContainer.innerHTML = '';
-    hideWorksEmpty();
-    setWorksStatus(currentLang === 'ko' ? 'Works unavailable' : 'Works unavailable');
-  }
-}
-
-function resetZoom(){
-  zoomScale = 1;
-  translateX = 0;
-  translateY = 0;
-  updateImageTransform();
-}
-
-function updateImageTransform(){
-  lightboxImg.style.transform = `translate3d(${translateX}px, ${translateY}px, 0) scale(${zoomScale})`;
-}
-
-function updateLightboxCaption(){
-  if(!lightbox.classList.contains('open')) return;
-
-  const work = worksData[currentWorkIndex];
-  if(!work) return;
-
-  const title = getWorkTitle(work);
-  const medium = getWorkMedium(work);
-  const size = getWorkSize(work);
-  const year = getWorkYear(work);
-
-  lightboxTitle.textContent = title || '';
-  lightboxMeta.innerHTML = `${escapeHTML(medium)}<br>${escapeHTML(size)}<br>${escapeHTML(year)}`;
-}
-
-function openLightbox(index){
-  if(!worksData.length) return;
-
-  currentWorkIndex = Math.max(0, Math.min(index, worksData.length - 1));
-  const work = worksData[currentWorkIndex];
-  const zoom = work.zoom || work.image || '';
-  const title = getWorkTitle(work);
-
-  resetZoom();
-
-  lightboxImg.src = zoom;
-  lightboxImg.alt = title || 'Kim Young Woo artwork';
-
-  updateLightboxCaption();
-
-  lightbox.classList.add('open');
-  lightbox.setAttribute('aria-hidden','false');
-  lockBodyScroll('lightbox');
-}
-
-function closeLightbox(){
-  lightbox.classList.remove('open');
-  lightbox.setAttribute('aria-hidden','true');
-  lightboxImg.src = '';
-  resetZoom();
-  unlockBodyScroll('lightbox');
-}
-
-function showWork(direction){
-  if(!worksData.length) return;
-
-  currentWorkIndex += direction;
-
-  if(currentWorkIndex < 0){
-    currentWorkIndex = worksData.length - 1;
+    updateViewerCaption();
   }
 
-  if(currentWorkIndex >= worksData.length){
-    currentWorkIndex = 0;
+  function getTitle(w){
+    return currentLang === 'en'
+      ? (w.title_en || w.title_kr || '')
+      : (w.title_kr || w.title_en || '');
   }
 
-  const work = worksData[currentWorkIndex];
-  const zoom = work.zoom || work.image || '';
-  const title = getWorkTitle(work);
-
-  resetZoom();
-
-  lightboxImg.src = zoom;
-  lightboxImg.alt = title || 'Kim Young Woo artwork';
-
-  updateLightboxCaption();
-}
-
-function getDistance(touchA, touchB){
-  const dx = touchA.clientX - touchB.clientX;
-  const dy = touchA.clientY - touchB.clientY;
-  return Math.sqrt(dx * dx + dy * dy);
-}
-
-function startDrag(clientX, clientY){
-  isDragging = true;
-  dragStartX = clientX;
-  dragStartY = clientY;
-  startTranslateX = translateX;
-  startTranslateY = translateY;
-}
-
-function moveDrag(clientX, clientY){
-  if(!isDragging) return;
-
-  const dx = clientX - dragStartX;
-  const dy = clientY - dragStartY;
-
-  if(zoomScale > 1){
-    translateX = startTranslateX + dx;
-    translateY = startTranslateY + dy;
-    updateImageTransform();
+  function getMedium(w){
+    if(currentLang === 'en') return w.medium_en || w.material_en || w.medium_kr || w.material_kr || '';
+    return w.medium_kr || w.material_kr || w.medium_en || w.material_en || '';
   }
-}
 
-function endDrag(){
-  isDragging = false;
-}
-
-lightboxClose.addEventListener('click', closeLightbox);
-lightboxPrev.addEventListener('click', () => showWork(-1));
-lightboxNext.addEventListener('click', () => showWork(1));
-
-lightbox.addEventListener('click', e => {
-  if(e.target === lightbox || e.target === lightboxStage){
-    closeLightbox();
+  function getSize(w){
+    return currentLang === 'en'
+      ? (w.size_en || w.size_kr || '')
+      : (w.size_kr || w.size_en || '');
   }
-});
 
-lightboxImg.addEventListener('dblclick', e => {
-  e.preventDefault();
-
-  if(zoomScale > 1){
-    resetZoom();
-  }else{
-    zoomScale = 2.2;
-    translateX = 0;
-    translateY = 0;
-    updateImageTransform();
+  function getYear(w){
+    return w.year || '';
   }
-});
 
-lightboxStage.addEventListener('mousedown', e => {
-  if(!lightbox.classList.contains('open')) return;
-  startDrag(e.clientX, e.clientY);
-});
+  function normalizeWorks(data){
+    const list = Array.isArray(data) ? data : (data.works || []);
+    return Array.isArray(list) ? list.slice(0, 3) : [];
+  }
 
-window.addEventListener('mousemove', e => {
-  moveDrag(e.clientX, e.clientY);
-});
+  function showWorksMessage(kr, en){
+    worksMessage.style.display = 'block';
+    worksMessage.innerHTML = `
+      <div class="ko">${escapeHTML(kr)}</div>
+      <div class="en">${escapeHTML(en)}</div>
+    `;
+  }
 
-window.addEventListener('mouseup', endDrag);
+  function hideWorksMessage(){
+    worksMessage.style.display = 'none';
+    worksMessage.innerHTML = '';
+  }
 
-lightboxStage.addEventListener('touchstart', e => {
-  if(!lightbox.classList.contains('open')) return;
+  function renderWorks(){
+    if(!worksGrid) return;
+    worksGrid.innerHTML = '';
 
-  if(e.touches.length === 1){
-    touchStartX = e.touches[0].clientX;
-    touchStartY = e.touches[0].clientY;
-    startDrag(touchStartX, touchStartY);
-
-    const now = Date.now();
-    if(now - lastTapTime < 280){
-      e.preventDefault();
-      if(zoomScale > 1){
-        resetZoom();
-      }else{
-        zoomScale = 2.2;
-        translateX = 0;
-        translateY = 0;
-        updateImageTransform();
-      }
+    if(!worksData.length){
+      showWorksMessage('작품 준비 중', 'Works coming soon');
+      return;
     }
-    lastTapTime = now;
+
+    hideWorksMessage();
+
+    worksData.forEach((w, index) => {
+      const title = getTitle(w);
+      const medium = getMedium(w);
+      const size = getSize(w);
+      const year = getYear(w);
+      const image = w.image || '';
+      const zoom = w.zoom || image;
+
+      const card = document.createElement('article');
+      card.className = 'w-card';
+      card.tabIndex = 0;
+      card.setAttribute('role','button');
+      card.setAttribute('aria-label', title || 'Artwork');
+      card.dataset.index = String(index);
+      card.dataset.zoom = zoom;
+
+      card.innerHTML = `
+        <img class="w-thumb" src="${escapeHTML(image)}" alt="${escapeHTML(title || 'Kim Young Woo artwork')}" loading="${index === 0 ? 'eager' : 'lazy'}" decoding="async">
+        <div class="w-meta">
+          <div class="w-title">${escapeHTML(title)}</div>
+          <div class="w-sub">${escapeHTML(medium)}${medium ? '<br>' : ''}${escapeHTML(size)}${size ? '<br>' : ''}${escapeHTML(year)}</div>
+        </div>
+      `;
+
+      card.addEventListener('click', () => openViewer(index));
+      card.addEventListener('keydown', e => {
+        if(e.key === 'Enter' || e.key === ' '){
+          e.preventDefault();
+          openViewer(index);
+        }
+      });
+
+      worksGrid.appendChild(card);
+    });
   }
 
-  if(e.touches.length === 2){
+  async function loadWorks(){
+    try{
+      hideWorksMessage();
+      const res = await fetch('data/works.json', { cache:'no-store' });
+      if(!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      worksData = normalizeWorks(data);
+      renderWorks();
+    }catch(err){
+      worksData = [];
+      worksGrid.innerHTML = '';
+      showWorksMessage('Works unavailable', 'Works unavailable');
+    }
+  }
+
+  function resetTransform(){
+    scale = 1;
+    tx = 0;
+    ty = 0;
+    applyTransform();
+  }
+
+  function applyTransform(){
+    viewerImg.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(${scale})`;
+  }
+
+  function updateViewerCaption(){
+    if(!viewer.classList.contains('active')) return;
+    const w = worksData[viewerIndex];
+    if(!w) return;
+    const title = getTitle(w);
+    const medium = getMedium(w);
+    const size = getSize(w);
+    const year = getYear(w);
+    viewerTitle.textContent = title;
+    viewerMeta.innerHTML = `${escapeHTML(medium)}<br>${escapeHTML(size)}<br>${escapeHTML(year)}`;
+  }
+
+  function openViewer(index){
+    if(!worksData.length) return;
+    viewerIndex = Math.max(0, Math.min(index, worksData.length - 1));
+    const w = worksData[viewerIndex];
+    resetTransform();
+    viewerImg.src = w.zoom || w.image || '';
+    viewerImg.alt = getTitle(w) || 'Kim Young Woo artwork';
+    updateViewerCaption();
+    viewer.classList.add('active');
+    viewer.setAttribute('aria-hidden','false');
+    document.body.classList.add('viewer-open');
+  }
+
+  function closeViewer(){
+    viewer.classList.remove('active');
+    viewer.setAttribute('aria-hidden','true');
+    viewerImg.removeAttribute('src');
+    viewerImg.alt = '';
+    resetTransform();
+    document.body.classList.remove('viewer-open');
+  }
+
+  function showViewer(delta){
+    if(!worksData.length) return;
+    viewerIndex += delta;
+    if(viewerIndex < 0) viewerIndex = worksData.length - 1;
+    if(viewerIndex >= worksData.length) viewerIndex = 0;
+    const w = worksData[viewerIndex];
+    resetTransform();
+    viewerImg.src = w.zoom || w.image || '';
+    viewerImg.alt = getTitle(w) || 'Kim Young Woo artwork';
+    updateViewerCaption();
+  }
+
+  function dist(a,b){
+    const dx = a.clientX - b.clientX;
+    const dy = a.clientY - b.clientY;
+    return Math.sqrt(dx * dx + dy * dy);
+  }
+
+  function startDrag(x,y){
+    isDragging = true;
+    dragStartX = x;
+    dragStartY = y;
+    startTx = tx;
+    startTy = ty;
+  }
+
+  function moveDrag(x,y){
+    if(!isDragging || scale <= 1) return;
+    tx = startTx + (x - dragStartX);
+    ty = startTy + (y - dragStartY);
+    applyTransform();
+  }
+
+  function endDrag(){
     isDragging = false;
-    pinchStartDistance = getDistance(e.touches[0], e.touches[1]);
-    pinchStartScale = zoomScale;
-  }
-},{passive:false});
-
-lightboxStage.addEventListener('touchmove', e => {
-  if(!lightbox.classList.contains('open')) return;
-
-  if(e.touches.length === 2){
-    e.preventDefault();
-    const currentDistance = getDistance(e.touches[0], e.touches[1]);
-    const nextScale = pinchStartScale * (currentDistance / Math.max(pinchStartDistance, 1));
-    zoomScale = Math.max(1, Math.min(nextScale, 4));
-    updateImageTransform();
-    return;
   }
 
-  if(e.touches.length === 1){
-    const currentX = e.touches[0].clientX;
-    const currentY = e.touches[0].clientY;
-
-    if(zoomScale > 1){
-      e.preventDefault();
-      moveDrag(currentX, currentY);
+  function toggleZoom(){
+    if(scale > 1){
+      resetTransform();
+    }else{
+      scale = 2.2;
+      tx = 0;
+      ty = 0;
+      applyTransform();
     }
   }
-},{passive:false});
 
-lightboxStage.addEventListener('touchend', e => {
-  if(!lightbox.classList.contains('open')) return;
+  menuBtn.addEventListener('click', toggleMenu);
+  menuOverlay.addEventListener('click', closeMenu);
+  logoBtn.addEventListener('click', () => openView('home'));
 
-  if(e.touches.length === 0){
-    const endX = e.changedTouches[0].clientX;
-    const endY = e.changedTouches[0].clientY;
-    const dx = endX - touchStartX;
-    const dy = endY - touchStartY;
+  menu.addEventListener('click', e => {
+    const btn = e.target.closest('button[data-view]');
+    if(!btn) return;
+    openView(btn.dataset.view);
+  });
 
-    if(zoomScale <= 1 && Math.abs(dx) > 54 && Math.abs(dx) > Math.abs(dy) * 1.4){
-      if(dx < 0){
-        showWork(1);
-      }else{
-        showWork(-1);
+  koBtn.addEventListener('click', () => setLang('ko'));
+  enBtn.addEventListener('click', () => setLang('en'));
+
+  viewerClose.addEventListener('click', closeViewer);
+  viewerPrev.addEventListener('click', () => showViewer(-1));
+  viewerNext.addEventListener('click', () => showViewer(1));
+
+  viewer.addEventListener('click', e => {
+    if(e.target === viewer || e.target === viewerStage) closeViewer();
+  });
+
+  viewerStage.addEventListener('mousedown', e => startDrag(e.clientX, e.clientY));
+  window.addEventListener('mousemove', e => moveDrag(e.clientX, e.clientY));
+  window.addEventListener('mouseup', endDrag);
+
+  viewerStage.addEventListener('dblclick', e => {
+    e.preventDefault();
+    toggleZoom();
+  });
+
+  viewerStage.addEventListener('touchstart', e => {
+    if(e.touches.length === 1){
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      startDrag(touchStartX, touchStartY);
+
+      const now = Date.now();
+      if(now - lastTap < 280){
+        e.preventDefault();
+        toggleZoom();
       }
+      lastTap = now;
+    }
+
+    if(e.touches.length === 2){
+      isDragging = false;
+      pinchStartDistance = dist(e.touches[0], e.touches[1]);
+      pinchStartScale = scale;
+    }
+  }, { passive:false });
+
+  viewerStage.addEventListener('touchmove', e => {
+    if(e.touches.length === 2){
+      e.preventDefault();
+      const d = dist(e.touches[0], e.touches[1]);
+      scale = Math.max(1, Math.min(pinchStartScale * (d / Math.max(pinchStartDistance, 1)), 4));
+      applyTransform();
+      return;
+    }
+
+    if(e.touches.length === 1){
+      const x = e.touches[0].clientX;
+      const y = e.touches[0].clientY;
+      if(scale > 1){
+        e.preventDefault();
+        moveDrag(x,y);
+      }
+    }
+  }, { passive:false });
+
+  viewerStage.addEventListener('touchend', e => {
+    if(e.touches.length !== 0) return;
+
+    const x = e.changedTouches[0].clientX;
+    const y = e.changedTouches[0].clientY;
+    const dx = x - touchStartX;
+    const dy = y - touchStartY;
+
+    if(scale <= 1 && Math.abs(dx) > 54 && Math.abs(dx) > Math.abs(dy) * 1.4){
+      if(dx < 0) showViewer(1);
+      else showViewer(-1);
     }
 
     endDrag();
-  }
-});
+  }, { passive:false });
 
-document.addEventListener('keydown', e => {
-  if(lightbox.classList.contains('open')){
-    if(e.key === 'Escape'){
-      closeLightbox();
+  document.addEventListener('keydown', e => {
+    if(viewer.classList.contains('active')){
+      if(e.key === 'Escape') closeViewer();
+      if(e.key === 'ArrowLeft') showViewer(-1);
+      if(e.key === 'ArrowRight') showViewer(1);
+      return;
     }
 
-    if(e.key === 'ArrowLeft'){
-      showWork(-1);
-    }
+    if(e.key === 'Escape' && menu.classList.contains('open')) closeMenu();
+  });
 
-    if(e.key === 'ArrowRight'){
-      showWork(1);
-    }
+  window.openHome = () => openView('home');
+  window.openWorks = () => openView('works');
+  window.openResearch = () => openView('research');
+  window.openAbout = () => openView('about');
+  window.openContact = () => openView('contact');
 
-    return;
-  }
-
-  if(e.key === 'Escape' && menu.classList.contains('open')){
-    closeMenu();
-  }
-});
-
-langBtns.forEach(btn => {
-  btn.addEventListener('click', () => setLang(btn.dataset.lang));
-});
-
-menuBtn.addEventListener('click', toggleMenu);
-
-menuBtn.addEventListener('keydown', e => {
-  if(e.key === 'Enter' || e.key === ' '){
-    e.preventDefault();
-    toggleMenu();
-  }
-});
-
-window.openHome = openHome;
-window.openWorks = openWorks;
-window.openResearch = openResearch;
-window.openAbout = openAbout;
-window.openContact = openContact;
-window.closeMenu = closeMenu;
-window.toggleMenu = toggleMenu;
-
-setLang(currentLang);
-loadWorks();
+  setLang(currentLang);
+  loadWorks();
+})();
 </script>
 
 </body>

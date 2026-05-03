@@ -1,6 +1,43 @@
-[
-  {
-    "id": "KYWOO-001",
-    "image": "https://raw.githubusercontent.com/dungzakcestlavie/kywoo-images/main/works/standard/KYWOO-001.jpg"
-  }
-]
+{
+  "id": "artist-010",
+  "name_kr": "김영우",
+  "name_en": "Kim Young Woo",
+  "works": [
+    {
+      "id": "KYW-001",
+      "title_kr": "삶과 죽음",
+      "title_en": "Life and Death",
+      "medium_kr": "acrylic and oil on canvas",
+      "medium_en": "acrylic and oil on canvas",
+      "size_kr": "91 × 116.8 cm",
+      "size_en": "91 × 116.8 cm",
+      "year": "2025",
+      "image": "https://raw.githubusercontent.com/dungzakcestlavie/kywoo-images/main/works/standard/KYW-001.jpg",
+      "zoom": "https://raw.githubusercontent.com/dungzakcestlavie/kywoo-images/main/works/zoom/KYW-001.jpg"
+    },
+    {
+      "id": "KYW-002",
+      "title_kr": "살아있을 때 다시 만나요",
+      "title_en": "See You While We Are Alive",
+      "medium_kr": "acrylic and Korean ink on canvas",
+      "medium_en": "acrylic and Korean ink on canvas",
+      "size_kr": "38 × 38 cm",
+      "size_en": "38 × 38 cm",
+      "year": "2025",
+      "image": "https://raw.githubusercontent.com/dungzakcestlavie/kywoo-images/main/works/standard/KYW-002.jpg",
+      "zoom": "https://raw.githubusercontent.com/dungzakcestlavie/kywoo-images/main/works/zoom/KYW-002.jpg"
+    },
+    {
+      "id": "KYW-003",
+      "title_kr": "이성의 숲",
+      "title_en": "Forest of Reason",
+      "medium_kr": "acrylic and oil pastel on canvas",
+      "medium_en": "acrylic and oil pastel on canvas",
+      "size_kr": "41.0 × 31.8 cm",
+      "size_en": "41.0 × 31.8 cm",
+      "year": "2025",
+      "image": "https://raw.githubusercontent.com/dungzakcestlavie/kywoo-images/main/works/standard/KYW-003.jpg",
+      "zoom": "https://raw.githubusercontent.com/dungzakcestlavie/kywoo-images/main/works/zoom/KYW-003.jpg"
+    }
+  ]
+}

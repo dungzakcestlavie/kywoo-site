@@ -553,36 +553,42 @@ h2{
   inset:0;
   z-index:300;
   display:none;
-  align-items:center;
-  justify-content:center;
+  align-items:flex-start;
+  justify-content:flex-start;
   background:rgba(5,14,13,0.94);
   overflow:auto;
   -webkit-overflow-scrolling:touch;
-  touch-action:manipulation;
   overscroll-behavior:contain;
+  touch-action:pan-x pan-y;
+  filter:none !important;
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
 }
 
 .viewer.active{display:flex}
 
 .viewer-stage{
-  width:100%;
-  height:100%;
+  min-width:100%;
+  min-height:100%;
+  width:max-content;
+  height:max-content;
   display:flex;
   align-items:center;
   justify-content:center;
-  overflow:auto;
+  overflow:visible;
   -webkit-overflow-scrolling:touch;
-  touch-action:manipulation;
+  touch-action:pan-x pan-y;
   user-select:none;
 }
 
 .viewer-img{
-  width:100%;
-  height:auto;
+  display:block;
+  width:auto;
   max-width:92vw;
-  max-height:86dvh;
+  max-height:82vh;
+  height:auto;
   object-fit:contain;
-  transition:none;
+  transition:none !important;
   image-rendering:auto;
   user-select:none;
   -webkit-user-select:none;
@@ -591,11 +597,15 @@ h2{
   filter:none !important;
   backdrop-filter:none !important;
   -webkit-backdrop-filter:none !important;
+  cursor:zoom-in;
 }
 
 
 .viewer-img.zoomed{
-  transform:translate(0px, 0px) scale(2);
+  width:200vw;
+  max-width:none;
+  max-height:none;
+  height:auto;
 }
 
 .viewer,
@@ -746,10 +756,12 @@ h2{
     max-width:94vw;
     max-height:78dvh;
   }
-
   .viewer-img.zoomed{
-  transform:translate(0px, 0px) scale(2);
-}
+    width:200vw;
+    max-width:none;
+    max-height:none;
+    height:auto;
+  }
 
   .viewer-prev,
   .viewer-next{
@@ -767,6 +779,7 @@ h2{
     animation-iteration-count:1 !important;
   }
 }
+
 
 /* MOBILE PAGE PINCH-ZOOM LOCK — FINAL */
 html,
@@ -789,16 +802,7 @@ a{
   touch-action:manipulation;
 }
 
-/* Lightbox / Viewer exception: keep artwork zoom and scroll behavior alive */
-.viewer,
-.viewer *,
-.lightbox,
-.lightbox *{
-  touch-action:auto;
-}
-
-
-/* WORKS ZOOM ISOLATION FIX — FINAL */
+/* WORKS LIGHTBOX iOS BLACKOUT + WIDTH ZOOM RESTORE — FINAL */
 body.zoomed,
 main.zoomed,
 .page.zoomed,
@@ -810,7 +814,6 @@ main.zoomed,
 .work-card img.zoomed,
 .work-thumb.zoomed,
 .works img.zoomed{
-  transform:none !important;
   scale:1 !important;
   zoom:1 !important;
 }
@@ -822,7 +825,6 @@ main.zoomed,
 .w-thumb,
 .works img,
 #works img{
-  transform:none !important;
   scale:1 !important;
   max-width:100%;
   height:auto;
@@ -831,73 +833,76 @@ main.zoomed,
 
 body.viewer-open{
   overflow:hidden;
-  touch-action:none;
 }
 
 .viewer{
-  position:fixed;
-  inset:0;
-  z-index:9999;
-  overflow:hidden !important;
-  touch-action:none !important;
-}
-
-.viewer-stage{
-  width:100%;
-  height:100%;
-  overflow:hidden !important;
-  touch-action:none !important;
-}
-
-.viewer-img{
-  max-width:96vw;
-  max-height:88vh;
-  object-fit:contain;
-  transform-origin:center center;
-  touch-action:none !important;
-  user-select:none;
-  -webkit-user-drag:none;
-}
-
-.viewer,
-.viewer *{
-  touch-action:none;
-}
-
-
-/* WORKS LIGHTBOX FACEBOOK-STYLE DOUBLE CLICK RESTORE — FINAL OVERRIDE */
-.viewer{
-  overflow:hidden !important;
-  touch-action:none !important;
+  position:fixed !important;
+  inset:0 !important;
+  z-index:9999 !important;
+  display:none;
+  align-items:flex-start !important;
+  justify-content:flex-start !important;
+  overflow:auto !important;
+  -webkit-overflow-scrolling:touch !important;
   overscroll-behavior:contain !important;
+  touch-action:pan-x pan-y !important;
+  background:rgba(5,14,13,0.94) !important;
+  filter:none !important;
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
+}
+
+.viewer.active{
+  display:flex !important;
 }
 
 .viewer-stage{
-  overflow:hidden !important;
-  touch-action:none !important;
+  min-width:100% !important;
+  min-height:100% !important;
+  width:max-content !important;
+  height:max-content !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  overflow:visible !important;
+  -webkit-overflow-scrolling:touch !important;
+  touch-action:pan-x pan-y !important;
   user-select:none !important;
   -webkit-user-select:none !important;
   -webkit-tap-highlight-color:transparent !important;
 }
 
 .viewer-img{
-  transform:translate(0px, 0px) scale(1);
-  transform-origin:center center;
-  transition:transform 0.28s ease !important;
+  display:block !important;
+  width:auto !important;
+  max-width:92vw !important;
+  max-height:82vh !important;
+  height:auto !important;
+  object-fit:contain !important;
+  transition:none !important;
+  image-rendering:auto !important;
   user-select:none !important;
   -webkit-user-select:none !important;
   -webkit-user-drag:none !important;
-  touch-action:none !important;
+  touch-action:manipulation !important;
+  filter:none !important;
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
   cursor:zoom-in;
+}
+
+.viewer-img.zoomed{
+  width:200vw !important;
+  max-width:none !important;
+  max-height:none !important;
+  height:auto !important;
+  cursor:zoom-out;
 }
 
 .viewer-img.is-zoomed{
   cursor:zoom-out;
 }
 
-.viewer-img.zoomed{
-  transform:none !important;
-}
 
 </style>
 </head>
@@ -1120,31 +1125,10 @@ body.viewer-open{
   let worksData = [];
   let viewerIndex = 0;
 
-  const DEFAULT_VIEWER_SCALE = 2.5;
-
-  let zoomed = false;
-  let lastScale = DEFAULT_VIEWER_SCALE;
-  let lastOriginX = 50;
-  let lastOriginY = 50;
-  let lastTranslateX = 0;
-  let lastTranslateY = 0;
-  let hasLastZoomState = false;
-
-  let currentScale = 1;
-  let currentOriginX = 50;
-  let currentOriginY = 50;
-  let currentTranslateX = 0;
-  let currentTranslateY = 0;
-
-  let isDragging = false;
-  let dragStartX = 0;
-  let dragStartY = 0;
-  let dragBaseX = 0;
-  let dragBaseY = 0;
-
+  let lightboxZoomed = false;
+  let lastTapTime = 0;
   let touchStartX = 0;
   let touchStartY = 0;
-  let lastTapTime = 0;
 
   function escapeHTML(v){
     return String(v ?? '')
@@ -1290,124 +1274,47 @@ body.viewer-open{
     }
   }
 
-  function applyViewerTransform(){
-    viewerImg.style.transformOrigin = `${currentOriginX}% ${currentOriginY}%`;
-    viewerImg.style.transform = `translate(${currentTranslateX}px, ${currentTranslateY}px) scale(${currentScale})`;
-    viewerImg.classList.toggle('is-zoomed', zoomed);
-  }
 
-  function resetTransform(options = {}){
-    const clearMemory = options.clearMemory === true;
-
-    zoomed = false;
-    currentScale = 1;
-    currentOriginX = 50;
-    currentOriginY = 50;
-    currentTranslateX = 0;
-    currentTranslateY = 0;
-    isDragging = false;
-
-    if(clearMemory){
-      lastScale = DEFAULT_VIEWER_SCALE;
-      lastOriginX = 50;
-      lastOriginY = 50;
-      lastTranslateX = 0;
-      lastTranslateY = 0;
-      hasLastZoomState = false;
-    }
-
+  function resetViewerZoom(){
+    lightboxZoomed = false;
     viewerImg.classList.remove('zoomed');
-    applyViewerTransform();
+    viewerImg.classList.remove('is-zoomed');
+    viewer.scrollLeft = 0;
+    viewer.scrollTop = 0;
+    viewerStage.scrollLeft = 0;
+    viewerStage.scrollTop = 0;
   }
 
-  function getPointerOrigin(clientX, clientY){
-    const rect = viewerImg.getBoundingClientRect();
-    if(!rect.width || !rect.height){
-      return { x:50, y:50 };
-    }
-
-    const x = ((clientX - rect.left) / rect.width) * 100;
-    const y = ((clientY - rect.top) / rect.height) * 100;
-
+  function getPointInViewer(clientX, clientY){
+    const viewerRect = viewer.getBoundingClientRect();
     return {
-      x: Math.max(0, Math.min(100, x)),
-      y: Math.max(0, Math.min(100, y))
+      x: Math.max(0, clientX - viewerRect.left + viewer.scrollLeft),
+      y: Math.max(0, clientY - viewerRect.top + viewer.scrollTop)
     };
   }
 
-  function saveCurrentZoomState(){
-    lastScale = currentScale;
-    lastOriginX = currentOriginX;
-    lastOriginY = currentOriginY;
-    lastTranslateX = currentTranslateX;
-    lastTranslateY = currentTranslateY;
-    hasLastZoomState = true;
+  function zoomViewerAt(clientX, clientY){
+    const before = getPointInViewer(clientX, clientY);
+
+    viewerImg.classList.add('zoomed');
+    viewerImg.classList.add('is-zoomed');
+    lightboxZoomed = true;
+
+    requestAnimationFrame(() => {
+      const targetLeft = Math.max(0, before.x * 2 - viewer.clientWidth / 2);
+      const targetTop = Math.max(0, before.y * 2 - viewer.clientHeight / 2);
+      viewer.scrollLeft = targetLeft;
+      viewer.scrollTop = targetTop;
+    });
   }
 
-  function restoreZoomState(){
-    currentScale = lastScale || DEFAULT_VIEWER_SCALE;
-    currentOriginX = Number.isFinite(lastOriginX) ? lastOriginX : 50;
-    currentOriginY = Number.isFinite(lastOriginY) ? lastOriginY : 50;
-    currentTranslateX = Number.isFinite(lastTranslateX) ? lastTranslateX : 0;
-    currentTranslateY = Number.isFinite(lastTranslateY) ? lastTranslateY : 0;
-    zoomed = true;
-    applyViewerTransform();
-  }
-
-  function zoomAt(clientX, clientY){
-    const origin = getPointerOrigin(clientX, clientY);
-
-    currentScale = DEFAULT_VIEWER_SCALE;
-    currentOriginX = origin.x;
-    currentOriginY = origin.y;
-    currentTranslateX = 0;
-    currentTranslateY = 0;
-    zoomed = true;
-
-    saveCurrentZoomState();
-    applyViewerTransform();
-  }
-
-  function toggleZoomFromPoint(clientX, clientY){
-    if(zoomed){
-      saveCurrentZoomState();
-      zoomed = false;
-      currentScale = 1;
-      currentOriginX = 50;
-      currentOriginY = 50;
-      currentTranslateX = 0;
-      currentTranslateY = 0;
-      applyViewerTransform();
+  function toggleViewerZoom(clientX, clientY){
+    if(lightboxZoomed){
+      resetViewerZoom();
       return;
     }
 
-    if(hasLastZoomState){
-      restoreZoomState();
-      return;
-    }
-
-    zoomAt(clientX, clientY);
-  }
-
-  function startDrag(x,y){
-    if(!zoomed || currentScale <= 1) return;
-    isDragging = true;
-    dragStartX = x;
-    dragStartY = y;
-    dragBaseX = currentTranslateX;
-    dragBaseY = currentTranslateY;
-  }
-
-  function moveDrag(x,y){
-    if(!isDragging || !zoomed || currentScale <= 1) return;
-    currentTranslateX = dragBaseX + (x - dragStartX);
-    currentTranslateY = dragBaseY + (y - dragStartY);
-    saveCurrentZoomState();
-    applyViewerTransform();
-  }
-
-  function endDrag(){
-    isDragging = false;
+    zoomViewerAt(clientX, clientY);
   }
 
 
@@ -1415,7 +1322,7 @@ body.viewer-open{
     if(!worksData.length) return;
     viewerIndex = Math.max(0, Math.min(index, worksData.length - 1));
     const w = worksData[viewerIndex];
-    resetTransform({ clearMemory:true });
+    resetViewerZoom();
     viewerImg.src = w.zoom || w.image || '';
     viewerImg.alt = getTitle(w) || 'Kim Young Woo artwork';
     viewer.classList.add('active');
@@ -1428,7 +1335,7 @@ body.viewer-open{
     viewer.setAttribute('aria-hidden','true');
     viewerImg.removeAttribute('src');
     viewerImg.alt = '';
-    resetTransform({ clearMemory:true });
+    resetViewerZoom();
     document.body.classList.remove('viewer-open');
   }
 
@@ -1438,7 +1345,7 @@ body.viewer-open{
     if(viewerIndex < 0) viewerIndex = worksData.length - 1;
     if(viewerIndex >= worksData.length) viewerIndex = 0;
     const w = worksData[viewerIndex];
-    resetTransform({ clearMemory:true });
+    resetViewerZoom();
     viewerImg.src = w.zoom || w.image || '';
     viewerImg.alt = getTitle(w) || 'Kim Young Woo artwork';
   }
@@ -1465,20 +1372,13 @@ body.viewer-open{
     if(e.target === viewer || e.target === viewerStage) closeViewer();
   });
 
-  viewerStage.addEventListener('mousedown', e => {
-    if(e.button !== 0) return;
-    e.preventDefault();
-    startDrag(e.clientX, e.clientY);
-  });
-
-  window.addEventListener('mousemove', e => moveDrag(e.clientX, e.clientY));
-  window.addEventListener('mouseup', endDrag);
 
   viewerStage.addEventListener('dblclick', e => {
     e.preventDefault();
     e.stopPropagation();
-    toggleZoomFromPoint(e.clientX, e.clientY);
+    toggleViewerZoom(e.clientX, e.clientY);
   });
+
 
   viewerStage.addEventListener('touchstart', e => {
     if(!viewer.classList.contains('active')) return;
@@ -1493,18 +1393,35 @@ body.viewer-open{
 
     touchStartX = touch.clientX;
     touchStartY = touch.clientY;
-    startDrag(touchStartX, touchStartY);
+  }, { passive:false });
+
+  viewerStage.addEventListener('touchend', e => {
+    if(!viewer.classList.contains('active')) return;
+    if(e.touches.length > 0) return;
+
+    const touch = e.changedTouches[0];
+    if(!touch) return;
 
     const now = Date.now();
-    if(now - lastTapTime < 300){
+    const dx = touch.clientX - touchStartX;
+    const dy = touch.clientY - touchStartY;
+    const moved = Math.abs(dx) > 18 || Math.abs(dy) > 18;
+
+    if(!moved && now - lastTapTime < 300){
       e.preventDefault();
       e.stopPropagation();
-      toggleZoomFromPoint(touch.clientX, touch.clientY);
+      toggleViewerZoom(touch.clientX, touch.clientY);
       lastTapTime = 0;
       return;
     }
 
     lastTapTime = now;
+
+    if(!lightboxZoomed && Math.abs(dx) > 54 && Math.abs(dx) > Math.abs(dy) * 1.4){
+      e.preventDefault();
+      if(dx < 0) showViewer(1);
+      else showViewer(-1);
+    }
   }, { passive:false });
 
   viewerStage.addEventListener('touchmove', e => {
@@ -1512,42 +1429,13 @@ body.viewer-open{
 
     if(e.touches.length > 1){
       e.preventDefault();
-      return;
     }
-
-    if(e.touches.length === 1 && zoomed){
-      e.preventDefault();
-      const touch = e.touches[0];
-      moveDrag(touch.clientX, touch.clientY);
-    }
-  }, { passive:false });
-
-  viewerStage.addEventListener('touchend', e => {
-    if(!viewer.classList.contains('active')) return;
-
-    if(e.touches.length > 0) return;
-
-    const touch = e.changedTouches[0];
-    if(!touch){
-      endDrag();
-      return;
-    }
-
-    const dx = touch.clientX - touchStartX;
-    const dy = touch.clientY - touchStartY;
-
-    if(!zoomed && Math.abs(dx) > 54 && Math.abs(dx) > Math.abs(dy) * 1.4){
-      if(dx < 0) showViewer(1);
-      else showViewer(-1);
-    }
-
-    endDrag();
   }, { passive:false });
 
   viewerStage.addEventListener('touchcancel', e => {
     if(e.cancelable) e.preventDefault();
-    endDrag();
   }, { passive:false });
+
 
 
   document.addEventListener('keydown', e => {

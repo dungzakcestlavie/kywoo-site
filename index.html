@@ -2,7 +2,7 @@
 <html lang="ko" style="background:#0b1f1c;">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="format-detection" content="telephone=no,address=no,email=no">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#0b1f1c">
@@ -771,6 +771,36 @@ h2{
     animation-iteration-count:1 !important;
   }
 }
+
+/* MOBILE PAGE PINCH-ZOOM LOCK — FINAL */
+html,
+body{
+  width:100%;
+  max-width:100%;
+  overflow-x:hidden;
+  touch-action:pan-y;
+  -webkit-text-size-adjust:100%;
+  overscroll-behavior-x:none;
+}
+
+body{
+  position:relative;
+}
+
+img,
+button,
+a{
+  touch-action:manipulation;
+}
+
+/* Lightbox / Viewer exception: keep artwork zoom and scroll behavior alive */
+.viewer,
+.viewer *,
+.lightbox,
+.lightbox *{
+  touch-action:auto;
+}
+
 </style>
 </head>
 
@@ -1372,6 +1402,40 @@ h2{
 
   setLang(currentLang);
   loadWorks();
+
+  (function preventMobilePageZoom(){
+    let lastTouchEnd = 0;
+
+    function isViewerTarget(target){
+      return !!(target && target.closest && target.closest('#viewer, .viewer, .lightbox'));
+    }
+
+    document.addEventListener("gesturestart", function(e){
+      if(isViewerTarget(e.target)) return;
+      e.preventDefault();
+    }, { passive:false });
+
+    document.addEventListener("gesturechange", function(e){
+      if(isViewerTarget(e.target)) return;
+      e.preventDefault();
+    }, { passive:false });
+
+    document.addEventListener("gestureend", function(e){
+      if(isViewerTarget(e.target)) return;
+      e.preventDefault();
+    }, { passive:false });
+
+    document.addEventListener("touchend", function(e){
+      if(isViewerTarget(e.target)) return;
+
+      const now = Date.now();
+      if(now - lastTouchEnd <= 300){
+        e.preventDefault();
+      }
+      lastTouchEnd = now;
+    }, { passive:false });
+  })();
+
 })();
 </script>
 

@@ -1338,6 +1338,144 @@ body.viewer-open{
   }
 }
 
+
+/* KYWOO ART LIGHTBOX CLOSE + IMAGE LOCK IMPROVEMENT — FINAL OVERRIDE
+   Scope: viewer/lightbox only. Keeps design, SEO, text, menu, KR/EN and data untouched. */
+html,
+body{
+  touch-action:auto !important;
+}
+
+body.viewer-open main,
+body.viewer-open #works,
+body.viewer-open .w-grid,
+body.viewer-open .w-card,
+body.viewer-open .w-card img,
+body.viewer-open .w-thumb{
+  pointer-events:none !important;
+}
+
+html.lightbox-open,
+body.lightbox-open{
+  overflow:hidden !important;
+  height:100% !important;
+  position:fixed !important;
+  width:100% !important;
+  touch-action:none !important;
+}
+
+.viewer{
+  position:fixed !important;
+  inset:0 !important;
+  z-index:9999 !important;
+  display:none !important;
+  background:rgba(3,18,15,0.90) !important;
+  overflow:hidden !important;
+  touch-action:none !important;
+  overscroll-behavior:contain !important;
+  pointer-events:none !important;
+  filter:none !important;
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
+}
+
+.viewer.active{
+  display:block !important;
+  pointer-events:auto !important;
+}
+
+.viewer-stage{
+  position:absolute !important;
+  inset:0 !important;
+  z-index:10000 !important;
+  width:100% !important;
+  height:100% !important;
+  min-width:0 !important;
+  min-height:0 !important;
+  overflow:auto !important;
+  -webkit-overflow-scrolling:touch !important;
+  overscroll-behavior:contain !important;
+  touch-action:auto !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  padding:0 !important;
+  pointer-events:auto !important;
+  user-select:none !important;
+  -webkit-user-select:none !important;
+  -webkit-tap-highlight-color:transparent !important;
+}
+
+.viewer-img{
+  display:block !important;
+  width:auto !important;
+  height:auto !important;
+  max-width:100vw !important;
+  max-height:none !important;
+  object-fit:contain !important;
+  transform:none !important;
+  transition:none !important;
+  will-change:auto !important;
+  filter:none !important;
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
+  image-rendering:auto !important;
+  user-select:none !important;
+  -webkit-user-select:none !important;
+  -webkit-user-drag:none !important;
+  touch-action:auto !important;
+  pointer-events:auto !important;
+  cursor:default !important;
+}
+
+.viewer-close{
+  position:fixed !important;
+  top:calc(env(safe-area-inset-top, 0px) + 18px) !important;
+  right:calc(env(safe-area-inset-right, 0px) + 18px) !important;
+  z-index:10050 !important;
+  width:52px !important;
+  height:52px !important;
+  border-radius:50% !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  pointer-events:auto !important;
+  border:1px solid rgba(212,180,109,0.34) !important;
+  background:rgba(11,31,28,0.78) !important;
+  color:var(--gold-strong) !important;
+  box-shadow:0 10px 26px rgba(0,0,0,0.30) !important;
+}
+
+.viewer-prev,
+.viewer-next{
+  display:none !important;
+  pointer-events:none !important;
+}
+
+.viewer,
+.viewer *{
+  pointer-events:auto;
+}
+
+@media (max-width:768px){
+  .viewer-stage{
+    align-items:flex-start !important;
+    justify-content:flex-start !important;
+  }
+
+  .viewer-img{
+    width:100vw !important;
+    max-width:none !important;
+    height:auto !important;
+    max-height:none !important;
+  }
+
+  .viewer-close{
+    top:calc(env(safe-area-inset-top, 0px) + 18px) !important;
+    right:calc(env(safe-area-inset-right, 0px) + 18px) !important;
+  }
+}
+
 </style>
 </head>
 
@@ -1559,6 +1697,8 @@ body.viewer-open{
   let worksData = [];
   let viewerIndex = 0;
   let savedScrollY = 0;
+  let lightboxIsOpen = false;
+  let currentViewerSrc = '';
 
   let touchStartX = 0;
   let touchStartY = 0;
@@ -1680,11 +1820,16 @@ body.viewer-open{
         </div>
       `;
 
-      card.addEventListener('click', () => openViewer(index));
+      card.addEventListener('click', e => {
+        if(lightboxIsOpen) return;
+        e.preventDefault();
+        e.stopPropagation();
+        openViewer(index);
+      });
       card.addEventListener('keydown', e => {
         if(e.key === 'Enter' || e.key === ' '){
           e.preventDefault();
-          openViewer(index);
+          if(!lightboxIsOpen) openViewer(index);
         }
       });
 
@@ -1731,13 +1876,20 @@ body.viewer-open{
 
 
   function openViewer(index){
+    if(lightboxIsOpen) return;
     if(!worksData.length) return;
+
     viewerIndex = Math.max(0, Math.min(index, worksData.length - 1));
     const w = worksData[viewerIndex];
+    currentViewerSrc = w.zoom || w.image || '';
+
     resetViewerView();
     lockPageForViewer();
-    viewerImg.src = w.zoom || w.image || '';
+
+    lightboxIsOpen = true;
+    viewerImg.src = currentViewerSrc;
     viewerImg.alt = getTitle(w) || 'Kim Young Woo artwork';
+
     viewer.classList.add('active');
     viewer.setAttribute('aria-hidden','false');
     document.body.classList.add('viewer-open');
@@ -1746,8 +1898,12 @@ body.viewer-open{
   function closeViewer(){
     viewer.classList.remove('active');
     viewer.setAttribute('aria-hidden','true');
+
     viewerImg.removeAttribute('src');
     viewerImg.alt = '';
+    currentViewerSrc = '';
+    lightboxIsOpen = false;
+
     resetViewerView();
     document.body.classList.remove('viewer-open');
     unlockPageForViewer();
@@ -1755,13 +1911,9 @@ body.viewer-open{
 
   function showViewer(delta){
     if(!worksData.length) return;
-    viewerIndex += delta;
-    if(viewerIndex < 0) viewerIndex = worksData.length - 1;
-    if(viewerIndex >= worksData.length) viewerIndex = 0;
-    const w = worksData[viewerIndex];
-    resetViewerView();
-    viewerImg.src = w.zoom || w.image || '';
-    viewerImg.alt = getTitle(w) || 'Kim Young Woo artwork';
+    if(!viewer.classList.contains('active')) return;
+    /* Image lock: while the viewer is open, src is not reassigned by swipe/keyboard. */
+    return;
   }
 
 
@@ -1778,13 +1930,31 @@ body.viewer-open{
   koBtn.addEventListener('click', () => setLang('ko'));
   enBtn.addEventListener('click', () => setLang('en'));
 
-  viewerClose.addEventListener('click', closeViewer);
-  viewerPrev.addEventListener('click', () => showViewer(-1));
-  viewerNext.addEventListener('click', () => showViewer(1));
+  viewerClose.addEventListener('click', e => {
+    e.preventDefault();
+    e.stopPropagation();
+    closeViewer();
+  });
+  viewerPrev.addEventListener('click', e => {
+    e.preventDefault();
+    e.stopPropagation();
+  });
+  viewerNext.addEventListener('click', e => {
+    e.preventDefault();
+    e.stopPropagation();
+  });
 
   viewer.addEventListener('click', e => {
-    if(e.target === viewer || e.target === viewerStage) closeViewer();
+    e.stopPropagation();
+    if(e.target === viewer) closeViewer();
   });
+
+  viewerStage.addEventListener('click', e => {
+    e.stopPropagation();
+  });
+
+  viewer.addEventListener('touchstart', e => { e.stopPropagation(); }, { passive:true });
+  viewer.addEventListener('touchmove', e => { e.stopPropagation(); }, { passive:true });
 
 
   viewerStage.addEventListener('touchstart', e => {
@@ -1797,20 +1967,9 @@ body.viewer-open{
 
   viewerStage.addEventListener('touchend', e => {
     if(!viewer.classList.contains('active')) return;
-    if(e.touches.length > 0) return;
-
-    const touch = e.changedTouches[0];
-    if(!touch) return;
-
-    const dx = touch.clientX - touchStartX;
-    const dy = touch.clientY - touchStartY;
-
-    if(Math.abs(dx) > 54 && Math.abs(dx) > Math.abs(dy) * 1.4){
-      if(e.cancelable) e.preventDefault();
-      if(dx < 0) showViewer(1);
-      else showViewer(-1);
-    }
-  }, { passive:false });
+    e.stopPropagation();
+    /* No swipe-to-next here. This keeps the current image locked during pinch/zoom. */
+  }, { passive:true });
 
   viewerStage.addEventListener('touchmove', e => {
     if(!viewer.classList.contains('active')) return;
@@ -1823,8 +1982,7 @@ body.viewer-open{
   document.addEventListener('keydown', e => {
     if(viewer.classList.contains('active')){
       if(e.key === 'Escape') closeViewer();
-      if(e.key === 'ArrowLeft') showViewer(-1);
-      if(e.key === 'ArrowRight') showViewer(1);
+      if(e.key === 'ArrowLeft' || e.key === 'ArrowRight') e.preventDefault();
       return;
     }
 

@@ -2,7 +2,7 @@
 <html lang="ko" style="background:#0b1f1c;">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
 <meta name="format-detection" content="telephone=no,address=no,email=no">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#0b1f1c">
@@ -601,12 +601,6 @@ h2{
 }
 
 
-.viewer-img.zoomed{
-  width:200vw;
-  max-width:none;
-  max-height:none;
-  height:auto;
-}
 
 .viewer,
 .viewer-img{
@@ -756,12 +750,6 @@ h2{
     max-width:94vw;
     max-height:78dvh;
   }
-  .viewer-img.zoomed{
-    width:200vw;
-    max-width:none;
-    max-height:none;
-    height:auto;
-  }
 
   .viewer-prev,
   .viewer-next{
@@ -802,21 +790,7 @@ a{
   touch-action:manipulation;
 }
 
-/* WORKS LIGHTBOX iOS BLACKOUT + WIDTH ZOOM RESTORE — FINAL */
-body.zoomed,
-main.zoomed,
-.page.zoomed,
-.works.zoomed,
-#works.zoomed,
-.w-card.zoomed,
-.work-card.zoomed,
-.w-card img.zoomed,
-.work-card img.zoomed,
-.work-thumb.zoomed,
-.works img.zoomed{
-  scale:1 !important;
-  zoom:1 !important;
-}
+/* WORKS LIGHTBOX iOS BLACKOUT PROTECTION — FINAL */
 
 .w-card,
 .work-card,
@@ -891,21 +865,11 @@ body.viewer-open{
   cursor:zoom-in;
 }
 
-.viewer-img.zoomed{
-  width:200vw !important;
-  max-width:none !important;
-  max-height:none !important;
-  height:auto !important;
-  cursor:zoom-out;
-}
-
-.viewer-img.is-zoomed{
-  cursor:zoom-out;
-}
 
 
 
-/* KYWOO LIGHTBOX SMOOTH ZOOM SCROLL FIX — internal scroll container only */
+
+/* KYWOO LIGHTBOX NATIVE PINCH — browser controlled */
 body.viewer-open{
   overflow:hidden !important;
   touch-action:none !important;
@@ -949,10 +913,6 @@ body.viewer-open{
   -webkit-tap-highlight-color:transparent !important;
 }
 
-.viewer-stage.zoomed{
-  align-items:flex-start !important;
-  justify-content:flex-start !important;
-}
 
 .viewer-img{
   display:block !important;
@@ -973,25 +933,103 @@ body.viewer-open{
   cursor:zoom-in !important;
 }
 
-.viewer-img.zoomed{
-  width:180vw !important;
-  max-width:none !important;
-  max-height:none !important;
-  height:auto !important;
-  cursor:zoom-out !important;
-}
 
 @media (max-width:640px){
   .viewer-img{
     max-width:92vw !important;
     max-height:82vh !important;
   }
+}
 
-  .viewer-img.zoomed{
-    width:170vw !important;
-    max-width:none !important;
-    max-height:none !important;
+
+/* KYWOO LIGHTBOX NATIVE SMOOTH PINCH ZOOM FINAL — browser controlled only */
+body.viewer-open{
+  overflow:hidden !important;
+  touch-action:auto !important;
+}
+
+.viewer{
+  position:fixed !important;
+  inset:0 !important;
+  z-index:9999 !important;
+  display:none !important;
+  background:rgba(3,7,18,0.92) !important;
+  overflow:auto !important;
+  -webkit-overflow-scrolling:touch !important;
+  overscroll-behavior:contain !important;
+  touch-action:auto !important;
+  filter:none !important;
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
+  align-items:center !important;
+  justify-content:center !important;
+}
+
+.viewer.active{
+  display:flex !important;
+}
+
+.viewer-stage{
+  width:auto !important;
+  height:auto !important;
+  min-width:0 !important;
+  min-height:0 !important;
+  overflow:visible !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  touch-action:auto !important;
+  user-select:none !important;
+  -webkit-user-select:none !important;
+  -webkit-tap-highlight-color:transparent !important;
+}
+
+.viewer-img{
+  display:block !important;
+  width:auto !important;
+  height:auto !important;
+  max-width:100vw !important;
+  max-height:none !important;
+  object-fit:contain !important;
+  image-rendering:auto !important;
+  user-select:none !important;
+  -webkit-user-select:none !important;
+  -webkit-user-drag:none !important;
+  touch-action:auto !important;
+  transform:none !important;
+  transition:none !important;
+  filter:none !important;
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
+  cursor:default !important;
+}
+
+@media (max-width:768px){
+  .viewer{
+    align-items:flex-start !important;
+    justify-content:flex-start !important;
+    overflow:auto !important;
+    -webkit-overflow-scrolling:touch !important;
+    touch-action:auto !important;
+  }
+
+  .viewer-stage{
+    width:auto !important;
     height:auto !important;
+    min-width:100% !important;
+    min-height:100% !important;
+    align-items:flex-start !important;
+    justify-content:flex-start !important;
+    touch-action:auto !important;
+  }
+
+  .viewer-img{
+    max-width:none !important;
+    width:100vw !important;
+    height:auto !important;
+    max-height:none !important;
+    transform:none !important;
+    touch-action:auto !important;
   }
 }
 
@@ -1216,8 +1254,6 @@ body.viewer-open{
   let worksData = [];
   let viewerIndex = 0;
 
-  let lightboxZoomed = false;
-  let lastTapTime = 0;
   let touchStartX = 0;
   let touchStartY = 0;
 
@@ -1366,42 +1402,11 @@ body.viewer-open{
   }
 
 
-  function resetViewerZoom(){
-    lightboxZoomed = false;
-    viewerImg.classList.remove('zoomed');
-    viewerImg.classList.remove('is-zoomed');
-    viewerStage.classList.remove('zoomed');
-    viewerStage.scrollLeft = 0;
-    viewerStage.scrollTop = 0;
+  function resetViewerView(){
     viewer.scrollLeft = 0;
     viewer.scrollTop = 0;
-  }
-
-  function zoomViewerAt(clientX, clientY){
-    viewerImg.classList.add('zoomed');
-    viewerImg.classList.add('is-zoomed');
-    viewerStage.classList.add('zoomed');
-    lightboxZoomed = true;
-
-    requestAnimationFrame(() => {
-      const rect = viewerStage.getBoundingClientRect();
-      const xRatio = rect.width ? (clientX - rect.left) / rect.width : 0.5;
-      const yRatio = rect.height ? (clientY - rect.top) / rect.height : 0.5;
-      const safeX = Math.max(0, Math.min(1, xRatio));
-      const safeY = Math.max(0, Math.min(1, yRatio));
-
-      viewerStage.scrollLeft = (viewerStage.scrollWidth - viewerStage.clientWidth) * safeX;
-      viewerStage.scrollTop = (viewerStage.scrollHeight - viewerStage.clientHeight) * safeY;
-    });
-  }
-
-  function toggleViewerZoom(clientX, clientY){
-    if(lightboxZoomed){
-      resetViewerZoom();
-      return;
-    }
-
-    zoomViewerAt(clientX, clientY);
+    viewerStage.scrollLeft = 0;
+    viewerStage.scrollTop = 0;
   }
 
 
@@ -1409,7 +1414,7 @@ body.viewer-open{
     if(!worksData.length) return;
     viewerIndex = Math.max(0, Math.min(index, worksData.length - 1));
     const w = worksData[viewerIndex];
-    resetViewerZoom();
+    resetViewerView();
     viewerImg.src = w.zoom || w.image || '';
     viewerImg.alt = getTitle(w) || 'Kim Young Woo artwork';
     viewer.classList.add('active');
@@ -1422,7 +1427,7 @@ body.viewer-open{
     viewer.setAttribute('aria-hidden','true');
     viewerImg.removeAttribute('src');
     viewerImg.alt = '';
-    resetViewerZoom();
+    resetViewerView();
     document.body.classList.remove('viewer-open');
   }
 
@@ -1432,7 +1437,7 @@ body.viewer-open{
     if(viewerIndex < 0) viewerIndex = worksData.length - 1;
     if(viewerIndex >= worksData.length) viewerIndex = 0;
     const w = worksData[viewerIndex];
-    resetViewerZoom();
+    resetViewerView();
     viewerImg.src = w.zoom || w.image || '';
     viewerImg.alt = getTitle(w) || 'Kim Young Woo artwork';
   }
@@ -1463,24 +1468,18 @@ body.viewer-open{
   viewerStage.addEventListener('dblclick', e => {
     e.preventDefault();
     e.stopPropagation();
-    toggleViewerZoom(e.clientX, e.clientY);
+    viewer.scrollTo({ top:0, left:0, behavior:'auto' });
+    viewerStage.scrollTo({ top:0, left:0, behavior:'auto' });
   });
 
 
   viewerStage.addEventListener('touchstart', e => {
     if(!viewer.classList.contains('active')) return;
-
-    if(e.touches.length > 1){
-      e.preventDefault();
-      return;
-    }
-
     const touch = e.touches[0];
     if(!touch) return;
-
     touchStartX = touch.clientX;
     touchStartY = touch.clientY;
-  }, { passive:false });
+  }, { passive:true });
 
   viewerStage.addEventListener('touchend', e => {
     if(!viewer.classList.contains('active')) return;
@@ -1489,23 +1488,11 @@ body.viewer-open{
     const touch = e.changedTouches[0];
     if(!touch) return;
 
-    const now = Date.now();
     const dx = touch.clientX - touchStartX;
     const dy = touch.clientY - touchStartY;
-    const moved = Math.abs(dx) > 18 || Math.abs(dy) > 18;
 
-    if(!moved && now - lastTapTime < 300){
-      e.preventDefault();
-      e.stopPropagation();
-      toggleViewerZoom(touch.clientX, touch.clientY);
-      lastTapTime = 0;
-      return;
-    }
-
-    lastTapTime = now;
-
-    if(!lightboxZoomed && Math.abs(dx) > 54 && Math.abs(dx) > Math.abs(dy) * 1.4){
-      e.preventDefault();
+    if(Math.abs(dx) > 54 && Math.abs(dx) > Math.abs(dy) * 1.4){
+      if(e.cancelable) e.preventDefault();
       if(dx < 0) showViewer(1);
       else showViewer(-1);
     }
@@ -1513,15 +1500,9 @@ body.viewer-open{
 
   viewerStage.addEventListener('touchmove', e => {
     if(!viewer.classList.contains('active')) return;
+  }, { passive:true });
 
-    if(e.touches.length > 1){
-      e.preventDefault();
-    }
-  }, { passive:false });
-
-  viewerStage.addEventListener('touchcancel', e => {
-    if(e.cancelable) e.preventDefault();
-  }, { passive:false });
+  viewerStage.addEventListener('touchcancel', () => {}, { passive:true });
 
 
 
@@ -1579,36 +1560,6 @@ body.viewer-open{
   })();
 
 
-  (function isolateWorksZoomToViewer(){
-    function isViewerOpen(){
-      return document.body.classList.contains("viewer-open");
-    }
-
-    document.addEventListener("gesturestart", function(e){
-      if(isViewerOpen()) e.preventDefault();
-    }, { passive:false });
-
-    document.addEventListener("gesturechange", function(e){
-      if(isViewerOpen()) e.preventDefault();
-    }, { passive:false });
-
-    document.addEventListener("gestureend", function(e){
-      if(isViewerOpen()) e.preventDefault();
-    }, { passive:false });
-  })();
-
-
-  (function preventViewerNativeZoom(){
-    function isViewerTarget(target){
-      return !!(target && target.closest && target.closest('#viewer'));
-    }
-
-    ['gesturestart','gesturechange','gestureend'].forEach(type => {
-      document.addEventListener(type, function(e){
-        if(isViewerTarget(e.target)) e.preventDefault();
-      }, { passive:false });
-    });
-  })();
 
 })();
 </script>

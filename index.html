@@ -904,6 +904,97 @@ body.viewer-open{
 }
 
 
+
+/* KYWOO LIGHTBOX SMOOTH ZOOM SCROLL FIX — internal scroll container only */
+body.viewer-open{
+  overflow:hidden !important;
+  touch-action:none !important;
+}
+
+.viewer{
+  position:fixed !important;
+  inset:0 !important;
+  z-index:9999 !important;
+  display:none !important;
+  align-items:stretch !important;
+  justify-content:stretch !important;
+  overflow:hidden !important;
+  touch-action:none !important;
+  overscroll-behavior:contain !important;
+  background:rgba(5,14,13,0.94) !important;
+  filter:none !important;
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
+}
+
+.viewer.active{
+  display:flex !important;
+}
+
+.viewer-stage{
+  width:100% !important;
+  height:100% !important;
+  min-width:0 !important;
+  min-height:0 !important;
+  overflow:auto !important;
+  -webkit-overflow-scrolling:touch !important;
+  overscroll-behavior:contain !important;
+  touch-action:pan-x pan-y !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  padding:0 !important;
+  user-select:none !important;
+  -webkit-user-select:none !important;
+  -webkit-tap-highlight-color:transparent !important;
+}
+
+.viewer-stage.zoomed{
+  align-items:flex-start !important;
+  justify-content:flex-start !important;
+}
+
+.viewer-img{
+  display:block !important;
+  width:auto !important;
+  max-width:92vw !important;
+  max-height:82vh !important;
+  height:auto !important;
+  object-fit:contain !important;
+  transition:none !important;
+  filter:none !important;
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
+  image-rendering:auto !important;
+  user-select:none !important;
+  -webkit-user-select:none !important;
+  -webkit-user-drag:none !important;
+  touch-action:manipulation !important;
+  cursor:zoom-in !important;
+}
+
+.viewer-img.zoomed{
+  width:180vw !important;
+  max-width:none !important;
+  max-height:none !important;
+  height:auto !important;
+  cursor:zoom-out !important;
+}
+
+@media (max-width:640px){
+  .viewer-img{
+    max-width:92vw !important;
+    max-height:82vh !important;
+  }
+
+  .viewer-img.zoomed{
+    width:170vw !important;
+    max-width:none !important;
+    max-height:none !important;
+    height:auto !important;
+  }
+}
+
 </style>
 </head>
 
@@ -1279,32 +1370,28 @@ body.viewer-open{
     lightboxZoomed = false;
     viewerImg.classList.remove('zoomed');
     viewerImg.classList.remove('is-zoomed');
-    viewer.scrollLeft = 0;
-    viewer.scrollTop = 0;
+    viewerStage.classList.remove('zoomed');
     viewerStage.scrollLeft = 0;
     viewerStage.scrollTop = 0;
-  }
-
-  function getPointInViewer(clientX, clientY){
-    const viewerRect = viewer.getBoundingClientRect();
-    return {
-      x: Math.max(0, clientX - viewerRect.left + viewer.scrollLeft),
-      y: Math.max(0, clientY - viewerRect.top + viewer.scrollTop)
-    };
+    viewer.scrollLeft = 0;
+    viewer.scrollTop = 0;
   }
 
   function zoomViewerAt(clientX, clientY){
-    const before = getPointInViewer(clientX, clientY);
-
     viewerImg.classList.add('zoomed');
     viewerImg.classList.add('is-zoomed');
+    viewerStage.classList.add('zoomed');
     lightboxZoomed = true;
 
     requestAnimationFrame(() => {
-      const targetLeft = Math.max(0, before.x * 2 - viewer.clientWidth / 2);
-      const targetTop = Math.max(0, before.y * 2 - viewer.clientHeight / 2);
-      viewer.scrollLeft = targetLeft;
-      viewer.scrollTop = targetTop;
+      const rect = viewerStage.getBoundingClientRect();
+      const xRatio = rect.width ? (clientX - rect.left) / rect.width : 0.5;
+      const yRatio = rect.height ? (clientY - rect.top) / rect.height : 0.5;
+      const safeX = Math.max(0, Math.min(1, xRatio));
+      const safeY = Math.max(0, Math.min(1, yRatio));
+
+      viewerStage.scrollLeft = (viewerStage.scrollWidth - viewerStage.clientWidth) * safeX;
+      viewerStage.scrollTop = (viewerStage.scrollHeight - viewerStage.clientHeight) * safeY;
     });
   }
 

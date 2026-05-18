@@ -1525,33 +1525,69 @@ body.lightbox-open{
 }
 
 
-/* KYWOO WORKS VIEWER DARK BACKGROUND FOCUS FIX — ONLY VIEWER BACKGROUND */
-.viewer,
-.viewer.active{
-  background:#020605 !important;
+/* KYWOO ART MOBILE WORKS 2-COLUMN + DARK FOCUS VIEWER — FINAL MINIMAL OVERRIDE
+   Scope only: Works mobile grid + fullscreen viewer background/close position.
+   Do not change data, language, layout outside Works/viewer. */
+
+@media (max-width:768px){
+  #works .w-grid,
+  .w-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:12px !important;
+  }
+
+  #works{
+    padding-left:10px !important;
+    padding-right:10px !important;
+  }
+
+  .w-card{
+    border-radius:14px !important;
+  }
+
+  .w-meta{
+    padding:10px 9px 13px !important;
+  }
+
+  .w-title{
+    font-size:13px !important;
+    line-height:1.35 !important;
+  }
+
+  .w-sub{
+    font-size:12px !important;
+    line-height:1.45 !important;
+  }
+}
+
+.viewer{
+  background:rgba(0,0,0,0.96) !important;
 }
 
 .viewer::before{
   content:"" !important;
   position:fixed !important;
   inset:0 !important;
-  z-index:9998 !important;
-  background:#020605 !important;
+  z-index:9999 !important;
+  background:rgba(0,0,0,0.74) !important;
   pointer-events:none !important;
 }
 
-.viewer-stage,
-.viewer-close,
-.viewer-prev,
-.viewer-next{
-  position:relative !important;
+.viewer-stage{
   z-index:10000 !important;
 }
 
-body.viewer-open::before,
-body.viewer-open::after{
-  opacity:0 !important;
-  visibility:hidden !important;
+.viewer-img{
+  position:relative !important;
+  z-index:10001 !important;
+}
+
+.viewer-close{
+  position:fixed !important;
+  top:calc(env(safe-area-inset-top, 0px) + 16px) !important;
+  right:calc(env(safe-area-inset-right, 0px) + 16px) !important;
+  left:auto !important;
+  z-index:10060 !important;
 }
 
 </style>

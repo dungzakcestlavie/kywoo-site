@@ -1590,6 +1590,56 @@ body.lightbox-open{
   z-index:10060 !important;
 }
 
+
+/* KYWOO VIEWER BUTTON POSITION FIX — FINAL OVERRIDE
+   Scope only: fullscreen viewer buttons.
+   Fixes: X fixed at right, prev left, next right. */
+.viewer{
+  direction:ltr !important;
+}
+
+.viewer-close{
+  position:fixed !important;
+  inset:auto !important;
+  top:calc(env(safe-area-inset-top, 0px) + 16px) !important;
+  right:calc(env(safe-area-inset-right, 0px) + 16px) !important;
+  bottom:auto !important;
+  left:auto !important;
+  z-index:10080 !important;
+}
+
+.viewer-prev,
+.viewer-next{
+  position:fixed !important;
+  top:50% !important;
+  bottom:auto !important;
+  transform:translateY(-50%) !important;
+  z-index:10070 !important;
+}
+
+.viewer-prev{
+  left:calc(env(safe-area-inset-left, 0px) + 20px) !important;
+  right:auto !important;
+}
+
+.viewer-next{
+  left:auto !important;
+  right:calc(env(safe-area-inset-right, 0px) + 20px) !important;
+}
+
+@media (max-width:768px){
+  .viewer-prev,
+  .viewer-next{
+    display:none !important;
+  }
+
+  .viewer-close{
+    top:calc(env(safe-area-inset-top, 0px) + 14px) !important;
+    right:calc(env(safe-area-inset-right, 0px) + 14px) !important;
+    left:auto !important;
+  }
+}
+
 </style>
 </head>
 

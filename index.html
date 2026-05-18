@@ -1524,6 +1524,27 @@ body.lightbox-open{
   }
 }
 
+
+/* MOBILE WORKS GRID — 2 COLUMNS ONLY */
+@media (max-width:719px){
+  .w-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:12px !important;
+  }
+
+  .w-meta{
+    padding:10px 9px 14px !important;
+  }
+
+  .w-title{
+    font-size:13px !important;
+  }
+
+  .w-sub{
+    font-size:12px !important;
+  }
+}
+
 </style>
 </head>
 

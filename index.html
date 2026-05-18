@@ -1525,24 +1525,33 @@ body.lightbox-open{
 }
 
 
-/* MOBILE WORKS GRID — 2 COLUMNS ONLY */
-@media (max-width:719px){
-  .w-grid{
-    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
-    gap:12px !important;
-  }
+/* KYWOO WORKS VIEWER DARK BACKGROUND FOCUS FIX — ONLY VIEWER BACKGROUND */
+.viewer,
+.viewer.active{
+  background:#020605 !important;
+}
 
-  .w-meta{
-    padding:10px 9px 14px !important;
-  }
+.viewer::before{
+  content:"" !important;
+  position:fixed !important;
+  inset:0 !important;
+  z-index:9998 !important;
+  background:#020605 !important;
+  pointer-events:none !important;
+}
 
-  .w-title{
-    font-size:13px !important;
-  }
+.viewer-stage,
+.viewer-close,
+.viewer-prev,
+.viewer-next{
+  position:relative !important;
+  z-index:10000 !important;
+}
 
-  .w-sub{
-    font-size:12px !important;
-  }
+body.viewer-open::before,
+body.viewer-open::after{
+  opacity:0 !important;
+  visibility:hidden !important;
 }
 
 </style>

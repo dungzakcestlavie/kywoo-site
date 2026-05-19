@@ -1640,6 +1640,75 @@ body.lightbox-open{
   }
 }
 
+
+
+/* KYWOO MOBILE VIEWER IMAGE FIX — 2026-05-19
+   Scope only: Works fullscreen viewer on mobile.
+   Fix: mobile zoom image not appearing / oversized image issue.
+   Keeps design, data, KR/EN, menu, cards unchanged. */
+@media (max-width:768px){
+  .viewer{
+    display:none !important;
+    position:fixed !important;
+    inset:0 !important;
+    width:100vw !important;
+    height:100dvh !important;
+    overflow:hidden !important;
+    align-items:center !important;
+    justify-content:center !important;
+    background:rgba(0,0,0,0.96) !important;
+    touch-action:none !important;
+  }
+
+  .viewer.active{
+    display:flex !important;
+  }
+
+  .viewer-stage{
+    position:absolute !important;
+    inset:0 !important;
+    width:100vw !important;
+    height:100dvh !important;
+    min-width:0 !important;
+    min-height:0 !important;
+    overflow:auto !important;
+    -webkit-overflow-scrolling:touch !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    padding:0 !important;
+    touch-action:pan-x pan-y pinch-zoom !important;
+  }
+
+  .viewer-img{
+    display:block !important;
+    width:auto !important;
+    height:auto !important;
+    max-width:96vw !important;
+    max-height:86dvh !important;
+    object-fit:contain !important;
+    transform:none !important;
+    transition:none !important;
+    filter:none !important;
+    opacity:1 !important;
+    visibility:visible !important;
+    touch-action:pan-x pan-y pinch-zoom !important;
+  }
+
+  .viewer-close{
+    position:fixed !important;
+    top:calc(env(safe-area-inset-top, 0px) + 14px) !important;
+    right:calc(env(safe-area-inset-right, 0px) + 14px) !important;
+    left:auto !important;
+    z-index:10080 !important;
+  }
+
+  .viewer-prev,
+  .viewer-next{
+    display:none !important;
+  }
+}
+
 </style>
 </head>
 
@@ -2064,8 +2133,15 @@ body.lightbox-open{
     lockPageForViewer();
 
     lightboxIsOpen = true;
-    viewerImg.src = currentViewerSrc;
+    viewerImg.onerror = () => {
+      viewerImg.onerror = null;
+      if(w.image && viewerImg.src !== w.image) viewerImg.src = w.image;
+    };
+    viewerImg.src = '';
     viewerImg.alt = getTitle(w) || 'Kim Young Woo artwork';
+    requestAnimationFrame(() => {
+      viewerImg.src = currentViewerSrc;
+    });
     prefetchNeighborWorks();
 
     viewer.classList.add('active');
@@ -2105,8 +2181,15 @@ body.lightbox-open{
     if(!w) return;
     currentViewerSrc = w.zoom || w.image || '';
     resetViewerView();
-    viewerImg.src = currentViewerSrc;
+    viewerImg.onerror = () => {
+      viewerImg.onerror = null;
+      if(w.image && viewerImg.src !== w.image) viewerImg.src = w.image;
+    };
+    viewerImg.src = '';
     viewerImg.alt = getTitle(w) || 'Kim Young Woo artwork';
+    requestAnimationFrame(() => {
+      viewerImg.src = currentViewerSrc;
+    });
     prefetchNeighborWorks();
   }
 

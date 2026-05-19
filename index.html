@@ -1641,58 +1641,73 @@ body.lightbox-open{
 }
 
 
+/* KYWOO MOBILE VIEWER DIRECT OPEN FIX — FINAL OVERRIDE
+   Fixes mobile issue where works opened from lower scroll positions
+   show a blank fullscreen viewer while swipe navigation still works. */
+html.lightbox-open,
+body.lightbox-open{
+  overflow:hidden !important;
+  height:100% !important;
+  width:100% !important;
+  position:static !important;
+  top:auto !important;
+  left:auto !important;
+  right:auto !important;
+  touch-action:none !important;
+}
 
-/* KYWOO MOBILE VIEWER IMAGE FIX — 2026-05-19
-   Scope only: Works fullscreen viewer on mobile.
-   Fix: mobile zoom image not appearing / oversized image issue.
-   Keeps design, data, KR/EN, menu, cards unchanged. */
+.viewer{
+  position:fixed !important;
+  inset:0 !important;
+  z-index:9999 !important;
+  background:rgba(0,0,0,0.96) !important;
+  overflow:hidden !important;
+}
+
+.viewer.active{
+  display:block !important;
+}
+
+.viewer-stage{
+  position:absolute !important;
+  inset:0 !important;
+  width:100% !important;
+  height:100% !important;
+  min-width:0 !important;
+  min-height:0 !important;
+  overflow:auto !important;
+  -webkit-overflow-scrolling:touch !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  touch-action:auto !important;
+}
+
+.viewer-img{
+  display:block !important;
+  width:auto !important;
+  height:auto !important;
+  max-width:96vw !important;
+  max-height:86dvh !important;
+  object-fit:contain !important;
+  transform:none !important;
+  opacity:1 !important;
+  visibility:visible !important;
+}
+
 @media (max-width:768px){
-  .viewer{
-    display:none !important;
-    position:fixed !important;
-    inset:0 !important;
-    width:100vw !important;
-    height:100dvh !important;
-    overflow:hidden !important;
-    align-items:center !important;
-    justify-content:center !important;
-    background:rgba(0,0,0,0.96) !important;
-    touch-action:none !important;
-  }
-
-  .viewer.active{
-    display:flex !important;
-  }
-
   .viewer-stage{
-    position:absolute !important;
-    inset:0 !important;
-    width:100vw !important;
-    height:100dvh !important;
-    min-width:0 !important;
-    min-height:0 !important;
-    overflow:auto !important;
-    -webkit-overflow-scrolling:touch !important;
-    display:flex !important;
     align-items:center !important;
     justify-content:center !important;
-    padding:0 !important;
-    touch-action:pan-x pan-y pinch-zoom !important;
+    overflow:auto !important;
   }
 
   .viewer-img{
-    display:block !important;
     width:auto !important;
-    height:auto !important;
     max-width:96vw !important;
     max-height:86dvh !important;
+    height:auto !important;
     object-fit:contain !important;
-    transform:none !important;
-    transition:none !important;
-    filter:none !important;
-    opacity:1 !important;
-    visibility:visible !important;
-    touch-action:pan-x pan-y pinch-zoom !important;
   }
 
   .viewer-close{
@@ -1701,11 +1716,6 @@ body.lightbox-open{
     right:calc(env(safe-area-inset-right, 0px) + 14px) !important;
     left:auto !important;
     z-index:10080 !important;
-  }
-
-  .viewer-prev,
-  .viewer-next{
-    display:none !important;
   }
 }
 
@@ -2110,7 +2120,7 @@ body.lightbox-open{
     savedScrollY = window.scrollY || document.documentElement.scrollTop || 0;
     document.documentElement.classList.add('lightbox-open');
     document.body.classList.add('lightbox-open');
-    document.body.style.top = `-${savedScrollY}px`;
+    document.body.style.top = '';
   }
 
   function unlockPageForViewer(){
@@ -2121,32 +2131,39 @@ body.lightbox-open{
   }
 
 
+  function setViewerImage(w){
+    currentViewerSrc = (w && (w.zoom || w.image)) || '';
+    viewerImg.onerror = () => {
+      viewerImg.onerror = null;
+      if(w && w.image){
+        viewerImg.src = w.image;
+      }
+    };
+    viewerImg.removeAttribute('src');
+    requestAnimationFrame(() => {
+      viewerImg.src = currentViewerSrc;
+    });
+  }
+
+
   function openViewer(index){
     if(lightboxIsOpen) return;
     if(!worksData.length) return;
 
     viewerIndex = Math.max(0, Math.min(index, worksData.length - 1));
     const w = worksData[viewerIndex];
-    currentViewerSrc = w.zoom || w.image || '';
 
     resetViewerView();
     lockPageForViewer();
 
     lightboxIsOpen = true;
-    viewerImg.onerror = () => {
-      viewerImg.onerror = null;
-      if(w.image && viewerImg.src !== w.image) viewerImg.src = w.image;
-    };
-    viewerImg.src = '';
-    viewerImg.alt = getTitle(w) || 'Kim Young Woo artwork';
-    requestAnimationFrame(() => {
-      viewerImg.src = currentViewerSrc;
-    });
-    prefetchNeighborWorks();
-
     viewer.classList.add('active');
     viewer.setAttribute('aria-hidden','false');
     document.body.classList.add('viewer-open');
+
+    viewerImg.alt = getTitle(w) || 'Kim Young Woo artwork';
+    setViewerImage(w);
+    prefetchNeighborWorks();
   }
 
   function closeViewer(){
@@ -2179,17 +2196,9 @@ body.lightbox-open{
     if(!worksData.length) return;
     const w = worksData[viewerIndex];
     if(!w) return;
-    currentViewerSrc = w.zoom || w.image || '';
     resetViewerView();
-    viewerImg.onerror = () => {
-      viewerImg.onerror = null;
-      if(w.image && viewerImg.src !== w.image) viewerImg.src = w.image;
-    };
-    viewerImg.src = '';
     viewerImg.alt = getTitle(w) || 'Kim Young Woo artwork';
-    requestAnimationFrame(() => {
-      viewerImg.src = currentViewerSrc;
-    });
+    setViewerImage(w);
     prefetchNeighborWorks();
   }
 

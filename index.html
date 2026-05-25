@@ -2290,6 +2290,7 @@ body.lightbox-open{
 
     viewerImg.alt = getTitle(w) || 'Kim Young Woo artwork';
     setViewerImage(w);
+    kywooResetMobileViewerTransform();
     prefetchNeighborWorks();
   }
 
@@ -2329,6 +2330,7 @@ body.lightbox-open{
     resetViewerView();
     viewerImg.alt = getTitle(w) || 'Kim Young Woo artwork';
     setViewerImage(w);
+    kywooResetMobileViewerTransform();
     prefetchNeighborWorks();
   }
 
@@ -2477,9 +2479,12 @@ body.lightbox-open{
   function kywooApplyMobileViewerTransform(){
     if(!viewerImg) return;
     kywooClampMobileImageToFrame();
-    viewerImg.style.transform = `translate3d(${kywooMobileTranslateX}px, ${kywooMobileTranslateY}px, 0) scale(${kywooMobileScale})`;
-    viewerImg.style.transformOrigin = 'center center';
-    viewerImg.style.willChange = 'transform';
+    /* KYWOO MOBILE FULLSCREEN PINCH RESTORE ONLY
+       Important: earlier CSS contains transform:none !important for the viewer image.
+       Use setProperty(..., 'important') so the mobile pinch transform actually wins. */
+    viewerImg.style.setProperty('transform', `translate3d(${kywooMobileTranslateX}px, ${kywooMobileTranslateY}px, 0) scale(${kywooMobileScale})`, 'important');
+    viewerImg.style.setProperty('transform-origin', 'center center', 'important');
+    viewerImg.style.setProperty('will-change', 'transform', 'important');
   }
 
   function kywooResetMobileViewerTransform(){
@@ -2498,11 +2503,11 @@ body.lightbox-open{
       kywooMobilePinchEndTimer = null;
     }
     if(viewerImg){
-      viewerImg.style.transition = 'none';
-      viewerImg.style.transform = 'translate3d(0px, 0px, 0) scale(1)';
-      viewerImg.style.willChange = '';
+      viewerImg.style.setProperty('transition', 'none', 'important');
+      viewerImg.style.setProperty('transform', 'translate3d(0px, 0px, 0) scale(1)', 'important');
+      viewerImg.style.setProperty('will-change', 'transform', 'important');
       requestAnimationFrame(() => {
-        viewerImg.style.transition = '';
+        viewerImg.style.setProperty('transition', 'none', 'important');
       });
     }
   }

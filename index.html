@@ -1890,6 +1890,23 @@ body.viewer-open{
   opacity:.8 !important;
 }
 
+/* KYWOO.ART VIEWER SCROLL LOCK + RETURN POSITION FIX ONLY
+   Scope: viewer scroll lock and return-to-current-work position only. */
+html.viewer-open,
+body.viewer-open{
+  overflow:hidden !important;
+  overscroll-behavior:none !important;
+  touch-action:none !important;
+  height:100% !important;
+}
+
+body.viewer-open{
+  position:fixed !important;
+  width:100% !important;
+  left:0 !important;
+  right:0 !important;
+}
+
 </style>
 </head>
 
@@ -2122,6 +2139,8 @@ body.viewer-open{
   let worksData = [];
   let viewerIndex = 0;
   let savedScrollY = 0;
+  let viewerReturnScrollY = 0;
+  let viewerCurrentWorkId = null;
   let lightboxIsOpen = false;
   let currentViewerSrc = '';
 
@@ -2197,6 +2216,17 @@ body.viewer-open{
     return w.year || '';
   }
 
+  function getWorkId(w, index){
+    return String((w && (w.id || w.image)) || index);
+  }
+
+  function findViewerReturnTarget(){
+    if(viewerCurrentWorkId === null || viewerCurrentWorkId === undefined) return null;
+    const id = String(viewerCurrentWorkId);
+    return Array.from(document.querySelectorAll('[data-work-id]'))
+      .find(el => el.dataset.workId === id) || null;
+  }
+
   function normalizeWorks(data){
     const list = Array.isArray(data) ? data : (data.works || []);
     return Array.isArray(list) ? list : [];
@@ -2238,6 +2268,7 @@ body.viewer-open{
       card.setAttribute('aria-label', title || 'Artwork');
       card.dataset.index = String(index);
       card.dataset.zoom = zoom;
+      card.dataset.workId = getWorkId(w, index);
 
       card.innerHTML = `
         <img class="w-thumb" src="${escapeHTML(image)}" alt="${escapeHTML(title || 'Kim Young Woo artwork')}" loading="${index === 0 ? 'eager' : 'lazy'}" decoding="async">
@@ -2288,17 +2319,49 @@ body.viewer-open{
   }
 
   function lockPageForViewer(){
-    savedScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+    savedScrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
+    viewerReturnScrollY = savedScrollY;
+
     document.documentElement.classList.add('lightbox-open');
     document.body.classList.add('lightbox-open');
-    document.body.style.top = '';
+
+    document.documentElement.classList.add('viewer-open');
+    document.body.classList.add('viewer-open');
+
+    document.body.style.top = `-${viewerReturnScrollY}px`;
   }
 
   function unlockPageForViewer(){
     document.documentElement.classList.remove('lightbox-open');
     document.body.classList.remove('lightbox-open');
+
+    document.documentElement.classList.remove('viewer-open');
+    document.body.classList.remove('viewer-open');
+
     document.body.style.top = '';
-    window.scrollTo(0, savedScrollY);
+    document.body.style.position = '';
+    document.body.style.width = '';
+    document.body.style.left = '';
+    document.body.style.right = '';
+  }
+
+  function returnToViewerWork(){
+    requestAnimationFrame(() => {
+      const target = findViewerReturnTarget();
+
+      if(target){
+        target.scrollIntoView({
+          block:'center',
+          inline:'nearest',
+          behavior:'auto'
+        });
+      }else{
+        window.scrollTo(
+          0,
+          viewerReturnScrollY
+        );
+      }
+    });
   }
 
 
@@ -2325,6 +2388,7 @@ body.viewer-open{
 
     viewerIndex = Math.max(0, Math.min(index, worksData.length - 1));
     const w = worksData[viewerIndex];
+    viewerCurrentWorkId = getWorkId(w, viewerIndex);
 
     resetViewerView();
     lockPageForViewer();
@@ -2353,9 +2417,8 @@ body.viewer-open{
     lightboxIsOpen = false;
 
     resetViewerView();
-    document.documentElement.classList.remove('viewer-open');
-    document.body.classList.remove('viewer-open');
     unlockPageForViewer();
+    returnToViewerWork();
   }
 
   function prefetchNeighborWorks(){
@@ -2375,6 +2438,7 @@ body.viewer-open{
     if(!worksData.length) return;
     const w = worksData[viewerIndex];
     if(!w) return;
+    viewerCurrentWorkId = getWorkId(w, viewerIndex);
     resetViewerView();
     viewerImg.alt = getTitle(w) || 'Kim Young Woo artwork';
     setViewerImage(w);

@@ -1935,6 +1935,71 @@ body.viewer-open{
   -webkit-user-drag:none !important;
 }
 
+/* KYWOO.ART MOBILE CLOSE SUBTLE + PINCH RESTORE ONLY
+   Scope: mobile close subtle tuning and viewer pinch restore only. */
+html.viewer-open,
+body.viewer-open{
+  overflow:hidden !important;
+  overscroll-behavior:none !important;
+}
+
+body.viewer-open{
+  position:fixed !important;
+  width:100% !important;
+  left:0 !important;
+  right:0 !important;
+}
+
+.viewer,
+.lightbox,
+.viewer-overlay,
+.lightbox-overlay,
+.viewer-stage,
+#viewerStage,
+#viewerStage.viewer-stage{
+  overscroll-behavior:none !important;
+  touch-action:auto !important;
+}
+
+.viewer img,
+.lightbox img,
+#viewerImg{
+  user-select:none !important;
+  -webkit-user-select:none !important;
+  -webkit-user-drag:none !important;
+}
+
+#viewerImg.viewer-img{
+  touch-action:none !important;
+}
+
+@media (max-width: 768px){
+  .viewer-close,
+  .lightbox-close,
+  .close-btn{
+    width:34px !important;
+    height:34px !important;
+    min-width:34px !important;
+    min-height:34px !important;
+    font-size:16px !important;
+    opacity:.32 !important;
+    background:rgba(0,20,18,.22) !important;
+    border:1px solid rgba(215,190,120,.18) !important;
+    color:rgba(215,190,120,.46) !important;
+    box-shadow:none !important;
+    backdrop-filter:blur(2px) !important;
+    -webkit-backdrop-filter:blur(2px) !important;
+    touch-action:manipulation !important;
+  }
+
+  .viewer-close:hover,
+  .lightbox-close:hover,
+  .close-btn:hover{
+    opacity:.48 !important;
+  }
+}
+
+
 </style>
 </head>
 
@@ -2849,8 +2914,8 @@ body.viewer-open{
 
 
 
-  /* KYWOO.ART VIEWER PINCH MOVE LOCK ONLY
-     iOS Safari guard: prevent default two-finger movement only inside viewer. */
+  /* KYWOO.ART MOBILE CLOSE SUBTLE + PINCH RESTORE ONLY
+     iOS Safari guard: prevent one-finger viewer drag, keep two-finger pinch active. */
   const viewerElement = viewer;
 
   if(viewerElement && !viewerElement.__kywooPinchMoveLockBound){
@@ -2859,8 +2924,15 @@ body.viewer-open{
     viewerElement.addEventListener(
       'touchmove',
       function(e){
-        if(e.touches && e.touches.length > 1){
+        if(!lightboxIsOpen) return;
+
+        if(e.touches && e.touches.length === 1){
           e.preventDefault();
+          return;
+        }
+
+        if(e.touches && e.touches.length >= 2){
+          return;
         }
       },
       { passive:false, capture:true }

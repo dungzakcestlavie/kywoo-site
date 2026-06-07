@@ -2023,6 +2023,60 @@ body.viewer-open{
   }
 }
 
+/* KYWOO.ART PORTRAIT PINCH ZOOM RESTORE ONLY
+   Scope: portrait/mobile/iPad viewer pinch restoration only.
+   Two-finger touch is not prevented; one-finger viewer drag guard remains in JS. */
+html.viewer-open,
+body.viewer-open{
+  overflow:hidden !important;
+  overscroll-behavior:none !important;
+  touch-action:auto !important;
+}
+
+body.viewer-open{
+  position:fixed !important;
+  width:100% !important;
+  left:0 !important;
+  right:0 !important;
+}
+
+#viewer.viewer,
+.viewer,
+.lightbox,
+.viewer-overlay,
+.lightbox-overlay,
+#viewerStage.viewer-stage,
+.viewer-stage{
+  overscroll-behavior:none !important;
+  touch-action:auto !important;
+}
+
+#viewerImg.viewer-img,
+#viewer img,
+.viewer img,
+.lightbox img{
+  user-select:none !important;
+  -webkit-user-select:none !important;
+  -webkit-user-drag:none !important;
+  touch-action:auto !important;
+}
+
+@media (orientation:portrait){
+  #viewer.viewer,
+  .viewer,
+  .lightbox,
+  .viewer-overlay,
+  .lightbox-overlay,
+  #viewerStage.viewer-stage,
+  .viewer-stage,
+  #viewerImg.viewer-img,
+  #viewer img,
+  .viewer img,
+  .lightbox img{
+    touch-action:auto !important;
+  }
+}
+
 </style>
 </head>
 
@@ -2765,9 +2819,6 @@ body.viewer-open{
     if(e.target && e.target.closest && e.target.closest('.viewer-close, .lightbox-close, .modal-close, .close-btn')) return;
 
     if(e.touches.length === 2){
-      e.preventDefault();
-      e.stopImmediatePropagation();
-
       kywooMobileIsPinching = true;
       kywooMobileIsPanning = false;
       kywooMobilePinchJustEnded = false;
@@ -2815,9 +2866,6 @@ body.viewer-open{
     if(e.target && e.target.closest && e.target.closest('.viewer-close, .lightbox-close, .modal-close, .close-btn')) return;
 
     if(kywooMobileIsPinching && e.touches.length === 2){
-      e.preventDefault();
-      e.stopImmediatePropagation();
-
       const dist = kywooGetTouchDistance(e.touches);
       const nextScale = kywooMobileStartScale * (dist / kywooMobilePinchStartDistance);
       kywooMobileScale = Math.max(1, Math.min(4, nextScale));

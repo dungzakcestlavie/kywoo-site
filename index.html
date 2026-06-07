@@ -1844,6 +1844,52 @@ body.lightbox-open{
   }
 }
 
+
+/* KYWOO.ART VIEWER MICRO TUNING ONLY — IPAD / MOBILE / LAPTOP
+   Scope: fullscreen viewer lock, portrait arrows, close button subtle tuning only. */
+html.viewer-open,
+body.viewer-open{
+  overflow:hidden !important;
+  overscroll-behavior:none !important;
+  touch-action:none !important;
+  height:100% !important;
+}
+
+@media (orientation:portrait){
+  .viewer-arrow,
+  .lightbox-arrow,
+  .nav-arrow,
+  .viewer-prev,
+  .viewer-next{
+    display:none !important;
+  }
+}
+
+.viewer-close,
+.lightbox-close,
+.close-btn{
+  width:40px !important;
+  height:40px !important;
+  min-width:40px !important;
+  min-height:40px !important;
+  font-size:20px !important;
+  opacity:.55 !important;
+  background:rgba(0,20,18,.45) !important;
+  border:1px solid rgba(215,190,120,.28) !important;
+  color:rgba(215,190,120,.72) !important;
+  backdrop-filter:blur(4px) !important;
+  -webkit-backdrop-filter:blur(4px) !important;
+  transition:opacity .2s ease !important;
+  box-shadow:none !important;
+  touch-action:manipulation !important;
+}
+
+.viewer-close:hover,
+.lightbox-close:hover,
+.close-btn:hover{
+  opacity:.8 !important;
+}
+
 </style>
 </head>
 
@@ -2286,6 +2332,7 @@ body.lightbox-open{
     lightboxIsOpen = true;
     viewer.classList.add('active');
     viewer.setAttribute('aria-hidden','false');
+    document.documentElement.classList.add('viewer-open');
     document.body.classList.add('viewer-open');
 
     viewerImg.alt = getTitle(w) || 'Kim Young Woo artwork';
@@ -2306,6 +2353,7 @@ body.lightbox-open{
     lightboxIsOpen = false;
 
     resetViewerView();
+    document.documentElement.classList.remove('viewer-open');
     document.body.classList.remove('viewer-open');
     unlockPageForViewer();
   }

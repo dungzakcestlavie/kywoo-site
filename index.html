@@ -1907,6 +1907,34 @@ body.viewer-open{
   right:0 !important;
 }
 
+/* KYWOO.ART VIEWER PINCH MOVE LOCK ONLY
+   Scope: viewer/lightbox touch movement and overscroll lock only. */
+html.viewer-open,
+body.viewer-open{
+  overflow:hidden !important;
+  overscroll-behavior:none !important;
+  touch-action:none !important;
+}
+
+.viewer,
+.lightbox,
+.viewer-overlay,
+.lightbox-overlay,
+.viewer-stage,
+#viewerStage{
+  overscroll-behavior:none !important;
+  touch-action:none !important;
+}
+
+.viewer img,
+.lightbox img,
+#viewerImg{
+  touch-action:none !important;
+  user-select:none !important;
+  -webkit-user-select:none !important;
+  -webkit-user-drag:none !important;
+}
+
 </style>
 </head>
 
@@ -2819,6 +2847,25 @@ body.viewer-open{
     }
   }, { passive:false, capture:true });
 
+
+
+  /* KYWOO.ART VIEWER PINCH MOVE LOCK ONLY
+     iOS Safari guard: prevent default two-finger movement only inside viewer. */
+  const viewerElement = viewer;
+
+  if(viewerElement && !viewerElement.__kywooPinchMoveLockBound){
+    viewerElement.__kywooPinchMoveLockBound = true;
+
+    viewerElement.addEventListener(
+      'touchmove',
+      function(e){
+        if(e.touches && e.touches.length > 1){
+          e.preventDefault();
+        }
+      },
+      { passive:false, capture:true }
+    );
+  }
 
   document.addEventListener('keydown', e => {
     if(viewer.classList.contains('active')){

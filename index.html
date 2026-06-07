@@ -1731,7 +1731,7 @@ body.lightbox-open{
     height: 100% !important;
     left: 0 !important;
     right: 0 !important;
-    touch-action: auto !important;
+    touch-action: none !important;
     overscroll-behavior: none !important;
   }
 
@@ -1745,7 +1745,7 @@ body.lightbox-open{
     background: #00060a !important;
     overflow: hidden !important;
     z-index: 99990 !important;
-    touch-action: auto !important;
+    touch-action: none !important;
     overscroll-behavior: none !important;
     filter: none !important;
     backdrop-filter: none !important;
@@ -1789,7 +1789,7 @@ body.lightbox-open{
     align-items: center !important;
     justify-content: center !important;
     padding: 0 !important;
-    touch-action: auto !important;
+    touch-action: none !important;
     overscroll-behavior: contain !important;
     pointer-events: auto !important;
   }
@@ -1812,7 +1812,7 @@ body.lightbox-open{
     user-select: none !important;
     -webkit-user-select: none !important;
     -webkit-user-drag: none !important;
-    touch-action: auto !important;
+    touch-action: none !important;
     pointer-events: auto !important;
     transition: none !important;
   }
@@ -2184,6 +2184,1082 @@ body.viewer-open{
   will-change:transform !important;
   touch-action:auto !important;
 }
+
+
+
+/* KYWOO.ART IPAD PORTRAIT PINCH BUG FIX ONLY
+   Scope: iPad/mobile portrait viewer pinch bug only.
+   Safari page/viewer native pinch is blocked by JS while viewer is open;
+   existing JS image pinch transform remains on #viewerImg only. */
+@media (orientation: portrait) and (pointer: coarse){
+  html.viewer-open,
+  body.viewer-open{
+    overflow:hidden !important;
+    overscroll-behavior:none !important;
+  }
+
+  body.viewer-open{
+    position:fixed !important;
+    inset:0 !important;
+    width:100vw !important;
+    height:100dvh !important;
+    overflow:hidden !important;
+  }
+
+  #viewer.viewer,
+  .viewer,
+  .lightbox,
+  .viewer-overlay,
+  .lightbox-overlay{
+    position:fixed !important;
+    inset:0 !important;
+    width:100vw !important;
+    height:100dvh !important;
+    max-width:none !important;
+    max-height:none !important;
+    overflow:hidden !important;
+    overscroll-behavior:none !important;
+    transform:none !important;
+  }
+
+  #viewerStage.viewer-stage,
+  .viewer-stage,
+  .viewer-inner,
+  .lightbox-inner,
+  .lightbox-stage{
+    position:absolute !important;
+    inset:0 !important;
+    width:100% !important;
+    height:100% !important;
+    overflow:hidden !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    transform:none !important;
+  }
+
+  #viewerImg.viewer-img,
+  .viewer img,
+  .lightbox img{
+    max-width:90vw !important;
+    max-height:82dvh !important;
+    object-fit:contain !important;
+    user-select:none !important;
+    -webkit-user-select:none !important;
+    -webkit-user-drag:none !important;
+    will-change:transform !important;
+  }
+}
+
+</style>
+</head>
+
+<body class="korean">
+<div class="site">
+
+<header class="header">
+  <div class="header-inner">
+    <button class="menu-btn" id="menuBtn" type="button" aria-label="menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <button class="logo" id="logoBtn" type="button" aria-label="Home">
+      김영우
+      <span>KIM YOUNG WOO</span>
+    </button>
+
+    <div class="lang" aria-label="Language controls">
+      <button type="button" id="koBtn" class="active">KR</button>
+      <button type="button" id="enBtn">EN</button>
+    </div>
+  </div>
+</header>
+
+<nav class="menu" id="menu" aria-hidden="true">
+  <button type="button" data-view="home">HOME</button>
+  <button type="button" data-view="works">WORKS</button>
+  <button type="button" data-view="research">RESEARCH</button>
+  <button type="button" data-view="about">ABOUT</button>
+  <button type="button" data-view="contact">CONTACT</button>
+</nav>
+
+<div class="menu-overlay" id="menuOverlay"></div>
+
+<main>
+  <section class="view active" id="home">
+    <div class="hero">
+      <div class="ko">
+        <h1 class="hero-title">
+          김영우
+        </h1>
+        <div class="text" style="margin-top:34px;">
+          감각은 형태가 되기 전에 이미 존재한다.<br>
+          작업은 그것을 드러내는 과정이다.
+        </div>
+      </div>
+
+      <div class="en">
+        <h1 class="hero-title">
+          KIM YOUNG WOO
+        </h1>
+        <div class="text" style="margin-top:34px;">
+          Sensation exists before it becomes form.<br>
+          The work is the process of revealing it.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="works">
+    <div class="works-head">
+      <h2 class="section-title">
+        <span class="lang-kr">작품</span>
+        <span class="lang-en">WORKS</span>
+      </h2>
+    </div>
+
+    <div class="works-stage">
+      <div id="worksGrid" class="w-grid"></div>
+      <div id="worksMessage" class="w-msg" style="display:none;"></div>
+    </div>
+  </section>
+
+  <section class="view" id="research">
+    <div class="section-box">
+      <div class="ko">
+        <h2 class="section-title">
+          <span class="lang-kr">연구</span>
+          <span class="lang-en">RESEARCH</span>
+        </h2>
+        <div class="text">
+          작품 이전의 사유<br>
+          감각 구조<br>
+          언어 이전의 상태<br>
+          존재에 대한 관심과 따뜻한 시선
+        </div>
+      </div>
+
+      <div class="en">
+        <h2 class="section-title">
+          <span class="lang-kr">연구</span>
+          <span class="lang-en">RESEARCH</span>
+        </h2>
+        <div class="text">
+          Thought before the work<br>
+          Structures of sensation<br>
+          States before language<br>
+          A warm gaze toward existence
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="about">
+    <div class="section-box">
+      <div class="ko">
+        <h2 class="section-title">
+          <span class="lang-kr">작가 소개</span>
+          <span class="lang-en">ABOUT</span>
+        </h2>
+        <div class="text">
+          김영우는 베를린에서 약 12년간 활동한 작가로,<br>
+          베를린 자유대학교에서 연극사와 미술사를 전공하고 석사를 취득했다.<br><br>
+
+          이를 기반으로 작업을 전개하며,<br>
+          현재 한국에서 활동한다.<br><br>
+
+          그의 작업은 감각과 존재,<br>
+          그리고 형태 이전의 상태를 탐구한다.
+        </div>
+      </div>
+
+      <div class="en">
+        <h2 class="section-title">
+          <span class="lang-kr">작가 소개</span>
+          <span class="lang-en">ABOUT</span>
+        </h2>
+        <div class="text">
+          Kim Young Woo is an artist who worked in Berlin for approximately 12 years.<br>
+          She received her Master’s degree from Freie Universität Berlin,<br>
+          where she studied theatre history and art history.<br><br>
+
+          Based on this foundation, she develops her practice<br>
+          and is currently active in Korea.<br><br>
+
+          Her work explores sensation and existence,<br>
+          as well as states prior to form.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="contact">
+    <div class="section-box">
+      <div class="ko">
+        <h2 class="section-title">
+          <span class="lang-kr">연락</span>
+          <span class="lang-en">CONTACT</span>
+        </h2>
+        <div class="text">
+          <div class="contact-line">
+            Email →<br>
+            <a href="mailto:edelstein7@naver.com?subject=Kywoo.art Inquiry">edelstein7@naver.com</a>
+          </div>
+          <div class="contact-line">
+            Instagram →<br>
+            <a href="https://instagram.com/youngwoo_1980" target="_blank" rel="noopener">@youngwoo_1980</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="en">
+        <h2 class="section-title">
+          <span class="lang-kr">연락</span>
+          <span class="lang-en">CONTACT</span>
+        </h2>
+        <div class="text">
+          <div class="contact-line">
+            Email →<br>
+            <a href="mailto:edelstein7@naver.com?subject=Kywoo.art Inquiry">edelstein7@naver.com</a>
+          </div>
+          <div class="contact-line">
+            Instagram →<br>
+            <a href="https://instagram.com/youngwoo_1980" target="_blank" rel="noopener">@youngwoo_1980</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="viewer" id="viewer" aria-hidden="true">
+  <button type="button" class="viewer-close" id="viewerClose" aria-label="Close">×</button>
+  <button type="button" class="viewer-prev" id="viewerPrev" aria-label="Previous">‹</button>
+  <button type="button" class="viewer-next" id="viewerNext" aria-label="Next">›</button>
+
+  <div class="viewer-stage" id="viewerStage">
+    <img id="viewerImg" class="viewer-img" draggable="false" alt="">
+  </div>
+
+  <div class="viewer-caption" hidden aria-hidden="true">
+    <div class="viewer-title" id="viewerTitle"></div>
+    <div class="viewer-meta" id="viewerMeta"></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+(() => {
+  'use strict';
+
+  if (window.__KYWOO_BOOTED__) return;
+  window.__KYWOO_BOOTED__ = true;
+
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+
+  const menu = $('#menu');
+  const menuOverlay = $('#menuOverlay');
+  const menuBtn = $('#menuBtn');
+  const logoBtn = $('#logoBtn');
+  const koBtn = $('#koBtn');
+  const enBtn = $('#enBtn');
+  const views = $$('.view');
+
+  const worksGrid = $('#worksGrid');
+  const worksMessage = $('#worksMessage');
+
+  const viewer = $('#viewer');
+  const viewerStage = $('#viewerStage');
+  const viewerImg = $('#viewerImg');
+  const viewerClose = $('#viewerClose');
+  const viewerPrev = $('#viewerPrev');
+  const viewerNext = $('#viewerNext');
+
+  let currentLang = localStorage.getItem('kywoo_lang') === 'en' ? 'en' : 'ko';
+  let worksData = [];
+  let viewerIndex = 0;
+  let savedScrollY = 0;
+  let viewerReturnScrollY = 0;
+  let viewerCurrentWorkId = null;
+  let lightboxIsOpen = false;
+  let currentViewerSrc = '';
+
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let viewerTouching = false;
+
+  function escapeHTML(v){
+    return String(v ?? '')
+      .replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;')
+      .replace(/'/g,'&#039;');
+  }
+
+  function openMenu(){
+    menu.classList.add('open');
+    menuOverlay.classList.add('show');
+    menu.setAttribute('aria-hidden','false');
+    document.body.classList.add('menu-open');
+  }
+
+  function closeMenu(){
+    menu.classList.remove('open');
+    menuOverlay.classList.remove('show');
+    menu.setAttribute('aria-hidden','true');
+    document.body.classList.remove('menu-open');
+  }
+
+  function toggleMenu(){
+    if(menu.classList.contains('open')) closeMenu();
+    else openMenu();
+  }
+
+  function openView(id){
+    views.forEach(v => v.classList.toggle('active', v.id === id));
+    closeMenu();
+    window.scrollTo({top:0, left:0, behavior:'auto'});
+    if(id === 'works' && worksData.length === 0) loadWorks();
+  }
+
+  function setLang(lang){
+    currentLang = lang === 'en' ? 'en' : 'ko';
+    document.body.classList.toggle('english', currentLang === 'en');
+    document.body.classList.toggle('korean', currentLang === 'ko');
+    document.documentElement.lang = currentLang === 'en' ? 'en' : 'ko';
+    document.documentElement.dataset.lang = currentLang === 'en' ? 'en' : 'kr';
+    koBtn.classList.toggle('active', currentLang === 'ko');
+    enBtn.classList.toggle('active', currentLang === 'en');
+    localStorage.setItem('kywoo_lang', currentLang);
+    renderWorks();
+  }
+
+  function getTitle(w){
+    return currentLang === 'en'
+      ? (w.title_en || w.title_kr || '')
+      : (w.title_kr || w.title_en || '');
+  }
+
+  function getMedium(w){
+    if(currentLang === 'en') return w.medium_en || w.material_en || w.medium_kr || w.material_kr || '';
+    return w.medium_kr || w.material_kr || w.medium_en || w.material_en || '';
+  }
+
+  function getSize(w){
+    return currentLang === 'en'
+      ? (w.size_en || w.size_kr || '')
+      : (w.size_kr || w.size_en || '');
+  }
+
+  function getYear(w){
+    return w.year || '';
+  }
+
+  function getWorkId(w, index){
+    return String((w && (w.id || w.image)) || index);
+  }
+
+  function findViewerReturnTarget(){
+    if(viewerCurrentWorkId === null || viewerCurrentWorkId === undefined) return null;
+    const id = String(viewerCurrentWorkId);
+    return Array.from(document.querySelectorAll('[data-work-id]'))
+      .find(el => el.dataset.workId === id) || null;
+  }
+
+  function normalizeWorks(data){
+    const list = Array.isArray(data) ? data : (data.works || []);
+    return Array.isArray(list) ? list : [];
+  }
+
+  function showWorksMessage(kr, en){
+    worksMessage.style.display = 'block';
+    worksMessage.innerHTML = `<div class="ko">${escapeHTML(kr)}</div><div class="en">${escapeHTML(en)}</div>`;
+  }
+
+  function hideWorksMessage(){
+    worksMessage.style.display = 'none';
+    worksMessage.innerHTML = '';
+  }
+
+  function renderWorks(){
+    if(!worksGrid) return;
+    worksGrid.innerHTML = '';
+
+    if(!worksData.length){
+      showWorksMessage('작품 준비 중', 'Works coming soon');
+      return;
+    }
+
+    hideWorksMessage();
+
+    worksData.forEach((w, index) => {
+      const title = getTitle(w);
+      const medium = getMedium(w);
+      const size = getSize(w);
+      const year = getYear(w);
+      const image = w.image || '';
+      const zoom = w.zoom || image;
+
+      const card = document.createElement('article');
+      card.className = 'w-card';
+      card.tabIndex = 0;
+      card.setAttribute('role','button');
+      card.setAttribute('aria-label', title || 'Artwork');
+      card.dataset.index = String(index);
+      card.dataset.zoom = zoom;
+      card.dataset.workId = getWorkId(w, index);
+
+      card.innerHTML = `
+        <img class="w-thumb" src="${escapeHTML(image)}" alt="${escapeHTML(title || 'Kim Young Woo artwork')}" loading="${index === 0 ? 'eager' : 'lazy'}" decoding="async">
+        <div class="w-meta">
+          <div class="w-title">${escapeHTML(title)}</div>
+          <div class="w-sub">${escapeHTML(medium)}${medium ? '<br>' : ''}${escapeHTML(size)}${size ? '<br>' : ''}${escapeHTML(year)}</div>
+        </div>
+      `;
+
+      card.addEventListener('click', e => {
+        if(lightboxIsOpen) return;
+        e.preventDefault();
+        e.stopPropagation();
+        openViewer(index);
+      });
+      card.addEventListener('keydown', e => {
+        if(e.key === 'Enter' || e.key === ' '){
+          e.preventDefault();
+          if(!lightboxIsOpen) openViewer(index);
+        }
+      });
+
+      worksGrid.appendChild(card);
+    });
+  }
+
+  async function loadWorks(){
+    try{
+      hideWorksMessage();
+      const res = await fetch('data/works.json', { cache:'no-store' });
+      if(!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      worksData = normalizeWorks(data);
+      renderWorks();
+    }catch(err){
+      worksData = [];
+      worksGrid.innerHTML = '';
+      showWorksMessage('Works unavailable', 'Works unavailable');
+    }
+  }
+
+
+  function resetViewerView(){
+    viewer.scrollLeft = 0;
+    viewer.scrollTop = 0;
+    viewerStage.scrollLeft = 0;
+    viewerStage.scrollTop = 0;
+  }
+
+  function lockPageForViewer(){
+    savedScrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
+    viewerReturnScrollY = savedScrollY;
+
+    document.documentElement.classList.add('lightbox-open');
+    document.body.classList.add('lightbox-open');
+
+    document.documentElement.classList.add('viewer-open');
+    document.body.classList.add('viewer-open');
+
+    document.body.style.top = `-${viewerReturnScrollY}px`;
+  }
+
+  function unlockPageForViewer(){
+    document.documentElement.classList.remove('lightbox-open');
+    document.body.classList.remove('lightbox-open');
+
+    document.documentElement.classList.remove('viewer-open');
+    document.body.classList.remove('viewer-open');
+
+    document.body.style.top = '';
+    document.body.style.position = '';
+    document.body.style.width = '';
+    document.body.style.left = '';
+    document.body.style.right = '';
+  }
+
+  function returnToViewerWork(){
+    requestAnimationFrame(() => {
+      const target = findViewerReturnTarget();
+
+      if(target){
+        target.scrollIntoView({
+          block:'center',
+          inline:'nearest',
+          behavior:'auto'
+        });
+      }else{
+        window.scrollTo(
+          0,
+          viewerReturnScrollY
+        );
+      }
+    });
+  }
+
+
+  function setViewerImage(w){
+    currentViewerSrc = (w && (w.zoom || w.image)) || '';
+    viewerImg.onerror = () => {
+      viewerImg.onerror = null;
+      if(w && w.image){
+        viewerImg.src = w.image;
+      }
+    };
+    viewerImg.removeAttribute('src');
+    requestAnimationFrame(() => {
+      viewerImg.src = currentViewerSrc;
+    });
+  }
+
+
+  function openViewer(index){
+    if(lightboxIsOpen) return;
+    kywooResetMobileViewerTransform();
+    kywooLockMobileViewerLayer();
+    if(!worksData.length) return;
+
+    viewerIndex = Math.max(0, Math.min(index, worksData.length - 1));
+    const w = worksData[viewerIndex];
+    viewerCurrentWorkId = getWorkId(w, viewerIndex);
+
+    resetViewerView();
+    lockPageForViewer();
+
+    lightboxIsOpen = true;
+    viewer.classList.add('active');
+    viewer.setAttribute('aria-hidden','false');
+    document.documentElement.classList.add('viewer-open');
+    document.body.classList.add('viewer-open');
+
+    viewerImg.alt = getTitle(w) || 'Kim Young Woo artwork';
+    setViewerImage(w);
+    kywooResetMobileViewerTransform();
+    prefetchNeighborWorks();
+  }
+
+  function closeViewer(){
+    kywooResetMobileViewerTransform();
+    kywooUnlockMobileViewerLayer();
+    viewer.classList.remove('active');
+    viewer.setAttribute('aria-hidden','true');
+
+    viewerImg.removeAttribute('src');
+    viewerImg.alt = '';
+    currentViewerSrc = '';
+    lightboxIsOpen = false;
+
+    resetViewerView();
+    unlockPageForViewer();
+    returnToViewerWork();
+  }
+
+  function prefetchNeighborWorks(){
+    if(!worksData.length) return;
+    const prev = worksData[(viewerIndex - 1 + worksData.length) % worksData.length];
+    const next = worksData[(viewerIndex + 1) % worksData.length];
+    [prev, next].forEach(item => {
+      const src = item && (item.zoom || item.image);
+      if(!src) return;
+      const img = new Image();
+      img.src = src;
+    });
+  }
+
+  function updateViewerImage(){
+    kywooResetMobileViewerTransform();
+    if(!worksData.length) return;
+    const w = worksData[viewerIndex];
+    if(!w) return;
+    viewerCurrentWorkId = getWorkId(w, viewerIndex);
+    resetViewerView();
+    viewerImg.alt = getTitle(w) || 'Kim Young Woo artwork';
+    setViewerImage(w);
+    kywooResetMobileViewerTransform();
+    prefetchNeighborWorks();
+  }
+
+  function showViewer(delta){
+    if(!worksData.length) return;
+    if(!lightboxIsOpen) return;
+    if(!viewer.classList.contains('active')) return;
+    viewerIndex = (viewerIndex + delta + worksData.length) % worksData.length;
+    updateViewerImage();
+  }
+
+
+  menuBtn.addEventListener('click', toggleMenu);
+  menuOverlay.addEventListener('click', closeMenu);
+  logoBtn.addEventListener('click', () => openView('home'));
+
+  menu.addEventListener('click', e => {
+    const btn = e.target.closest('button[data-view]');
+    if(!btn) return;
+    openView(btn.dataset.view);
+  });
+
+  koBtn.addEventListener('click', () => setLang('ko'));
+  enBtn.addEventListener('click', () => setLang('en'));
+
+  viewerClose.addEventListener('click', e => {
+    e.preventDefault();
+    e.stopPropagation();
+    closeViewer();
+  });
+  viewerPrev.addEventListener('click', e => {
+    e.preventDefault();
+    e.stopPropagation();
+    showViewer(-1);
+  });
+  viewerNext.addEventListener('click', e => {
+    e.preventDefault();
+    e.stopPropagation();
+    showViewer(1);
+  });
+
+  viewer.addEventListener('click', e => {
+    e.stopPropagation();
+    if(e.target === viewer) closeViewer();
+  });
+
+  viewerStage.addEventListener('click', e => {
+    e.stopPropagation();
+  });
+
+  viewer.addEventListener('touchstart', e => { e.stopPropagation(); }, { passive:true });
+  viewer.addEventListener('touchmove', e => { e.stopPropagation(); }, { passive:true });
+
+
+  viewerStage.addEventListener('touchstart', e => {
+    if(!viewer.classList.contains('active')) return;
+    if(e.touches.length !== 1){
+      viewerTouching = false;
+      return;
+    }
+    const touch = e.touches[0];
+    if(!touch) return;
+    viewerTouching = true;
+    touchStartX = touch.clientX;
+    touchStartY = touch.clientY;
+  }, { passive:true });
+
+  viewerStage.addEventListener('touchmove', e => {
+    if(!viewer.classList.contains('active')) return;
+    if(e.touches.length > 1){
+      viewerTouching = false;
+    }
+  }, { passive:true });
+
+  viewerStage.addEventListener('touchend', e => {
+    if(!viewer.classList.contains('active')) return;
+    e.stopPropagation();
+    if(!viewerTouching) return;
+    viewerTouching = false;
+
+    const touch = e.changedTouches && e.changedTouches[0];
+    if(!touch) return;
+
+    const dx = touch.clientX - touchStartX;
+    const dy = touch.clientY - touchStartY;
+
+    if(Math.abs(dx) > 70 && Math.abs(dx) > Math.abs(dy) * 1.4){
+      if(dx < 0) showViewer(1);
+      else showViewer(-1);
+    }
+  }, { passive:true });
+
+  viewerStage.addEventListener('touchcancel', () => {
+    viewerTouching = false;
+  }, { passive:true });
+
+
+
+
+  /* KYWOO ART MOBILE VIEWER STABILIZATION ONLY — single mobile touch engine */
+  let kywooMobileScale = 1;
+  let kywooMobileTranslateX = 0;
+  let kywooMobileTranslateY = 0;
+  let kywooMobileIsPinching = false;
+  let kywooMobileIsPanning = false;
+  let kywooMobilePinchJustEnded = false;
+  let kywooMobilePinchEndTimer = null;
+  let kywooMobileStartScale = 1;
+  let kywooMobilePinchStartDistance = 0;
+  let kywooMobilePanStartX = 0;
+  let kywooMobilePanStartY = 0;
+  let kywooMobileStartTranslateX = 0;
+  let kywooMobileStartTranslateY = 0;
+  let kywooMobileSwipeStartX = null;
+  let kywooMobileSwipeStartY = null;
+  let kywooMobileSwipeEndX = null;
+  let kywooMobileSwipeEndY = null;
+
+  function kywooIsMobileViewer(){
+    return window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+  }
+
+  function kywooClamp(value, min, max){
+    return Math.min(Math.max(value, min), max);
+  }
+
+  function kywooGetTouchDistance(touches){
+    const dx = touches[0].clientX - touches[1].clientX;
+    const dy = touches[0].clientY - touches[1].clientY;
+    return Math.hypot(dx, dy);
+  }
+
+  function kywooClampMobileImageToFrame(){
+    if(!viewerStage || !viewerImg) return;
+    const frame = viewerStage.getBoundingClientRect();
+    const baseWidth = viewerImg.offsetWidth || viewerImg.getBoundingClientRect().width || frame.width;
+    const baseHeight = viewerImg.offsetHeight || viewerImg.getBoundingClientRect().height || frame.height;
+    const scaledWidth = baseWidth * kywooMobileScale;
+    const scaledHeight = baseHeight * kywooMobileScale;
+    const maxX = Math.max(0, (scaledWidth - frame.width) / 2);
+    const maxY = Math.max(0, (scaledHeight - frame.height) / 2);
+    kywooMobileTranslateX = kywooClamp(kywooMobileTranslateX, -maxX, maxX);
+    kywooMobileTranslateY = kywooClamp(kywooMobileTranslateY, -maxY, maxY);
+  }
+
+  function kywooApplyMobileViewerTransform(){
+    if(!viewerImg) return;
+    kywooClampMobileImageToFrame();
+    /* KYWOO MOBILE FULLSCREEN PINCH RESTORE ONLY
+       Important: earlier CSS contains transform:none !important for the viewer image.
+       Use setProperty(..., 'important') so the mobile pinch transform actually wins. */
+    viewerImg.style.setProperty('transform', `translate3d(${kywooMobileTranslateX}px, ${kywooMobileTranslateY}px, 0) scale(${kywooMobileScale})`, 'important');
+    viewerImg.style.setProperty('transform-origin', 'center center', 'important');
+    viewerImg.style.setProperty('will-change', 'transform', 'important');
+  }
+
+  function kywooResetMobileViewerTransform(){
+    kywooMobileScale = 1;
+    kywooMobileTranslateX = 0;
+    kywooMobileTranslateY = 0;
+    kywooMobileIsPinching = false;
+    kywooMobileIsPanning = false;
+    kywooMobilePinchJustEnded = false;
+    kywooMobileSwipeStartX = null;
+    kywooMobileSwipeStartY = null;
+    kywooMobileSwipeEndX = null;
+    kywooMobileSwipeEndY = null;
+    if(kywooMobilePinchEndTimer){
+      clearTimeout(kywooMobilePinchEndTimer);
+      kywooMobilePinchEndTimer = null;
+    }
+    if(viewerImg){
+      viewerImg.style.setProperty('transition', 'none', 'important');
+      viewerImg.style.setProperty('transform', 'translate3d(0px, 0px, 0) scale(1)', 'important');
+      viewerImg.style.setProperty('will-change', 'transform', 'important');
+      requestAnimationFrame(() => {
+        viewerImg.style.setProperty('transition', 'none', 'important');
+      });
+    }
+  }
+
+  function kywooLockMobileViewerLayer(){
+    if(!kywooIsMobileViewer()) return;
+    document.documentElement.classList.add('kywoo-mobile-viewer-lock');
+    document.body.classList.add('kywoo-mobile-viewer-lock');
+  }
+
+  function kywooUnlockMobileViewerLayer(){
+    document.documentElement.classList.remove('kywoo-mobile-viewer-lock');
+    document.body.classList.remove('kywoo-mobile-viewer-lock');
+  }
+
+  viewerClose.addEventListener('touchstart', e => {
+    if(!kywooIsMobileViewer()) return;
+    e.preventDefault();
+    e.stopPropagation();
+    kywooResetMobileViewerTransform();
+    closeViewer();
+  }, { passive:false });
+
+  viewerStage.addEventListener('touchstart', e => {
+    if(!kywooIsMobileViewer()) return;
+    if(!viewer.classList.contains('active')) return;
+    if(e.target && e.target.closest && e.target.closest('.viewer-close, .lightbox-close, .modal-close, .close-btn')) return;
+
+    if(e.touches.length === 2){
+      kywooMobileIsPinching = true;
+      kywooMobileIsPanning = false;
+      kywooMobilePinchJustEnded = false;
+
+      if(kywooMobilePinchEndTimer){
+        clearTimeout(kywooMobilePinchEndTimer);
+        kywooMobilePinchEndTimer = null;
+      }
+
+      kywooMobileSwipeStartX = null;
+      kywooMobileSwipeStartY = null;
+      kywooMobileSwipeEndX = null;
+      kywooMobileSwipeEndY = null;
+
+      kywooMobilePinchStartDistance = kywooGetTouchDistance(e.touches);
+      kywooMobileStartScale = kywooMobileScale;
+      kywooMobileStartTranslateX = kywooMobileTranslateX;
+      kywooMobileStartTranslateY = kywooMobileTranslateY;
+      return;
+    }
+
+    if(e.touches.length === 1 && kywooMobileScale > 1.02){
+      e.preventDefault();
+      e.stopImmediatePropagation();
+
+      kywooMobileIsPanning = true;
+      kywooMobilePanStartX = e.touches[0].clientX;
+      kywooMobilePanStartY = e.touches[0].clientY;
+      kywooMobileStartTranslateX = kywooMobileTranslateX;
+      kywooMobileStartTranslateY = kywooMobileTranslateY;
+      return;
+    }
+
+    if(e.touches.length === 1){
+      kywooMobileSwipeStartX = e.touches[0].clientX;
+      kywooMobileSwipeStartY = e.touches[0].clientY;
+      kywooMobileSwipeEndX = kywooMobileSwipeStartX;
+      kywooMobileSwipeEndY = kywooMobileSwipeStartY;
+    }
+  }, { passive:false, capture:true });
+
+  viewerStage.addEventListener('touchmove', e => {
+    if(!kywooIsMobileViewer()) return;
+    if(!viewer.classList.contains('active')) return;
+    if(e.target && e.target.closest && e.target.closest('.viewer-close, .lightbox-close, .modal-close, .close-btn')) return;
+
+    if(kywooMobileIsPinching && e.touches.length === 2){
+      const dist = kywooGetTouchDistance(e.touches);
+      const nextScale = kywooMobileStartScale * (dist / kywooMobilePinchStartDistance);
+      kywooMobileScale = Math.max(1, Math.min(4, nextScale));
+
+      kywooMobileTranslateX = kywooMobileStartTranslateX;
+      kywooMobileTranslateY = kywooMobileStartTranslateY;
+
+      kywooApplyMobileViewerTransform();
+
+      /* KYWOO.ART PINCH ALIVE + VIEWER DRAG LOCK ONLY
+         Keep the JS pinch calculation alive, then block iOS Safari's
+         default fullscreen layer drag at the very end. */
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      return;
+    }
+
+    if(kywooMobileIsPanning && e.touches.length === 1){
+      e.preventDefault();
+      e.stopImmediatePropagation();
+
+      const dx = e.touches[0].clientX - kywooMobilePanStartX;
+      const dy = e.touches[0].clientY - kywooMobilePanStartY;
+
+      kywooMobileTranslateX = kywooMobileStartTranslateX + dx;
+      kywooMobileTranslateY = kywooMobileStartTranslateY + dy;
+
+      kywooApplyMobileViewerTransform();
+      return;
+    }
+
+    if(kywooMobileScale > 1.02 || kywooMobileIsPinching || kywooMobilePinchJustEnded){
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      return;
+    }
+
+    if(e.touches.length === 1 && kywooMobileSwipeStartX !== null){
+      kywooMobileSwipeEndX = e.touches[0].clientX;
+      kywooMobileSwipeEndY = e.touches[0].clientY;
+    }
+  }, { passive:false, capture:true });
+
+  viewerStage.addEventListener('touchend', e => {
+    if(!kywooIsMobileViewer()) return;
+    if(!viewer.classList.contains('active')) return;
+
+    if(kywooMobileIsPinching && e.touches.length < 2){
+      e.preventDefault();
+      e.stopImmediatePropagation();
+
+      kywooMobileIsPinching = false;
+      kywooMobilePinchJustEnded = true;
+
+      if(kywooMobileScale <= 1.02){
+        kywooMobileScale = 1;
+        kywooMobileTranslateX = 0;
+        kywooMobileTranslateY = 0;
+        kywooApplyMobileViewerTransform();
+      }
+
+      if(kywooMobilePinchEndTimer) clearTimeout(kywooMobilePinchEndTimer);
+      kywooMobilePinchEndTimer = setTimeout(() => {
+        kywooMobilePinchJustEnded = false;
+        kywooMobilePinchEndTimer = null;
+      }, 350);
+
+      return;
+    }
+
+    if(kywooMobileIsPanning && e.touches.length === 0){
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      kywooMobileIsPanning = false;
+      return;
+    }
+
+    if(kywooMobilePinchJustEnded || kywooMobileScale > 1.02){
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      return;
+    }
+
+    if(e.touches.length === 0 && kywooMobileSwipeStartX !== null && kywooMobileSwipeEndX !== null){
+      e.preventDefault();
+      e.stopImmediatePropagation();
+
+      const dx = kywooMobileSwipeEndX - kywooMobileSwipeStartX;
+      const dy = kywooMobileSwipeEndY - kywooMobileSwipeStartY;
+      kywooMobileSwipeStartX = null;
+      kywooMobileSwipeStartY = null;
+      kywooMobileSwipeEndX = null;
+      kywooMobileSwipeEndY = null;
+
+      if(Math.abs(dx) > 70 && Math.abs(dx) > Math.abs(dy) * 1.4){
+        if(dx < 0) showViewer(1);
+        else showViewer(-1);
+      }
+    }
+  }, { passive:false, capture:true });
+
+  viewerStage.addEventListener('touchcancel', e => {
+    if(!kywooIsMobileViewer()) return;
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    kywooMobileIsPinching = false;
+    kywooMobileIsPanning = false;
+    kywooMobileSwipeStartX = null;
+    kywooMobileSwipeStartY = null;
+    kywooMobileSwipeEndX = null;
+    kywooMobileSwipeEndY = null;
+  }, { passive:false, capture:true });
+
+  viewer.addEventListener('touchmove', e => {
+    if(!kywooIsMobileViewer()) return;
+    if(!viewer.classList.contains('active')) return;
+    if(e.target && e.target.closest && e.target.closest('.viewer-close, .lightbox-close, .modal-close, .close-btn')) return;
+    if(e.target === viewer){
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }, { passive:false, capture:true });
+
+
+
+  /* KYWOO.ART MOBILE CLOSE SUBTLE + PINCH RESTORE ONLY
+     iOS Safari guard: prevent one-finger viewer drag, keep two-finger pinch active. */
+  const viewerElement = viewer;
+
+  if(viewerElement && !viewerElement.__kywooPinchMoveLockBound){
+    viewerElement.__kywooPinchMoveLockBound = true;
+
+    viewerElement.addEventListener(
+      'touchmove',
+      function(e){
+        if(!lightboxIsOpen) return;
+
+        if(e.touches && e.touches.length === 1){
+          e.preventDefault();
+        }
+      },
+      { passive:false, capture:true }
+    );
+  }
+
+  document.addEventListener('keydown', e => {
+    if(viewer.classList.contains('active')){
+      if(e.key === 'Escape') closeViewer();
+      if(e.key === 'ArrowLeft'){
+        e.preventDefault();
+        showViewer(-1);
+      }
+      if(e.key === 'ArrowRight'){
+        e.preventDefault();
+        showViewer(1);
+      }
+      return;
+    }
+
+    if(e.key === 'Escape' && menu.classList.contains('open')) closeMenu();
+  });
+
+  window.openHome = () => openView('home');
+  window.openWorks = () => openView('works');
+  window.openResearch = () => openView('research');
+  window.openAbout = () => openView('about');
+  window.openContact = () => openView('contact');
+
+  setLang(currentLang);
+  loadWorks();
+
+
+  /* KYWOO.ART IPAD PORTRAIT PINCH BUG FIX ONLY
+     Block iOS Safari native page/viewer gesture zoom while the viewer is open.
+     Existing touchmove handlers still calculate and apply image-only pinch first. */
+  (function kywooBlockNativeIOSGestureInViewer(){
+    if(window.__kywooNativeGestureViewerBlockBound) return;
+    window.__kywooNativeGestureViewerBlockBound = true;
+
+    ['gesturestart','gesturechange','gestureend'].forEach(function(type){
+      document.addEventListener(type, function(e){
+        if(document.body.classList.contains('viewer-open')){
+          e.preventDefault();
+        }
+      }, { passive:false });
+    });
+  })();
+
+  (function preventMobilePageZoom(){
+    let lastTouchEnd = 0;
+
+    function isViewerTarget(target){
+      return !!(target && target.closest && target.closest('#viewer, .viewer, .lightbox, #viewerStage, #viewerImg'));
+    }
+
+    document.addEventListener("gesturestart", function(e){
+      if(isViewerTarget(e.target)) return;
+      e.preventDefault();
+    }, { passive:false });
+
+    document.addEventListener("gesturechange", function(e){
+      if(isViewerTarget(e.target)) return;
+      e.preventDefault();
+    }, { passive:false });
+
+    document.addEventListener("gestureend", function(e){
+      if(isViewerTarget(e.target)) return;
+      e.preventDefault();
+    }, { passive:false });
+
+    document.addEventListener("touchend", function(e){
+      if(isViewerTarget(e.target)) return;
+
+      const now = Date.now();
+      if(now - lastTouchEnd <= 300){
+        e.preventDefault();
+      }
+      lastTouchEnd = now;
+    }, { passive:false });
+  })();
 
 
 

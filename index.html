@@ -2251,6 +2251,74 @@ body.viewer-open{
   }
 }
 
+
+
+/* KYWOO.ART IPAD PORTRAIT USE MOBILE PINCH LOGIC ONLY
+   Scope: iPad/touch portrait viewer pinch uses the same image-only JS transform as mobile.
+   No document gesture blocking and no viewer/stage touch-action:none. */
+@media (orientation: portrait) and (pointer: coarse){
+  html.viewer-open,
+  body.viewer-open{
+    overflow:hidden !important;
+    overscroll-behavior:none !important;
+    touch-action:auto !important;
+  }
+
+  body.viewer-open{
+    position:fixed !important;
+    inset:0 !important;
+    width:100vw !important;
+    height:100dvh !important;
+    overflow:hidden !important;
+  }
+
+  #viewer.viewer,
+  .viewer,
+  .lightbox,
+  .viewer-overlay,
+  .lightbox-overlay{
+    position:fixed !important;
+    inset:0 !important;
+    width:100vw !important;
+    height:100dvh !important;
+    overflow:hidden !important;
+    overscroll-behavior:none !important;
+    transform:none !important;
+    touch-action:auto !important;
+  }
+
+  #viewerStage.viewer-stage,
+  .viewer-stage,
+  .viewer-inner,
+  .lightbox-inner,
+  .lightbox-stage{
+    position:absolute !important;
+    inset:0 !important;
+    width:100% !important;
+    height:100% !important;
+    min-width:0 !important;
+    min-height:0 !important;
+    overflow:hidden !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    transform:none !important;
+    overscroll-behavior:none !important;
+    touch-action:auto !important;
+  }
+
+  #viewerImg.viewer-img,
+  .viewer img,
+  .lightbox img{
+    transform-origin:center center !important;
+    will-change:transform !important;
+    user-select:none !important;
+    -webkit-user-select:none !important;
+    -webkit-user-drag:none !important;
+    touch-action:auto !important;
+  }
+}
+
 </style>
 </head>
 
@@ -2905,8 +2973,27 @@ body.viewer-open{
   let kywooMobileSwipeEndX = null;
   let kywooMobileSwipeEndY = null;
 
+  function kywooIsTouchPortraitViewer(){
+    return !!(
+      window.matchMedia &&
+      window.matchMedia('(pointer: coarse)').matches &&
+      window.matchMedia('(orientation: portrait)').matches
+    );
+  }
+
+  function kywooIsIPadPortrait(){
+    return !!(
+      navigator.maxTouchPoints > 1 &&
+      window.innerHeight > window.innerWidth
+    );
+  }
+
   function kywooIsMobileViewer(){
-    return window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+    return !!(
+      (window.matchMedia && window.matchMedia('(max-width: 768px)').matches) ||
+      kywooIsTouchPortraitViewer() ||
+      kywooIsIPadPortrait()
+    );
   }
 
   function kywooClamp(value, min, max){
@@ -3212,43 +3299,12 @@ body.viewer-open{
   loadWorks();
 
 
-  /* KYWOO.ART IPAD PORTRAIT PINCH BUG FIX ONLY
-     Block iOS Safari native page/viewer gesture zoom while the viewer is open.
-     Existing touchmove handlers still calculate and apply image-only pinch first. */
-  (function kywooBlockNativeIOSGestureInViewer(){
-    if(window.__kywooNativeGestureViewerBlockBound) return;
-    window.__kywooNativeGestureViewerBlockBound = true;
-
-    ['gesturestart','gesturechange','gestureend'].forEach(function(type){
-      document.addEventListener(type, function(e){
-        if(document.body.classList.contains('viewer-open')){
-          e.preventDefault();
-        }
-      }, { passive:false });
-    });
-  })();
-
   (function preventMobilePageZoom(){
     let lastTouchEnd = 0;
 
     function isViewerTarget(target){
       return !!(target && target.closest && target.closest('#viewer, .viewer, .lightbox, #viewerStage, #viewerImg'));
     }
-
-    document.addEventListener("gesturestart", function(e){
-      if(isViewerTarget(e.target)) return;
-      e.preventDefault();
-    }, { passive:false });
-
-    document.addEventListener("gesturechange", function(e){
-      if(isViewerTarget(e.target)) return;
-      e.preventDefault();
-    }, { passive:false });
-
-    document.addEventListener("gestureend", function(e){
-      if(isViewerTarget(e.target)) return;
-      e.preventDefault();
-    }, { passive:false });
 
     document.addEventListener("touchend", function(e){
       if(isViewerTarget(e.target)) return;

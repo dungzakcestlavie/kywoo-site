@@ -2115,6 +2115,76 @@ body.viewer-open{
   touch-action:auto !important;
 }
 
+
+
+/* KYWOO.ART IPAD VIEWER VIEWPORT FIX ONLY
+   Scope: viewer overlay/stage viewport anchoring only.
+   Keeps image transform/pinch calculation, swipe, buttons, layout, colors, data and return scroll untouched. */
+#viewer.viewer,
+.viewer,
+.lightbox,
+.viewer-overlay,
+.lightbox-overlay{
+  position:fixed !important;
+  inset:0 !important;
+  width:100vw !important;
+  height:100dvh !important;
+  max-width:none !important;
+  max-height:none !important;
+  overflow:hidden !important;
+  overscroll-behavior:none !important;
+  transform:none !important;
+  touch-action:auto !important;
+}
+
+.viewer-inner,
+.lightbox-inner,
+#viewerStage.viewer-stage,
+.viewer-stage,
+.lightbox-stage{
+  position:absolute !important;
+  inset:0 !important;
+  width:100% !important;
+  height:100% !important;
+  min-width:0 !important;
+  min-height:0 !important;
+  overflow:hidden !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  transform:none !important;
+  touch-action:auto !important;
+  overscroll-behavior:none !important;
+}
+
+html.viewer-open,
+body.viewer-open{
+  overflow:hidden !important;
+  overscroll-behavior:none !important;
+  touch-action:auto !important;
+}
+
+body.viewer-open{
+  position:fixed !important;
+  inset:0 !important;
+  width:100vw !important;
+  height:100dvh !important;
+  overflow:hidden !important;
+}
+
+#viewerImg.viewer-img,
+.viewer img,
+.lightbox img{
+  max-width:90vw !important;
+  max-height:82dvh !important;
+  object-fit:contain !important;
+  user-select:none !important;
+  -webkit-user-select:none !important;
+  -webkit-user-drag:none !important;
+  will-change:transform !important;
+  touch-action:auto !important;
+}
+
 </style>
 </head>
 

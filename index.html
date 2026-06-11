@@ -2319,6 +2319,290 @@ body.viewer-open{
   }
 }
 
+
+
+/* KYWOO.ART — PHONE LANDSCAPE VIEWER + SECTION COMPRESSION ONLY */
+@media (hover:none) and (pointer:coarse) and (orientation:landscape) and (max-height:520px){
+  :root{
+    --header-bar:58px;
+  }
+
+  .header{
+    min-height:calc(58px + var(--safe-top)) !important;
+    padding:calc(6px + var(--safe-top)) calc(12px + var(--safe-right)) 6px calc(12px + var(--safe-left)) !important;
+  }
+
+  .header-inner{
+    min-height:46px !important;
+  }
+
+  .menu-btn{
+    width:38px !important;
+    height:38px !important;
+    border-radius:12px !important;
+  }
+
+  .menu-btn span{
+    width:19px !important;
+    height:1.5px !important;
+    margin:2.5px 0 !important;
+  }
+
+  .logo{
+    line-height:1.2 !important;
+    letter-spacing:2px !important;
+  }
+
+  .logo span{
+    margin-top:1px !important;
+  }
+
+  .lang{
+    gap:5px !important;
+  }
+
+  .lang button{
+    min-width:38px !important;
+    height:28px !important;
+    padding:0 8px !important;
+  }
+
+  .menu{
+    padding-top:calc(var(--safe-top) + 74px) !important;
+  }
+
+  .menu button{
+    margin:14px 0 !important;
+  }
+
+  .view{
+    min-height:auto !important;
+    overflow:visible !important;
+  }
+
+  .hero{
+    min-height:calc(100svh - var(--header-height)) !important;
+    padding:24px 18px 22px !important;
+  }
+
+  .hero-title{
+    margin-top:0 !important;
+  }
+
+  .hero-title span{
+    margin-top:4px !important;
+  }
+
+  .hero .text,
+  .hero [style*="margin-top:34px"]{
+    margin-top:18px !important;
+  }
+
+  .section-box{
+    max-width:760px !important;
+    padding:34px 22px !important;
+  }
+
+  h2,
+  .section-title{
+    margin-bottom:18px !important;
+  }
+
+  .text{
+    line-height:1.78 !important;
+  }
+
+  #works{
+    padding:22px 12px calc(28px + var(--safe-bottom)) !important;
+  }
+
+  .works-head{
+    padding:2px 0 14px !important;
+  }
+
+  .works-head h2{
+    margin-bottom:6px !important;
+  }
+
+  .works-stage{
+    margin-top:4px !important;
+  }
+
+  #works .w-grid,
+  .w-grid{
+    gap:10px !important;
+  }
+
+  .w-meta{
+    padding:8px 9px 10px !important;
+  }
+
+  .w-title{
+    margin-bottom:4px !important;
+  }
+
+  .w-sub{
+    margin-top:2px !important;
+  }
+
+  .contact-line{
+    margin-top:14px !important;
+  }
+
+  html.viewer-open,
+  body.viewer-open,
+  html.lightbox-open,
+  body.lightbox-open,
+  html.kywoo-mobile-viewer-lock,
+  body.kywoo-mobile-viewer-lock{
+    position:fixed !important;
+    inset:0 !important;
+    width:100vw !important;
+    height:100dvh !important;
+    overflow:hidden !important;
+    overscroll-behavior:none !important;
+    touch-action:none !important;
+  }
+
+  #viewer.viewer,
+  .viewer{
+    position:fixed !important;
+    inset:0 !important;
+    width:100vw !important;
+    height:100dvh !important;
+    display:none !important;
+    align-items:center !important;
+    justify-content:center !important;
+    overflow:hidden !important;
+    background:#000607 !important;
+    overscroll-behavior:none !important;
+    touch-action:none !important;
+    -webkit-overflow-scrolling:auto !important;
+  }
+
+  #viewer.viewer.active,
+  .viewer.active{
+    display:block !important;
+  }
+
+  #viewerStage.viewer-stage,
+  .viewer-stage{
+    position:absolute !important;
+    inset:0 !important;
+    width:100% !important;
+    height:100% !important;
+    min-width:0 !important;
+    min-height:0 !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    padding:0 !important;
+    overflow:hidden !important;
+    contain:layout paint size !important;
+    overscroll-behavior:contain !important;
+    touch-action:none !important;
+    transform:none !important;
+  }
+
+  #viewerImg.viewer-img,
+  .viewer-img{
+    display:block !important;
+    width:auto !important;
+    height:auto !important;
+    max-width:96vw !important;
+    max-height:92dvh !important;
+    object-fit:contain !important;
+    object-position:center center !important;
+    transform-origin:center center !important;
+    user-select:none !important;
+    -webkit-user-select:none !important;
+    -webkit-user-drag:none !important;
+    touch-action:none !important;
+    pointer-events:auto !important;
+    will-change:transform !important;
+  }
+
+  #viewer.viewer.kywoo-phone-landscape-zooming,
+  .viewer.kywoo-phone-landscape-zooming,
+  #viewer.viewer.kywoo-phone-landscape-zooming #viewerStage,
+  .viewer.kywoo-phone-landscape-zooming .viewer-stage{
+    overflow:hidden !important;
+    touch-action:none !important;
+  }
+
+  #viewerPrev,
+  #viewerNext,
+  .viewer-prev,
+  .viewer-next,
+  .viewer-arrow,
+  .lightbox-arrow{
+    display:none !important;
+    visibility:hidden !important;
+    opacity:0 !important;
+    pointer-events:none !important;
+  }
+
+  .viewer-caption,
+  #viewerTitle,
+  #viewerMeta,
+  .viewer-title,
+  .viewer-meta{
+    display:none !important;
+    visibility:hidden !important;
+    height:0 !important;
+    max-height:0 !important;
+    overflow:hidden !important;
+    opacity:0 !important;
+    pointer-events:none !important;
+  }
+
+  #viewerClose.viewer-close,
+  .viewer-close,
+  .lightbox-close,
+  .close-btn{
+    position:fixed !important;
+    top:calc(env(safe-area-inset-top, 0px) + 10px) !important;
+    right:calc(env(safe-area-inset-right, 0px) + 12px) !important;
+    left:auto !important;
+    bottom:auto !important;
+    z-index:100080 !important;
+    width:38px !important;
+    height:38px !important;
+    min-width:38px !important;
+    min-height:38px !important;
+    border-radius:999px !important;
+    font-size:16px !important;
+    line-height:1 !important;
+    opacity:.30 !important;
+    color:rgba(215,190,120,.54) !important;
+    background:rgba(0,20,18,.18) !important;
+    border:1px solid rgba(215,190,120,.14) !important;
+    box-shadow:none !important;
+    backdrop-filter:none !important;
+    -webkit-backdrop-filter:none !important;
+    transform:none !important;
+    touch-action:manipulation !important;
+    pointer-events:auto !important;
+  }
+
+  #viewerClose.viewer-close:hover,
+  .viewer-close:hover,
+  .lightbox-close:hover,
+  .close-btn:hover,
+  #viewerClose.viewer-close:focus-visible,
+  .viewer-close:focus-visible{
+    opacity:.30 !important;
+    color:rgba(215,190,120,.54) !important;
+    background:rgba(0,20,18,.18) !important;
+    border-color:rgba(215,190,120,.14) !important;
+    outline:none !important;
+  }
+
+  #viewerClose.viewer-close:active,
+  .viewer-close:active{
+    opacity:.54 !important;
+  }
+}
 </style>
 </head>
 
@@ -3316,6 +3600,91 @@ body.viewer-open{
       lastTouchEnd = now;
     }, { passive:false });
   })();
+
+
+  /* KYWOO.ART — PHONE LANDSCAPE VIEWER TOUCH GUARD ONLY */
+  function kywooIsPhoneLandscapeViewer(){
+    return !!(
+      window.matchMedia &&
+      window.matchMedia('(hover:none) and (pointer:coarse) and (orientation:landscape) and (max-height:520px)').matches
+    );
+  }
+
+  function kywooSetPhoneLandscapeZoomClass(active){
+    if(!viewer) return;
+    viewer.classList.toggle('kywoo-phone-landscape-zooming', !!active);
+    document.documentElement.classList.toggle('kywoo-phone-landscape-zooming', !!active);
+    document.body.classList.toggle('kywoo-phone-landscape-zooming', !!active);
+  }
+
+  if(viewerStage && !viewerStage.__kywooPhoneLandscapeTouchGuardBound){
+    viewerStage.__kywooPhoneLandscapeTouchGuardBound = true;
+
+    viewerStage.addEventListener('touchstart', function(e){
+      if(!kywooIsPhoneLandscapeViewer()) return;
+      if(!viewer.classList.contains('active')) return;
+      if(e.target && e.target.closest && e.target.closest('.viewer-close, .lightbox-close, .close-btn')) return;
+
+      if(e.touches && e.touches.length >= 2){
+        kywooSetPhoneLandscapeZoomClass(true);
+        viewerTouching = false;
+      }
+    }, { passive:false, capture:true });
+
+    viewerStage.addEventListener('touchmove', function(e){
+      if(!kywooIsPhoneLandscapeViewer()) return;
+      if(!viewer.classList.contains('active')) return;
+      if(e.target && e.target.closest && e.target.closest('.viewer-close, .lightbox-close, .close-btn')) return;
+
+      if(e.touches && e.touches.length >= 2){
+        kywooSetPhoneLandscapeZoomClass(true);
+        viewerTouching = false;
+        e.preventDefault();
+        return;
+      }
+
+      if(kywooMobileScale > 1.02){
+        e.preventDefault();
+      }
+    }, { passive:false, capture:true });
+
+    viewerStage.addEventListener('touchend', function(e){
+      if(!kywooIsPhoneLandscapeViewer()) return;
+      if(!viewer.classList.contains('active')) return;
+
+      if(!e.touches || e.touches.length === 0){
+        window.setTimeout(function(){
+          if(kywooMobileScale <= 1.02){
+            kywooSetPhoneLandscapeZoomClass(false);
+          }
+        }, 80);
+      }
+    }, { passive:false, capture:true });
+
+    viewerStage.addEventListener('touchcancel', function(){
+      if(!kywooIsPhoneLandscapeViewer()) return;
+      kywooSetPhoneLandscapeZoomClass(false);
+    }, { passive:true, capture:true });
+  }
+
+  if(viewer && !viewer.__kywooPhoneLandscapeViewerGuardBound){
+    viewer.__kywooPhoneLandscapeViewerGuardBound = true;
+
+    viewer.addEventListener('touchmove', function(e){
+      if(!kywooIsPhoneLandscapeViewer()) return;
+      if(!viewer.classList.contains('active')) return;
+      if(e.target && e.target.closest && e.target.closest('.viewer-close, .lightbox-close, .close-btn')) return;
+
+      if(e.touches && e.touches.length >= 2){
+        kywooSetPhoneLandscapeZoomClass(true);
+        e.preventDefault();
+      }
+    }, { passive:false, capture:true });
+  }
+
+  window.addEventListener('orientationchange', function(){
+    kywooSetPhoneLandscapeZoomClass(false);
+  }, { passive:true });
 
 
 

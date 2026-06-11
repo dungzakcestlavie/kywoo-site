@@ -2677,6 +2677,52 @@ body.viewer-open{
   }
 }
 
+
+
+/* KYWOO.ART — PHONE LANDSCAPE VIEWER CLOSE USABILITY REBALANCE ONLY */
+@media (hover:none) and (pointer:coarse) and (orientation:landscape) and (max-height:520px){
+  #viewerClose.viewer-close,
+  .viewer-close,
+  .lightbox-close,
+  .close-btn{
+    z-index:100120 !important;
+    opacity:.46 !important;
+    border-color:rgba(215,190,120,.24) !important;
+    color:rgba(215,190,120,.62) !important;
+    box-shadow:none !important;
+    touch-action:manipulation !important;
+    -webkit-tap-highlight-color:transparent !important;
+  }
+
+  #viewerClose.viewer-close::before,
+  .viewer-close::before,
+  .lightbox-close::before,
+  .close-btn::before{
+    content:"" !important;
+    position:absolute !important;
+    left:50% !important;
+    top:50% !important;
+    width:48px !important;
+    height:48px !important;
+    min-width:48px !important;
+    min-height:48px !important;
+    transform:translate(-50%,-50%) !important;
+    border-radius:999px !important;
+    background:transparent !important;
+    border:0 !important;
+    opacity:0 !important;
+    pointer-events:auto !important;
+  }
+
+  #viewerClose.viewer-close:active,
+  .viewer-close:active,
+  .lightbox-close:active,
+  .close-btn:active{
+    opacity:.58 !important;
+    background:rgba(0,20,18,.30) !important;
+    border-color:rgba(215,190,120,.30) !important;
+  }
+}
 </style>
 </head>
 

@@ -2556,6 +2556,10 @@ body.viewer-open{
     pointer-events:none !important;
   }
 
+  /* KYWOO.ART — PHONE LANDSCAPE VIEWER CLOSE HIT AREA CONSOLIDATION ONLY
+     Scope: phone landscape viewer close button only.
+     Visual size, position, opacity and border are consolidated to the current final values;
+     the invisible ::before layer provides a stable 56px hit area above image/stage layers. */
   #viewerClose.viewer-close,
   .viewer-close,
   .lightbox-close,
@@ -2565,178 +2569,32 @@ body.viewer-open{
     right:calc(env(safe-area-inset-right, 0px) + 12px) !important;
     left:auto !important;
     bottom:auto !important;
-    z-index:100080 !important;
+    z-index:2147483647 !important;
     width:38px !important;
     height:38px !important;
     min-width:38px !important;
     min-height:38px !important;
+    box-sizing:border-box !important;
+    overflow:visible !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
     border-radius:999px !important;
     font-size:16px !important;
     line-height:1 !important;
-    opacity:.30 !important;
-    color:rgba(215,190,120,.54) !important;
-    background:rgba(0,20,18,.18) !important;
-    border:1px solid rgba(215,190,120,.14) !important;
-    box-shadow:none !important;
-    backdrop-filter:none !important;
-    -webkit-backdrop-filter:none !important;
-    transform:none !important;
-    touch-action:manipulation !important;
-    pointer-events:auto !important;
-  }
-
-  #viewerClose.viewer-close:hover,
-  .viewer-close:hover,
-  .lightbox-close:hover,
-  .close-btn:hover,
-  #viewerClose.viewer-close:focus-visible,
-  .viewer-close:focus-visible{
-    opacity:.30 !important;
-    color:rgba(215,190,120,.54) !important;
-    background:rgba(0,20,18,.18) !important;
-    border-color:rgba(215,190,120,.14) !important;
-    outline:none !important;
-  }
-
-  #viewerClose.viewer-close:active,
-  .viewer-close:active{
-    opacity:.54 !important;
-  }
-}
-
-
-/* KYWOO.ART — PHONE LANDSCAPE VIEWER CLOSE BUTTON MICRO REBALANCE ONLY */
-@media (hover:none) and (pointer:coarse) and (orientation:landscape) and (max-height:520px){
-  #viewerClose.viewer-close,
-  .viewer-close,
-  .lightbox-close,
-  .close-btn{
-    opacity:.46 !important;
-    border-color:rgba(215,190,120,.24) !important;
-    color:rgba(215,190,120,.58) !important;
-    background:rgba(0,20,18,.28) !important;
     font-weight:500 !important;
-    text-shadow:0 0 1px rgba(215,190,120,.26) !important;
+    opacity:.62 !important;
+    color:rgba(215,190,120,.62) !important;
+    background:rgba(0,20,18,.28) !important;
+    border:1px solid rgba(215,190,120,.30) !important;
+    text-shadow:0 0 1px rgba(215,190,120,.22) !important;
     box-shadow:none !important;
     backdrop-filter:blur(2px) !important;
     -webkit-backdrop-filter:blur(2px) !important;
-    touch-action:manipulation !important;
-    pointer-events:auto !important;
-  }
-
-  #viewerClose.viewer-close:hover,
-  .viewer-close:hover,
-  .lightbox-close:hover,
-  .close-btn:hover{
-    opacity:.46 !important;
-    background:rgba(0,20,18,.28) !important;
-    border-color:rgba(215,190,120,.24) !important;
-    color:rgba(215,190,120,.58) !important;
-    box-shadow:none !important;
     transform:none !important;
-  }
-
-  #viewerClose.viewer-close:active,
-  .viewer-close:active,
-  .lightbox-close:active,
-  .close-btn:active{
-    opacity:.60 !important;
-  }
-}
-
-
-
-/* KYWOO.ART — PHONE LANDSCAPE VIEWER CLOSE TOUCH AREA ONLY */
-@media (hover:none) and (pointer:coarse) and (orientation:landscape) and (max-height:520px){
-  #viewerClose.viewer-close,
-  .viewer-close,
-  .lightbox-close,
-  .close-btn{
-    overflow:visible !important;
-    pointer-events:auto !important;
-    touch-action:manipulation !important;
-    z-index:100000 !important;
-  }
-
-  #viewerClose.viewer-close::before,
-  .viewer-close::before,
-  .lightbox-close::before,
-  .close-btn::before{
-    content:"" !important;
-    position:absolute !important;
-    left:50% !important;
-    top:50% !important;
-    width:max(44px, 100%) !important;
-    height:max(44px, 100%) !important;
-    transform:translate(-50%, -50%) !important;
-    border:0 !important;
-    background:transparent !important;
-    opacity:0 !important;
-    pointer-events:auto !important;
-    touch-action:manipulation !important;
-  }
-}
-
-
-
-/* KYWOO.ART — PHONE LANDSCAPE VIEWER CLOSE USABILITY REBALANCE ONLY */
-@media (hover:none) and (pointer:coarse) and (orientation:landscape) and (max-height:520px){
-  #viewerClose.viewer-close,
-  .viewer-close,
-  .lightbox-close,
-  .close-btn{
-    z-index:100120 !important;
-    opacity:.46 !important;
-    border-color:rgba(215,190,120,.24) !important;
-    color:rgba(215,190,120,.62) !important;
-    box-shadow:none !important;
-    touch-action:manipulation !important;
-    -webkit-tap-highlight-color:transparent !important;
-  }
-
-  #viewerClose.viewer-close::before,
-  .viewer-close::before,
-  .lightbox-close::before,
-  .close-btn::before{
-    content:"" !important;
-    position:absolute !important;
-    left:50% !important;
-    top:50% !important;
-    width:48px !important;
-    height:48px !important;
-    min-width:48px !important;
-    min-height:48px !important;
-    transform:translate(-50%,-50%) !important;
-    border-radius:999px !important;
-    background:transparent !important;
-    border:0 !important;
-    opacity:0 !important;
-    pointer-events:auto !important;
-  }
-
-  #viewerClose.viewer-close:active,
-  .viewer-close:active,
-  .lightbox-close:active,
-  .close-btn:active{
-    opacity:.58 !important;
-    background:rgba(0,20,18,.30) !important;
-    border-color:rgba(215,190,120,.30) !important;
-  }
-}
-
-
-/* KYWOO.ART — PHONE LANDSCAPE VIEWER CLOSE BUTTON STABLE TOUCH ONLY */
-@media (hover:none) and (pointer:coarse) and (orientation:landscape) and (max-height:520px){
-  #viewerClose.viewer-close,
-  .viewer-close,
-  .lightbox-close,
-  .close-btn{
-    z-index:2147483647 !important;
     pointer-events:auto !important;
     touch-action:manipulation !important;
     -webkit-tap-highlight-color:transparent !important;
-    opacity:.62 !important;
-    border-color:rgba(215,190,120,.30) !important;
   }
 
   #viewerClose.viewer-close::before,
@@ -2751,6 +2609,7 @@ body.viewer-open{
     height:56px !important;
     min-width:56px !important;
     min-height:56px !important;
+    box-sizing:border-box !important;
     transform:translate(-50%,-50%) !important;
     border-radius:999px !important;
     background:transparent !important;
@@ -2758,16 +2617,30 @@ body.viewer-open{
     opacity:0 !important;
     pointer-events:auto !important;
     touch-action:manipulation !important;
-    z-index:-1 !important;
+    z-index:0 !important;
+  }
+
+  #viewerClose.viewer-close:hover,
+  .viewer-close:hover,
+  .lightbox-close:hover,
+  .close-btn:hover,
+  #viewerClose.viewer-close:focus-visible,
+  .viewer-close:focus-visible{
+    opacity:.62 !important;
+    color:rgba(215,190,120,.62) !important;
+    background:rgba(0,20,18,.28) !important;
+    border-color:rgba(215,190,120,.30) !important;
+    box-shadow:none !important;
+    transform:none !important;
+    outline:none !important;
   }
 
   #viewerClose.viewer-close:active,
   .viewer-close:active,
   .lightbox-close:active,
   .close-btn:active{
-    opacity:.72 !important;
     background:rgba(0,20,18,.34) !important;
-    border-color:rgba(215,190,120,.36) !important;
+    border-color:rgba(215,190,120,.34) !important;
   }
 }
 

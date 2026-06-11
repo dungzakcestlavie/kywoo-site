@@ -2556,89 +2556,124 @@ body.viewer-open{
     pointer-events:none !important;
   }
 
-  /* KYWOO.ART — PHONE LANDSCAPE VIEWER CLOSE HIT AREA CONSOLIDATION ONLY
-     Scope: phone landscape viewer close button only.
-     Visual size, position, opacity and border are consolidated to the current final values;
-     the invisible ::before layer provides a stable 56px hit area above image/stage layers. */
+  /* KYWOO.ART — PHONE LANDSCAPE CLOSE HIT AREA FINAL FIX ONLY
+     Scope: phone landscape viewer close button CSS only.
+     The actual tap box is 64px, while the visible circular button remains 38px
+     at the same visual position. No JS, viewer structure, artwork size, swipe,
+     pinch, header, hero or section rules are changed. */
   #viewerClose.viewer-close,
   .viewer-close,
   .lightbox-close,
+  .modal-close,
   .close-btn{
     position:fixed !important;
-    top:calc(env(safe-area-inset-top, 0px) + 10px) !important;
-    right:calc(env(safe-area-inset-right, 0px) + 12px) !important;
+    top:calc(env(safe-area-inset-top, 0px) - 3px) !important;
+    right:calc(env(safe-area-inset-right, 0px) - 1px) !important;
     left:auto !important;
     bottom:auto !important;
     z-index:2147483647 !important;
-    width:38px !important;
-    height:38px !important;
-    min-width:38px !important;
-    min-height:38px !important;
+    width:64px !important;
+    height:64px !important;
+    min-width:64px !important;
+    min-height:64px !important;
     box-sizing:border-box !important;
     overflow:visible !important;
     display:flex !important;
     align-items:center !important;
     justify-content:center !important;
+    padding:0 !important;
+    margin:0 !important;
+    border:0 !important;
     border-radius:999px !important;
+    background:transparent !important;
+    box-shadow:none !important;
+    opacity:.62 !important;
+    color:rgba(215,190,120,.62) !important;
     font-size:16px !important;
     line-height:1 !important;
     font-weight:500 !important;
-    opacity:.62 !important;
-    color:rgba(215,190,120,.62) !important;
-    background:rgba(0,20,18,.28) !important;
-    border:1px solid rgba(215,190,120,.30) !important;
     text-shadow:0 0 1px rgba(215,190,120,.22) !important;
-    box-shadow:none !important;
-    backdrop-filter:blur(2px) !important;
-    -webkit-backdrop-filter:blur(2px) !important;
     transform:none !important;
     pointer-events:auto !important;
     touch-action:manipulation !important;
     -webkit-tap-highlight-color:transparent !important;
+    cursor:pointer !important;
+    isolation:isolate !important;
   }
 
   #viewerClose.viewer-close::before,
   .viewer-close::before,
   .lightbox-close::before,
+  .modal-close::before,
   .close-btn::before{
     content:"" !important;
     position:absolute !important;
     left:50% !important;
     top:50% !important;
-    width:56px !important;
-    height:56px !important;
-    min-width:56px !important;
-    min-height:56px !important;
+    width:38px !important;
+    height:38px !important;
+    min-width:38px !important;
+    min-height:38px !important;
     box-sizing:border-box !important;
     transform:translate(-50%,-50%) !important;
     border-radius:999px !important;
-    background:transparent !important;
-    border:0 !important;
-    opacity:0 !important;
-    pointer-events:auto !important;
-    touch-action:manipulation !important;
-    z-index:0 !important;
+    background:rgba(0,20,18,.28) !important;
+    border:1px solid rgba(215,190,120,.30) !important;
+    box-shadow:none !important;
+    backdrop-filter:blur(2px) !important;
+    -webkit-backdrop-filter:blur(2px) !important;
+    opacity:1 !important;
+    pointer-events:none !important;
+    z-index:-1 !important;
   }
 
   #viewerClose.viewer-close:hover,
   .viewer-close:hover,
   .lightbox-close:hover,
+  .modal-close:hover,
   .close-btn:hover,
   #viewerClose.viewer-close:focus-visible,
-  .viewer-close:focus-visible{
+  .viewer-close:focus-visible,
+  .lightbox-close:focus-visible,
+  .modal-close:focus-visible,
+  .close-btn:focus-visible{
     opacity:.62 !important;
     color:rgba(215,190,120,.62) !important;
-    background:rgba(0,20,18,.28) !important;
-    border-color:rgba(215,190,120,.30) !important;
+    background:transparent !important;
+    border:0 !important;
     box-shadow:none !important;
     transform:none !important;
     outline:none !important;
   }
 
+  #viewerClose.viewer-close:hover::before,
+  .viewer-close:hover::before,
+  .lightbox-close:hover::before,
+  .modal-close:hover::before,
+  .close-btn:hover::before,
+  #viewerClose.viewer-close:focus-visible::before,
+  .viewer-close:focus-visible::before,
+  .lightbox-close:focus-visible::before,
+  .modal-close:focus-visible::before,
+  .close-btn:focus-visible::before{
+    background:rgba(0,20,18,.28) !important;
+    border-color:rgba(215,190,120,.30) !important;
+  }
+
   #viewerClose.viewer-close:active,
   .viewer-close:active,
   .lightbox-close:active,
+  .modal-close:active,
   .close-btn:active{
+    opacity:.62 !important;
+    transform:none !important;
+  }
+
+  #viewerClose.viewer-close:active::before,
+  .viewer-close:active::before,
+  .lightbox-close:active::before,
+  .modal-close:active::before,
+  .close-btn:active::before{
     background:rgba(0,20,18,.34) !important;
     border-color:rgba(215,190,120,.34) !important;
   }

@@ -2723,6 +2723,54 @@ body.viewer-open{
     border-color:rgba(215,190,120,.30) !important;
   }
 }
+
+
+/* KYWOO.ART — PHONE LANDSCAPE VIEWER CLOSE BUTTON STABLE TOUCH ONLY */
+@media (hover:none) and (pointer:coarse) and (orientation:landscape) and (max-height:520px){
+  #viewerClose.viewer-close,
+  .viewer-close,
+  .lightbox-close,
+  .close-btn{
+    z-index:2147483647 !important;
+    pointer-events:auto !important;
+    touch-action:manipulation !important;
+    -webkit-tap-highlight-color:transparent !important;
+    opacity:.62 !important;
+    border-color:rgba(215,190,120,.30) !important;
+  }
+
+  #viewerClose.viewer-close::before,
+  .viewer-close::before,
+  .lightbox-close::before,
+  .close-btn::before{
+    content:"" !important;
+    position:absolute !important;
+    left:50% !important;
+    top:50% !important;
+    width:56px !important;
+    height:56px !important;
+    min-width:56px !important;
+    min-height:56px !important;
+    transform:translate(-50%,-50%) !important;
+    border-radius:999px !important;
+    background:transparent !important;
+    border:0 !important;
+    opacity:0 !important;
+    pointer-events:auto !important;
+    touch-action:manipulation !important;
+    z-index:-1 !important;
+  }
+
+  #viewerClose.viewer-close:active,
+  .viewer-close:active,
+  .lightbox-close:active,
+  .close-btn:active{
+    opacity:.72 !important;
+    background:rgba(0,20,18,.34) !important;
+    border-color:rgba(215,190,120,.36) !important;
+  }
+}
+
 </style>
 </head>
 

@@ -2711,6 +2711,86 @@ body.viewer-open{
 
 }
 
+
+/* KYWOO.ART — IPAD LANDSCAPE VIEWER FINAL FIX ONLY
+   Scope: iPad/tablet touch landscape viewer only.
+   Desktop, phone portrait/landscape, iPad portrait, X button, data and layout remain untouched. */
+@media (pointer:coarse) and (orientation:landscape) and (min-width:768px){
+  #viewerPrev,
+  #viewerNext,
+  .viewer-prev,
+  .viewer-next,
+  .viewer-arrow,
+  .lightbox-arrow{
+    display:none !important;
+    visibility:hidden !important;
+    opacity:0 !important;
+    pointer-events:none !important;
+  }
+
+  html.viewer-open,
+  body.viewer-open{
+    overflow:hidden !important;
+    overscroll-behavior:none !important;
+    touch-action:auto !important;
+  }
+
+  body.viewer-open{
+    position:fixed !important;
+    inset:0 !important;
+    width:100vw !important;
+    height:100dvh !important;
+    overflow:hidden !important;
+  }
+
+  #viewer.viewer,
+  .viewer,
+  .lightbox,
+  .viewer-overlay,
+  .lightbox-overlay{
+    position:fixed !important;
+    inset:0 !important;
+    width:100vw !important;
+    height:100dvh !important;
+    overflow:hidden !important;
+    overscroll-behavior:none !important;
+    touch-action:auto !important;
+  }
+
+  #viewerStage.viewer-stage,
+  .viewer-stage,
+  .viewer-inner,
+  .lightbox-inner,
+  .lightbox-stage{
+    position:absolute !important;
+    inset:0 !important;
+    width:100% !important;
+    height:100% !important;
+    min-width:0 !important;
+    min-height:0 !important;
+    overflow:hidden !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    overscroll-behavior:none !important;
+    touch-action:auto !important;
+  }
+
+  #viewerImg.viewer-img,
+  .viewer img,
+  .lightbox img{
+    max-width:90vw !important;
+    max-height:82dvh !important;
+    object-fit:contain !important;
+    transform-origin:center center !important;
+    will-change:transform !important;
+    user-select:none !important;
+    -webkit-user-select:none !important;
+    -webkit-user-drag:none !important;
+    touch-action:auto !important;
+  }
+}
+
 </style>
 </head>
 
@@ -3963,6 +4043,197 @@ body.viewer-open{
       }
     }, { passive:false, capture:true });
   }
+
+
+  /* KYWOO.ART — IPAD LANDSCAPE VIEWER FINAL FIX ONLY
+     Scope: iPad/tablet touch landscape viewer only.
+     Uses the same image-only JS pinch transform as iPad portrait/mobile.
+     Phone landscape and desktop are explicitly excluded. */
+  function kywooIsIPadLandscapeTouchViewer(){
+    const isLandscape = window.innerWidth > window.innerHeight;
+    const isTabletWidth = window.innerWidth >= 768;
+    const hasTouch = (navigator.maxTouchPoints && navigator.maxTouchPoints > 1) ||
+      (window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
+    return !!(hasTouch && isLandscape && isTabletWidth);
+  }
+
+  function kywooSetIPadLandscapeZooming(active){
+    if(!viewer) return;
+    viewer.classList.toggle('kywoo-ipad-landscape-zooming', !!active);
+    document.documentElement.classList.toggle('kywoo-ipad-landscape-zooming', !!active);
+    document.body.classList.toggle('kywoo-ipad-landscape-zooming', !!active);
+  }
+
+  ['gesturestart','gesturechange','gestureend'].forEach(function(type){
+    document.addEventListener(type, function(e){
+      if(!kywooIsIPadLandscapeTouchViewer()) return;
+      if(!viewer || !viewer.classList.contains('active')) return;
+      if(kywooIsCloseControl(e.target)) return;
+      e.preventDefault();
+    }, { passive:false, capture:true });
+  });
+
+  if(viewerStage && !viewerStage.__kywooIPadLandscapeFinalPinchBound){
+    viewerStage.__kywooIPadLandscapeFinalPinchBound = true;
+
+    viewerStage.addEventListener('touchstart', function(e){
+      if(!kywooIsIPadLandscapeTouchViewer()) return;
+      if(!viewer.classList.contains('active')) return;
+      if(kywooIsCloseControl(e.target)) return;
+
+      if(e.touches && e.touches.length >= 2){
+        e.preventDefault();
+        e.stopPropagation();
+        if(e.stopImmediatePropagation) e.stopImmediatePropagation();
+
+        kywooMobileIsPinching = true;
+        kywooMobileIsPanning = false;
+        kywooMobilePinchJustEnded = false;
+        viewerTouching = false;
+        kywooSetIPadLandscapeZooming(true);
+
+        if(kywooMobilePinchEndTimer){
+          clearTimeout(kywooMobilePinchEndTimer);
+          kywooMobilePinchEndTimer = null;
+        }
+
+        kywooMobileSwipeStartX = null;
+        kywooMobileSwipeStartY = null;
+        kywooMobileSwipeEndX = null;
+        kywooMobileSwipeEndY = null;
+
+        kywooMobilePinchStartDistance = kywooGetTouchDistance(e.touches);
+        kywooMobileStartScale = kywooMobileScale;
+        kywooMobileStartTranslateX = kywooMobileTranslateX;
+        kywooMobileStartTranslateY = kywooMobileTranslateY;
+        return;
+      }
+
+      if(e.touches && e.touches.length === 1 && kywooMobileScale > 1.02){
+        e.preventDefault();
+        e.stopPropagation();
+        if(e.stopImmediatePropagation) e.stopImmediatePropagation();
+
+        kywooMobileIsPanning = true;
+        viewerTouching = false;
+        kywooMobilePanStartX = e.touches[0].clientX;
+        kywooMobilePanStartY = e.touches[0].clientY;
+        kywooMobileStartTranslateX = kywooMobileTranslateX;
+        kywooMobileStartTranslateY = kywooMobileTranslateY;
+      }
+    }, { passive:false, capture:true });
+
+    viewerStage.addEventListener('touchmove', function(e){
+      if(!kywooIsIPadLandscapeTouchViewer()) return;
+      if(!viewer.classList.contains('active')) return;
+      if(kywooIsCloseControl(e.target)) return;
+
+      if(e.touches && e.touches.length >= 2){
+        e.preventDefault();
+        e.stopPropagation();
+        if(e.stopImmediatePropagation) e.stopImmediatePropagation();
+
+        kywooMobileIsPinching = true;
+        kywooMobileIsPanning = false;
+        viewerTouching = false;
+        kywooSetIPadLandscapeZooming(true);
+
+        const dist = kywooGetTouchDistance(e.touches);
+        if(kywooMobilePinchStartDistance > 0){
+          const nextScale = kywooMobileStartScale * (dist / kywooMobilePinchStartDistance);
+          kywooMobileScale = Math.max(1, Math.min(4, nextScale));
+          kywooMobileTranslateX = kywooMobileStartTranslateX;
+          kywooMobileTranslateY = kywooMobileStartTranslateY;
+          kywooApplyMobileViewerTransform();
+        }
+        return;
+      }
+
+      if(kywooMobileIsPanning && e.touches && e.touches.length === 1){
+        e.preventDefault();
+        e.stopPropagation();
+        if(e.stopImmediatePropagation) e.stopImmediatePropagation();
+
+        const dx = e.touches[0].clientX - kywooMobilePanStartX;
+        const dy = e.touches[0].clientY - kywooMobilePanStartY;
+        kywooMobileTranslateX = kywooMobileStartTranslateX + dx;
+        kywooMobileTranslateY = kywooMobileStartTranslateY + dy;
+        kywooApplyMobileViewerTransform();
+        return;
+      }
+
+      if(kywooMobileScale > 1.02 || kywooMobileIsPinching || kywooMobilePinchJustEnded){
+        e.preventDefault();
+        e.stopPropagation();
+        if(e.stopImmediatePropagation) e.stopImmediatePropagation();
+      }
+    }, { passive:false, capture:true });
+
+    viewerStage.addEventListener('touchend', function(e){
+      if(!kywooIsIPadLandscapeTouchViewer()) return;
+      if(!viewer.classList.contains('active')) return;
+      if(kywooIsCloseControl(e.target)) return;
+
+      if(kywooMobileIsPinching && (!e.touches || e.touches.length < 2)){
+        e.preventDefault();
+        e.stopPropagation();
+        if(e.stopImmediatePropagation) e.stopImmediatePropagation();
+
+        kywooMobileIsPinching = false;
+        kywooMobilePinchJustEnded = true;
+        viewerTouching = false;
+
+        if(kywooMobileScale <= 1.02){
+          kywooMobileScale = 1;
+          kywooMobileTranslateX = 0;
+          kywooMobileTranslateY = 0;
+          kywooApplyMobileViewerTransform();
+          kywooSetIPadLandscapeZooming(false);
+        }
+
+        if(kywooMobilePinchEndTimer) clearTimeout(kywooMobilePinchEndTimer);
+        kywooMobilePinchEndTimer = setTimeout(function(){
+          kywooMobilePinchJustEnded = false;
+          if(kywooMobileScale <= 1.02){
+            kywooSetIPadLandscapeZooming(false);
+          }
+          kywooMobilePinchEndTimer = null;
+        }, 350);
+        return;
+      }
+
+      if(kywooMobileIsPanning && (!e.touches || e.touches.length === 0)){
+        e.preventDefault();
+        e.stopPropagation();
+        if(e.stopImmediatePropagation) e.stopImmediatePropagation();
+        kywooMobileIsPanning = false;
+        return;
+      }
+
+      if(kywooMobileScale > 1.02 || kywooMobilePinchJustEnded){
+        e.preventDefault();
+        e.stopPropagation();
+        if(e.stopImmediatePropagation) e.stopImmediatePropagation();
+      }
+    }, { passive:false, capture:true });
+
+    viewerStage.addEventListener('touchcancel', function(e){
+      if(!kywooIsIPadLandscapeTouchViewer()) return;
+      e.preventDefault();
+      e.stopPropagation();
+      if(e.stopImmediatePropagation) e.stopImmediatePropagation();
+      kywooMobileIsPinching = false;
+      kywooMobileIsPanning = false;
+      viewerTouching = false;
+      if(kywooMobileScale <= 1.02){
+        kywooSetIPadLandscapeZooming(false);
+      }
+    }, { passive:false, capture:true });
+  }
+
+  window.addEventListener('orientationchange', function(){
+    kywooSetIPadLandscapeZooming(false);
+  }, { passive:true });
 
 
 })();

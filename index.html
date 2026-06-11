@@ -2603,6 +2603,47 @@ body.viewer-open{
     opacity:.54 !important;
   }
 }
+
+
+/* KYWOO.ART — PHONE LANDSCAPE VIEWER CLOSE BUTTON MICRO REBALANCE ONLY */
+@media (hover:none) and (pointer:coarse) and (orientation:landscape) and (max-height:520px){
+  #viewerClose.viewer-close,
+  .viewer-close,
+  .lightbox-close,
+  .close-btn{
+    opacity:.46 !important;
+    border-color:rgba(215,190,120,.24) !important;
+    color:rgba(215,190,120,.58) !important;
+    background:rgba(0,20,18,.28) !important;
+    font-weight:500 !important;
+    text-shadow:0 0 1px rgba(215,190,120,.26) !important;
+    box-shadow:none !important;
+    backdrop-filter:blur(2px) !important;
+    -webkit-backdrop-filter:blur(2px) !important;
+    touch-action:manipulation !important;
+    pointer-events:auto !important;
+  }
+
+  #viewerClose.viewer-close:hover,
+  .viewer-close:hover,
+  .lightbox-close:hover,
+  .close-btn:hover{
+    opacity:.46 !important;
+    background:rgba(0,20,18,.28) !important;
+    border-color:rgba(215,190,120,.24) !important;
+    color:rgba(215,190,120,.58) !important;
+    box-shadow:none !important;
+    transform:none !important;
+  }
+
+  #viewerClose.viewer-close:active,
+  .viewer-close:active,
+  .lightbox-close:active,
+  .close-btn:active{
+    opacity:.60 !important;
+  }
+}
+
 </style>
 </head>
 

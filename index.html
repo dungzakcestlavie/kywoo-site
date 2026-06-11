@@ -2644,6 +2644,39 @@ body.viewer-open{
   }
 }
 
+
+
+/* KYWOO.ART — PHONE LANDSCAPE VIEWER CLOSE TOUCH AREA ONLY */
+@media (hover:none) and (pointer:coarse) and (orientation:landscape) and (max-height:520px){
+  #viewerClose.viewer-close,
+  .viewer-close,
+  .lightbox-close,
+  .close-btn{
+    overflow:visible !important;
+    pointer-events:auto !important;
+    touch-action:manipulation !important;
+    z-index:100000 !important;
+  }
+
+  #viewerClose.viewer-close::before,
+  .viewer-close::before,
+  .lightbox-close::before,
+  .close-btn::before{
+    content:"" !important;
+    position:absolute !important;
+    left:50% !important;
+    top:50% !important;
+    width:max(44px, 100%) !important;
+    height:max(44px, 100%) !important;
+    transform:translate(-50%, -50%) !important;
+    border:0 !important;
+    background:transparent !important;
+    opacity:0 !important;
+    pointer-events:auto !important;
+    touch-action:manipulation !important;
+  }
+}
+
 </style>
 </head>
 

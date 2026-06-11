@@ -2556,11 +2556,10 @@ body.viewer-open{
     pointer-events:none !important;
   }
 
-  /* KYWOO.ART — PHONE LANDSCAPE CLOSE HIT AREA FINAL FIX ONLY
-     Scope: phone landscape viewer close button CSS only.
-     The actual tap box is 64px, while the visible circular button remains 38px
-     at the same visual position. No JS, viewer structure, artwork size, swipe,
-     pinch, header, hero or section rules are changed. */
+  /* KYWOO.ART — IOS SAFARI PHONE LANDSCAPE PINCH + CLOSE FIX ONLY
+     Scope: iOS Safari phone landscape viewer close hit-area only.
+     Visual values are intentionally kept from the current phone-landscape X.
+     The actual tap box is 64px, while the visible circular button remains 38px. */
   #viewerClose.viewer-close,
   .viewer-close,
   .lightbox-close,
@@ -2597,6 +2596,9 @@ body.viewer-open{
     pointer-events:auto !important;
     touch-action:manipulation !important;
     -webkit-tap-highlight-color:transparent !important;
+    -webkit-touch-callout:none !important;
+    user-select:none !important;
+    -webkit-user-select:none !important;
     cursor:pointer !important;
     isolation:isolate !important;
   }
@@ -2625,6 +2627,22 @@ body.viewer-open{
     opacity:1 !important;
     pointer-events:none !important;
     z-index:-1 !important;
+  }
+
+  #viewerClose.viewer-close::after,
+  .viewer-close::after,
+  .lightbox-close::after,
+  .modal-close::after,
+  .close-btn::after{
+    content:"" !important;
+    position:absolute !important;
+    inset:0 !important;
+    width:64px !important;
+    height:64px !important;
+    border-radius:999px !important;
+    background:transparent !important;
+    pointer-events:auto !important;
+    z-index:0 !important;
   }
 
   #viewerClose.viewer-close:hover,
@@ -2677,6 +2695,20 @@ body.viewer-open{
     background:rgba(0,20,18,.34) !important;
     border-color:rgba(215,190,120,.34) !important;
   }
+
+  @supports (-webkit-touch-callout:none){
+    #viewer.viewer,
+    .viewer,
+    #viewerStage.viewer-stage,
+    .viewer-stage,
+    #viewerImg.viewer-img,
+    .viewer-img{
+      -webkit-user-select:none !important;
+      user-select:none !important;
+      -webkit-touch-callout:none !important;
+    }
+  }
+
 }
 
 </style>
@@ -3762,6 +3794,175 @@ body.viewer-open{
     kywooSetPhoneLandscapeZoomClass(false);
   }, { passive:true });
 
+
+
+  /* KYWOO.ART — IOS SAFARI PHONE LANDSCAPE PINCH + CLOSE FIX ONLY
+     Scope: iOS Safari phone landscape viewer only.
+     Chrome/mobile, portrait, iPad, desktop, data, layout and close function remain untouched. */
+  function kywooIsIOSSafariPhoneLandscapeViewer(){
+    const ua = navigator.userAgent || '';
+    const isIPhone = /iPhone|iPod/i.test(ua);
+    const isSafari = /Safari/i.test(ua) && !/CriOS|FxiOS|EdgiOS|OPiOS/i.test(ua);
+    return !!(
+      isIPhone &&
+      isSafari &&
+      window.matchMedia &&
+      window.matchMedia('(hover:none) and (pointer:coarse) and (orientation:landscape) and (max-height:520px)').matches
+    );
+  }
+
+  function kywooIsCloseControl(target){
+    return !!(target && target.closest && target.closest('#viewerClose, .viewer-close, .lightbox-close, .modal-close, .close-btn'));
+  }
+
+  function kywooSafariPhoneLandscapePreventGesture(e){
+    if(!kywooIsIOSSafariPhoneLandscapeViewer()) return;
+    if(!viewer || !viewer.classList.contains('active')) return;
+    if(kywooIsCloseControl(e.target)) return;
+    e.preventDefault();
+  }
+
+  ['gesturestart','gesturechange','gestureend'].forEach(function(type){
+    document.addEventListener(type, kywooSafariPhoneLandscapePreventGesture, { passive:false, capture:true });
+  });
+
+  if(viewerClose && !viewerClose.__kywooIOSSafariLandscapeCloseBound){
+    viewerClose.__kywooIOSSafariLandscapeCloseBound = true;
+
+    ['touchstart','touchend','pointerup'].forEach(function(type){
+      viewerClose.addEventListener(type, function(e){
+        if(!kywooIsIOSSafariPhoneLandscapeViewer()) return;
+        if(!viewer || !viewer.classList.contains('active')) return;
+        e.preventDefault();
+        e.stopPropagation();
+        if(e.stopImmediatePropagation) e.stopImmediatePropagation();
+        kywooResetMobileViewerTransform();
+        closeViewer();
+      }, { passive:false, capture:true });
+    });
+  }
+
+  if(viewerStage && !viewerStage.__kywooIOSSafariLandscapePinchBound){
+    viewerStage.__kywooIOSSafariLandscapePinchBound = true;
+
+    viewerStage.addEventListener('touchstart', function(e){
+      if(!kywooIsIOSSafariPhoneLandscapeViewer()) return;
+      if(!viewer.classList.contains('active')) return;
+      if(kywooIsCloseControl(e.target)) return;
+
+      if(e.touches && e.touches.length >= 2){
+        e.preventDefault();
+        e.stopPropagation();
+        if(e.stopImmediatePropagation) e.stopImmediatePropagation();
+
+        kywooMobileIsPinching = true;
+        kywooMobileIsPanning = false;
+        kywooMobilePinchJustEnded = false;
+        viewerTouching = false;
+        kywooSetPhoneLandscapeZoomClass(true);
+
+        if(kywooMobilePinchEndTimer){
+          clearTimeout(kywooMobilePinchEndTimer);
+          kywooMobilePinchEndTimer = null;
+        }
+
+        kywooMobileSwipeStartX = null;
+        kywooMobileSwipeStartY = null;
+        kywooMobileSwipeEndX = null;
+        kywooMobileSwipeEndY = null;
+
+        kywooMobilePinchStartDistance = kywooGetTouchDistance(e.touches);
+        kywooMobileStartScale = kywooMobileScale;
+        kywooMobileStartTranslateX = kywooMobileTranslateX;
+        kywooMobileStartTranslateY = kywooMobileTranslateY;
+      }
+    }, { passive:false, capture:true });
+
+    viewerStage.addEventListener('touchmove', function(e){
+      if(!kywooIsIOSSafariPhoneLandscapeViewer()) return;
+      if(!viewer.classList.contains('active')) return;
+      if(kywooIsCloseControl(e.target)) return;
+
+      if(e.touches && e.touches.length >= 2){
+        e.preventDefault();
+        e.stopPropagation();
+        if(e.stopImmediatePropagation) e.stopImmediatePropagation();
+
+        kywooMobileIsPinching = true;
+        kywooMobileIsPanning = false;
+        viewerTouching = false;
+        kywooSetPhoneLandscapeZoomClass(true);
+
+        const dist = kywooGetTouchDistance(e.touches);
+        if(kywooMobilePinchStartDistance > 0){
+          const nextScale = kywooMobileStartScale * (dist / kywooMobilePinchStartDistance);
+          kywooMobileScale = Math.max(1, Math.min(4, nextScale));
+          kywooMobileTranslateX = kywooMobileStartTranslateX;
+          kywooMobileTranslateY = kywooMobileStartTranslateY;
+          kywooApplyMobileViewerTransform();
+        }
+        return;
+      }
+
+      if(kywooMobileScale > 1.02 || kywooMobileIsPinching || kywooMobilePinchJustEnded){
+        e.preventDefault();
+        e.stopPropagation();
+        if(e.stopImmediatePropagation) e.stopImmediatePropagation();
+      }
+    }, { passive:false, capture:true });
+
+    viewerStage.addEventListener('touchend', function(e){
+      if(!kywooIsIOSSafariPhoneLandscapeViewer()) return;
+      if(!viewer.classList.contains('active')) return;
+      if(kywooIsCloseControl(e.target)) return;
+
+      if(kywooMobileIsPinching && (!e.touches || e.touches.length < 2)){
+        e.preventDefault();
+        e.stopPropagation();
+        if(e.stopImmediatePropagation) e.stopImmediatePropagation();
+
+        kywooMobileIsPinching = false;
+        kywooMobilePinchJustEnded = true;
+        viewerTouching = false;
+
+        if(kywooMobileScale <= 1.02){
+          kywooMobileScale = 1;
+          kywooMobileTranslateX = 0;
+          kywooMobileTranslateY = 0;
+          kywooApplyMobileViewerTransform();
+        }
+
+        if(kywooMobilePinchEndTimer) clearTimeout(kywooMobilePinchEndTimer);
+        kywooMobilePinchEndTimer = setTimeout(function(){
+          kywooMobilePinchJustEnded = false;
+          kywooSetPhoneLandscapeZoomClass(false);
+          kywooMobilePinchEndTimer = null;
+        }, 360);
+      }
+    }, { passive:false, capture:true });
+
+    viewerStage.addEventListener('touchcancel', function(e){
+      if(!kywooIsIOSSafariPhoneLandscapeViewer()) return;
+      e.preventDefault();
+      e.stopPropagation();
+      if(e.stopImmediatePropagation) e.stopImmediatePropagation();
+      kywooMobileIsPinching = false;
+      kywooMobileIsPanning = false;
+      viewerTouching = false;
+      kywooSetPhoneLandscapeZoomClass(false);
+    }, { passive:false, capture:true });
+  }
+
+  if(viewerImg && !viewerImg.__kywooIOSSafariLandscapeImageTouchBound){
+    viewerImg.__kywooIOSSafariLandscapeImageTouchBound = true;
+    viewerImg.addEventListener('touchmove', function(e){
+      if(!kywooIsIOSSafariPhoneLandscapeViewer()) return;
+      if(!viewer || !viewer.classList.contains('active')) return;
+      if(e.touches && e.touches.length >= 2){
+        e.preventDefault();
+      }
+    }, { passive:false, capture:true });
+  }
 
 
 })();

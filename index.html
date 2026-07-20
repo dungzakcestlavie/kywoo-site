@@ -4235,6 +4235,23 @@ body.viewer-open{
     kywooSetIPadLandscapeZooming(false);
   }, { passive:true });
 
+  /* Mouse wheel / trackpad zoom (desktop) — matches dungzak.art / jskim.art /
+     Archive Pro / iiaa.or.kr. Reuses the same kywooMobileScale/Translate
+     state and kywooApplyMobileViewerTransform() as the touch pinch-zoom
+     above, so desktop and mobile stay perfectly consistent. Wheel events
+     don't fire from touch input, so no extra device guard is needed. */
+  viewer.addEventListener('wheel', function(e){
+    if(!lightboxIsOpen) return;
+    e.preventDefault();
+    const delta = -e.deltaY * 0.0015;
+    kywooMobileScale = Math.max(1, Math.min(4, kywooMobileScale + delta * kywooMobileScale));
+    if(kywooMobileScale <= 1.02){
+      kywooMobileScale = 1;
+      kywooMobileTranslateX = 0;
+      kywooMobileTranslateY = 0;
+    }
+    kywooApplyMobileViewerTransform();
+  }, { passive:false });
 
 })();
 </script>
